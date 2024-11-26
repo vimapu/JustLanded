@@ -4777,7 +4777,7 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 2D Vector
-      m_Id: 039ae210-fc16-42f3-a52a-273627353e8d
+      m_Id: d2984db0-b46c-42c1-8e65-8f148589a73d
       m_Path: 2DVector
       m_Interactions: 
       m_Processors: 
@@ -4785,7 +4785,7 @@ MonoBehaviour:
       m_Action: Left
       m_Flags: 4
     - m_Name: up
-      m_Id: 8ff3922a-89c6-42b1-9d34-38167cd3789a
+      m_Id: 87e70ee8-cc82-4cb0-bab3-75f06ee3403f
       m_Path: <Gamepad>/leftStick/up
       m_Interactions: 
       m_Processors: 
@@ -4793,7 +4793,7 @@ MonoBehaviour:
       m_Action: Left
       m_Flags: 8
     - m_Name: down
-      m_Id: 3f4e292e-36e7-46e8-ba73-59fa4481e568
+      m_Id: 620e4030-4855-4e25-800e-ae470407222e
       m_Path: <Gamepad>/leftStick/down
       m_Interactions: 
       m_Processors: 
@@ -4801,7 +4801,7 @@ MonoBehaviour:
       m_Action: Left
       m_Flags: 8
     - m_Name: left
-      m_Id: 31ea6080-add1-4d29-a5c3-5dce305e534e
+      m_Id: 43d9dc7c-d117-4620-8ada-5d546ad9c6fb
       m_Path: <Gamepad>/leftStick/left
       m_Interactions: 
       m_Processors: 
@@ -4809,7 +4809,7 @@ MonoBehaviour:
       m_Action: Left
       m_Flags: 8
     - m_Name: right
-      m_Id: 399c667d-7e8b-4526-a2db-c77719072b88
+      m_Id: b65adb8d-c732-4a4f-98b5-7c7631b9946b
       m_Path: <Gamepad>/leftStick/right
       m_Interactions: 
       m_Processors: 
