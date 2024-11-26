@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidbody;
 
     Vector2 move;
-    //public float speed = 0.1f;
+    public float speed = 10f;
 
 
     // Start is called before the first frame update
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         if (Gamepad.current.aButton.isPressed)
         {
             Debug.Log("Pressing A button");
-            rigidbody.AddForce(new Vector2(0, 10), ForceMode2D.Force);
+            rigidbody.AddForce(new Vector2(0, 100), ForceMode2D.Force);
         }
 
     }
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate has the same call rate as the physics system
     void FixedUpdate()
     {
-        Vector2 position = (Vector2)rigidbody.position + move * Time.deltaTime;
+        Vector2 position = (Vector2)rigidbody.position + move * speed * Time.deltaTime;
 //        transform.position = position;
         rigidbody.MovePosition(position);
     }
