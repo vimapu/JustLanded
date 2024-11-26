@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public InputAction LeftAction;
     private Rigidbody2D rigidbody;
 
+    //Vector2 move;
+    //public float speed = 0.1f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,15 +25,21 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Vector2 move = LeftAction.ReadValue<Vector2>();
-        Debug.Log(move);
-        Vector2 position = (Vector2)transform.position + move * 0.1f;
-        transform.position = position;
+        Vector2 position = (Vector2)rigidbody.position + move;
+        // * Time.deltaTime;
+        rigidbody.MovePosition(position);
 
         if (Gamepad.current.aButton.isPressed)
         {
-            Debug.Log("The X button is pressed.");
             rigidbody.AddForce(new Vector2(0, 1), ForceMode2D.Impulse);
         }
 
     }
+
+    // FixedUpdate has the same call rate as the physics system
+    // void FixedUpdate()
+    // {
+    //     // Vector2 position = (Vector2)rigidbody.position + move * Time.deltaTime;
+    //     // rigidbody.MovePosition(position);
+    // }
 }
