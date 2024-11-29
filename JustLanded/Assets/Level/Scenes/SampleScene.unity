@@ -5011,7 +5011,10 @@ MonoBehaviour:
       m_Action: Left
       m_Flags: 8
     m_Flags: 0
+  jumpTime: 0.4
   jumPower: 30
+  fallMultiplier: 3
+  jumpMultiplier: 10
   groundCheck: {fileID: 1315683898}
   groundLayer:
     serializedVersion: 2
