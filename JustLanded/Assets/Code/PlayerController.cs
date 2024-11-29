@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     public InputAction LeftAction;
     Rigidbody2D rigidbody;
+    [SerializeField] int jumPower;
 
     Vector2 move;
     public float speed = 10f;
@@ -30,7 +31,9 @@ public class PlayerController : MonoBehaviour
         if (Gamepad.current.aButton.isPressed)
         {
             Debug.Log("Pressing A button");
-            rigidbody.AddForce(new Vector2(0, 100), ForceMode2D.Force);
+            //rigidbody.AddForce(new Vector2(0, 1), ForceMode2D.Impulse);
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumPower);
+
         }
 
     }
@@ -38,8 +41,8 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate has the same call rate as the physics system
     void FixedUpdate()
     {
-        Vector2 position = (Vector2)rigidbody.position + move * speed * Time.deltaTime;
+        //Vector2 position = (Vector2)rigidbody.position + move * speed * Time.deltaTime;
 //        transform.position = position;
-        rigidbody.MovePosition(position);
+        //rigidbody.MovePosition(position);
     }
 }
