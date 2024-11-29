@@ -9,6 +9,10 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidbody;
     [SerializeField] int jumPower;
 
+    public Transform groundCheck;
+    public LayerMask groundLayer;
+    bool isGrounded;
+
     Vector2 move;
     public float speed = 10f;
 
@@ -27,8 +31,9 @@ public class PlayerController : MonoBehaviour
         //Vector2 position = (Vector2)transform.position + move;
         // * Time.deltaTime;
         //transform.position = position;
+        isGrounded = Physics2D.OverlapCapsule(rigidbody.position, new Vector2(2.4f, 2.4f), CapsuleDirection2D.Horizontal, 0, groundLayer );
 
-        if (Gamepad.current.aButton.isPressed)
+        if (Gamepad.current.aButton.isPressed && isGrounded)
         {
             Debug.Log("Pressing A button");
             //rigidbody.AddForce(new Vector2(0, 1), ForceMode2D.Impulse);
