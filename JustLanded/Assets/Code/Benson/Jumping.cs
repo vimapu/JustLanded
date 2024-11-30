@@ -33,7 +33,7 @@ public class Jumping : MonoBehaviour
 
         if (Gamepad.current.aButton.isPressed && isGrounded)
         {
-            Debug.Log("Pressing A button");
+            //Debug.Log("Pressing A button");
             //rigidbody.AddForce(new Vector2(0, 1), ForceMode2D.Impulse);
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumPower);
             isJumping = true;

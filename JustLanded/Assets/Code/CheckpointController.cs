@@ -9,7 +9,9 @@ public class CheckpointController : MonoBehaviour
         var player = other.GetComponent<DeathAndRespawnController>();
         if (player != null)
         {
-            player.SetRespawnPosition(transform.position);
+            var pos = (Vector2)transform.position;
+            Debug.Log("setting respawn position" + pos);
+            player.SetRespawnPosition(pos);
         }
     }
 }

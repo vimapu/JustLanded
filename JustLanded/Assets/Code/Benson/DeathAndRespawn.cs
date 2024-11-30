@@ -51,9 +51,10 @@ public class DeathAndRespawnController : MonoBehaviour
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(0.2f);
-        transform.position = respawnPosition;
+        transform.position = (Vector2) respawnPosition;
         collider.enabled = true;
         isDead = false;
         Jump();
+        Debug.Log("Respawning from position " + transform.position);
     }
 }
