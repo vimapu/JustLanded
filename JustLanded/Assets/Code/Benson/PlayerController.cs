@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            targetVel = rigidbody.velocity.x - (Mathf.Sign(rigidbody.velocity.x) * acceleration/3 * Time.deltaTime);
+            targetVel = rigidbody.velocity.x - (Mathf.Sign(rigidbody.velocity.x) * acceleration/2 * Time.deltaTime);
         }
         targetVel = (Mathf.Abs(targetVel) > maxVelocity) ? maxVelocity : targetVel;
         rigidbody.velocity = new Vector2(targetVel, rigidbody.velocity.y);

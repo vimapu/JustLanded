@@ -54,6 +54,6 @@ public class DeathAndRespawnController : MonoBehaviour
         collider.enabled = true;
         isDead = false;
         Jump();
-        Debug.Log("Respawning from position " + transform.position);
+        //Debug.Log("Respawning from position " + transform.position);
     }
 }

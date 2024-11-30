@@ -10,7 +10,7 @@ public class CheckpointController : MonoBehaviour
         if (player != null)
         {
             var pos = (Vector2)transform.position;
-            Debug.Log("setting respawn position" + pos);
+            //Debug.Log("setting respawn position" + pos);
             player.SetRespawnPosition(pos);
         }
     }
