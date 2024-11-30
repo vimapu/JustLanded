@@ -1,38 +1,27 @@
 
-
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class Jumping : MonoBehaviour
 {
-
-    public InputAction LeftAction;
-    Rigidbody2D rigidbody;
+     Rigidbody2D rigidbody;
 
     [Header("Jump System")]
     [SerializeField] float jumpTime;
     [SerializeField] int jumPower;
     [SerializeField] float fallMultiplier;
     [SerializeField] float jumpMultiplier;
-
+    
     public Transform groundCheck;
     public LayerMask groundLayer;
     bool isGrounded;
     Vector2 vecGravity;
 
-    Vector2 move;
-    public float speed = 10f;
-
-
     bool isJumping;
     float jumpCounter;
-
-
     // Start is called before the first frame update
     void Start()
     {
-        LeftAction.Enable();
         rigidbody = GetComponent<Rigidbody2D>();
         vecGravity = new Vector2(0, Physics2D.gravity.y);
     }
@@ -40,11 +29,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        move = LeftAction.ReadValue<Vector2>();
-        //Vector2 position = (Vector2)transform.position + move;
-        // * Time.deltaTime;
-        //transform.position = position;
-        isGrounded = Physics2D.OverlapCapsule(rigidbody.position, new Vector2(2.4f, 2.4f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+         isGrounded = Physics2D.OverlapCapsule(rigidbody.position, new Vector2(2.4f, 2.4f), CapsuleDirection2D.Horizontal, 0, groundLayer);
 
         if (Gamepad.current.aButton.isPressed && isGrounded)
         {
@@ -85,13 +70,5 @@ public class PlayerController : MonoBehaviour
         {
             rigidbody.velocity += vecGravity * fallMultiplier * Time.deltaTime;
         }
-    }
-
-    // FixedUpdate has the same call rate as the physics system
-    void FixedUpdate()
-    {
-        //Vector2 position = (Vector2)rigidbody.position + move * speed * Time.deltaTime;
-        //        transform.position = position;
-        //rigidbody.MovePosition(position);
     }
 }

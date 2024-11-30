@@ -4813,6 +4813,7 @@ GameObject:
   - component: {fileID: 2134522365}
   - component: {fileID: 2134522364}
   - component: {fileID: 2134522366}
+  - component: {fileID: 2134522367}
   m_Layer: 0
   m_Name: Benson
   m_TagString: Untagged
@@ -5011,15 +5012,27 @@ MonoBehaviour:
       m_Action: Left
       m_Flags: 8
     m_Flags: 0
+  speed: 10
+--- !u!114 &2134522367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134522361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aacd541a785cad4b81491f97ea05264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   jumpTime: 0.4
-  jumPower: 30
-  fallMultiplier: 3
+  jumPower: 25
+  fallMultiplier: 10
   jumpMultiplier: 10
   groundCheck: {fileID: 1315683898}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  speed: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
