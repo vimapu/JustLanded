@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathAndRespawn : MonoBehaviour
+public class DeathAndRespawnController : MonoBehaviour
 {
 
     Rigidbody2D rigidbody;
@@ -29,7 +29,7 @@ public class DeathAndRespawn : MonoBehaviour
         }
     }
 
-    void SetRespawnPosition(Vector2 position)
+    public void SetRespawnPosition(Vector2 position)
     {
         respawnPosition = position;
     }
@@ -43,14 +43,14 @@ public class DeathAndRespawn : MonoBehaviour
     {
         isDead = true;
         collider.enabled = false;
-        Jump();
+        //Jump();
         StartCoroutine(Respawn());
 
     }
 
     private IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
         transform.position = respawnPosition;
         collider.enabled = true;
         isDead = false;
