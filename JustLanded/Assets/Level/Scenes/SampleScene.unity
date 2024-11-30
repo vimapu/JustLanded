@@ -7499,7 +7499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aacd541a785cad4b81491f97ea05264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpTime: 0.4
+  jumpTime: 0.1
   jumPower: 25
   fallMultiplier: 10
   jumpMultiplier: 10

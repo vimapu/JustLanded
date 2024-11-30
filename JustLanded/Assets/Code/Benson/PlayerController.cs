@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Vector2 = UnityEngine.Vector2;
@@ -26,15 +27,22 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        move = LeftAction.ReadValue<Vector2>();       
+        move = LeftAction.ReadValue<Vector2>();
     }
 
     // FixedUpdate has the same call rate as the physics system
     void FixedUpdate()
     {
-
-        float targetVel = rigidbody.velocity.x + (move.x * acceleration * Time.deltaTime);
-        targetVel = (targetVel > maxVelocity) ? maxVelocity : targetVel; 
+        float targetVel;
+        if (Mathf.Abs(move.x) > 0.1f)
+        {
+            targetVel = rigidbody.velocity.x + (move.x * acceleration * Time.deltaTime);
+        }
+        else
+        {
+            targetVel = rigidbody.velocity.x - (Mathf.Sign(rigidbody.velocity.x) * acceleration/3 * Time.deltaTime);
+        }
+        targetVel = (Mathf.Abs(targetVel) > maxVelocity) ? maxVelocity : targetVel;
         rigidbody.velocity = new Vector2(targetVel, rigidbody.velocity.y);
     }
 }

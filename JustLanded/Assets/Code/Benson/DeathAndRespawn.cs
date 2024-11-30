@@ -43,7 +43,6 @@ public class DeathAndRespawnController : MonoBehaviour
     {
         isDead = true;
         collider.enabled = false;
-        //Jump();
         StartCoroutine(Respawn());
 
     }
