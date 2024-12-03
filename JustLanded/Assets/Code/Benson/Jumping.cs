@@ -10,7 +10,10 @@ public class Jumping : MonoBehaviour
     [SerializeField] int jumpPower;
     [SerializeField] float jumpPowerPercentWhenReleased;
 
-    public LayerMask groundLayer;
+    [SerializeField] LayerMask groundLayer;
+    [SerializeField] LayerMask wallLayer;
+    [SerializeField] Transform wallCheckRight;
+    [SerializeField] Transform wallCheckLeft;
 
     private bool isAPressed = false;
 
@@ -28,7 +31,7 @@ public class Jumping : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isAPressed && IsGrounded())
+        if (isAPressed && (IsGrounded() || IsWalled()))
         {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpPower);
         }
@@ -41,5 +44,11 @@ public class Jumping : MonoBehaviour
     private bool IsGrounded()
     {
         return Physics2D.OverlapCapsule(rigidbody.position, new Vector2(2.4f, 2.4f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+    }
+
+    private bool IsWalled()
+    {
+        return Physics2D.OverlapCircle(wallCheckRight.position, 0.5f, wallLayer)
+        || Physics2D.OverlapCircle(wallCheckLeft.position, 0.5f, wallLayer);
     }
 }
