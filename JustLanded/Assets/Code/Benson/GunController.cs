@@ -11,6 +11,10 @@ public class GunController : MonoBehaviour
     [SerializeField] InputAction inputAction;
     [SerializeField] GameObject pistol;
     [SerializeField] float secondBetweenShots;
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform bulletSpawnPoint;
+
+    private GameObject bulletInstance;
 
     private Vector2 direction;
 
@@ -53,7 +57,8 @@ public class GunController : MonoBehaviour
         {
             lastShotTime = Time.time;
             // instantiate bullet and shoot
-
+            
+            bulletInstance = Instantiate(bullet, bulletSpawnPoint.position, pistol.transform.rotation);
         }
     }
 
