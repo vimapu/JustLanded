@@ -13,11 +13,14 @@ public class LadderClimbing : MonoBehaviour
 
     [SerializeField] Rigidbody2D rigidbody;
 
+    private float gravityScale;
+
     // Start is called before the first frame update
     void Start()
     {
         climbingAction.Enable();
         canClimb = false;
+        gravityScale = GetComponent<Rigidbody2D>().gravityScale;
     }
 
     // Update is called once per frame
@@ -40,12 +43,13 @@ public class LadderClimbing : MonoBehaviour
     public void EnableClimbing()
     {
         canClimb = true;
+        rigidbody.gravityScale = 0f;
     }
 
     public void DisableClimbing()
     {
         canClimb = false;
-        rigidbody.gravityScale = 1f;
+        rigidbody.gravityScale = gravityScale;
     }
 
 
