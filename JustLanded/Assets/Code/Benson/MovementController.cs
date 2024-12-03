@@ -13,6 +13,8 @@ public class MovementController : MonoBehaviour
 
     Vector2 movement;
 
+    GunController gunController;
+
     bool isFacingRight = true;
 
     // Start is called before the first frame update
@@ -20,6 +22,7 @@ public class MovementController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         inputAction.Enable();
+        gunController = GetComponent<GunController>();
     }
 
     // Update is called once per frame
@@ -43,6 +46,7 @@ public class MovementController : MonoBehaviour
         var localScale = transform.localScale;
         localScale.x *= -1f;
         transform.localScale = localScale;
+        gunController.Flip();
     }
 
 }
