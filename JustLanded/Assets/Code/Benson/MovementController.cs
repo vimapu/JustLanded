@@ -1,4 +1,5 @@
 
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,6 +17,10 @@ public class MovementController : MonoBehaviour
     GunController gunController;
 
     bool isFacingRight = true;
+
+    bool onPlatform = false;
+    Rigidbody2D platoformRigidbody;
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +42,11 @@ public class MovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rigidbody.velocity = new Vector2(movement.x * speed, rigidbody.velocity.y);
+        float xMovement = movement.x * speed;
+        if(onPlatform) {
+            xMovement += platoformRigidbody.velocity.x;
+        }
+        rigidbody.velocity = new Vector2(xMovement, rigidbody.velocity.y);
     }
 
     private void Flip()
@@ -47,6 +56,19 @@ public class MovementController : MonoBehaviour
         localScale.x *= -1f;
         transform.localScale = localScale;
         gunController.Flip();
+    }
+
+    public void SetPlatformRB(Rigidbody2D rigidbody)
+    {
+        platoformRigidbody = rigidbody;
+        onPlatform = true;
+        Debug.Log("Setting on platform");
+    }
+
+    public void LeavePlatform()
+    {
+        onPlatform = false;
+        Debug.Log("Setting off platform");
     }
 
 }

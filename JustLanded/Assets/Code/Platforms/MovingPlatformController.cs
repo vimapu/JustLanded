@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingPlatformController : MonoBehaviour
@@ -10,22 +8,24 @@ public class MovingPlatformController : MonoBehaviour
     [SerializeField] float speed = 10f;
 
 
-
+    MovementController movementController;
     private Transform nextPosition;
     private int positionIndex = 0;
+    private Rigidbody2D rigidbody;
+    private Vector2 direction;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        movementController = GameObject.FindGameObjectWithTag("Player").GetComponent<MovementController>();
         nextPosition = positions[positionIndex];
-        GetComponent<Transform>();
+        rigidbody = GetComponent<Rigidbody2D>();
+        CalculateDirection();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Vector2.Distance(nextPosition.position, transform.position) < 0.1f)
+void Update() {
+        if (Vector2.Distance(nextPosition.position, transform.position) < 0.2f)
         {
             if (positionIndex + 1 >= positions.Length)
             {
@@ -37,30 +37,36 @@ public class MovingPlatformController : MonoBehaviour
             }
             nextPosition = positions[positionIndex];
         }
-    }
+        CalculateDirection();
 
+}
     void FixedUpdate()
     {
         // starts moving towards the next position
-        var step = speed * Time.deltaTime;
-        transform.position = Vector2.MoveTowards(transform.position, nextPosition.position, step);
+        rigidbody.velocity = direction * speed;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collider.gameObject.CompareTag("Player"))
         {
-            collision.transform.parent = transform;
-            collision.rigidbody.gravityScale = collision.rigidbody.gravityScale * gravityOnPlatform;
+            collider.transform.parent = transform;
+            movementController.SetPlatformRB(rigidbody);
+            //collider.gameObject.GetComponent<Rigidbody2D>().gravityScale = collider.GetComponent<Rigidbody2D>().gravityScale * gravityOnPlatform;
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collider.gameObject.CompareTag("Player"))
         {
-            collision.transform.parent = null;
-            collision.rigidbody.gravityScale = collision.rigidbody.gravityScale / gravityOnPlatform;
+            collider.transform.parent = null;
+            movementController.LeavePlatform();
+            //collider.gameObject.GetComponent<Rigidbody2D>().gravityScale = collider.GetComponent<Rigidbody2D>().gravityScale / gravityOnPlatform;
         }
+    }
+
+    private void CalculateDirection() {
+        direction = (nextPosition.position - transform.position).normalized;
     }
 }
