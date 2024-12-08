@@ -4,8 +4,9 @@ public class MovingPlatformController : MonoBehaviour
 {
 
     [SerializeField] Transform[] positions;
-    [SerializeField] float gravityOnPlatform = 50;
+    [SerializeField] float gravityOnPlatform = 5;
     [SerializeField] float speed = 10f;
+    [SerializeField] Rigidbody2D playerRigidbody;
 
 
     MovementController movementController;
@@ -24,7 +25,8 @@ public class MovingPlatformController : MonoBehaviour
         CalculateDirection();
     }
 
-void Update() {
+    void Update()
+    {
         if (Vector2.Distance(nextPosition.position, transform.position) < 0.2f)
         {
             if (positionIndex + 1 >= positions.Length)
@@ -39,7 +41,7 @@ void Update() {
         }
         CalculateDirection();
 
-}
+    }
     void FixedUpdate()
     {
         // starts moving towards the next position
@@ -52,7 +54,7 @@ void Update() {
         {
             collider.transform.parent = transform;
             movementController.SetPlatformRB(rigidbody);
-            //collider.gameObject.GetComponent<Rigidbody2D>().gravityScale = collider.GetComponent<Rigidbody2D>().gravityScale * gravityOnPlatform;
+            //playerRigidbody.gravityScale = playerRigidbody.gravityScale * gravityOnPlatform;
         }
     }
 
@@ -62,11 +64,12 @@ void Update() {
         {
             collider.transform.parent = null;
             movementController.LeavePlatform();
-            //collider.gameObject.GetComponent<Rigidbody2D>().gravityScale = collider.GetComponent<Rigidbody2D>().gravityScale / gravityOnPlatform;
+            //playerRigidbody.gravityScale = playerRigidbody.gravityScale / gravityOnPlatform;
         }
     }
 
-    private void CalculateDirection() {
+    private void CalculateDirection()
+    {
         direction = (nextPosition.position - transform.position).normalized;
     }
 }
