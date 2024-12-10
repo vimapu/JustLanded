@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class DoubleJumpController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Jumping jumpingController;
+
     void Start()
     {
-        
+        jumpingController = GameObject.FindGameObjectWithTag("Player").GetComponent<Jumping>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        
+        if (collider.gameObject.CompareTag("Player"))
+        {
+            jumpingController.LearnDoubleJump();
+            Destroy(gameObject);
+        }
+
     }
+
 }

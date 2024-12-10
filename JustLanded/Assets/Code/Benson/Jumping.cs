@@ -17,6 +17,11 @@ public class Jumping : MonoBehaviour
 
     private bool isAPressed = false;
 
+    private bool canDoubleJump = false;
+    private bool hasLearnedDoubleJump = false;
+
+    private bool isJumping = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,17 +32,51 @@ public class Jumping : MonoBehaviour
     void Update()
     {
         isAPressed = Gamepad.current.aButton.isPressed;
+        if (!isAPressed && isJumping && hasLearnedDoubleJump)
+        {
+            canDoubleJump = true;
+        }
     }
 
     void FixedUpdate()
     {
-        if (isAPressed && (IsGrounded() || IsWalled()))
+        if (isAPressed)
         {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpPower);
+            if (IsGrounded() || IsWalled())
+            {
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpPower);
+                isJumping = true;
+            }
+            else
+            {
+                if (canDoubleJump)
+                {
+                    rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpPower);
+                    canDoubleJump = false;
+                }
+            }
         }
         if (!isAPressed && rigidbody.velocity.y > 0f)
         {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y * jumpPowerPercentWhenReleased);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (IsGrounded() || IsWalled())
+        {
+            Debug.Log("Not jumping");
+            isJumping = false;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (IsGrounded() || IsWalled())
+        {
+            Debug.Log("Not jumping");
+            isJumping = false;
         }
     }
 
@@ -50,5 +89,10 @@ public class Jumping : MonoBehaviour
     {
         return Physics2D.OverlapCircle(wallCheckRight.position, 0.5f, wallLayer)
         || Physics2D.OverlapCircle(wallCheckLeft.position, 0.5f, wallLayer);
+    }
+
+    public void LearnDoubleJump()
+    {
+        hasLearnedDoubleJump = true;
     }
 }
