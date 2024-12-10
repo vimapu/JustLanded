@@ -66,7 +66,6 @@ public class Jumping : MonoBehaviour
     {
         if (IsGrounded() || IsWalled())
         {
-            Debug.Log("Not jumping");
             isJumping = false;
         }
     }
@@ -75,7 +74,6 @@ public class Jumping : MonoBehaviour
     {
         if (IsGrounded() || IsWalled())
         {
-            Debug.Log("Not jumping");
             isJumping = false;
         }
     }
