@@ -11838,6 +11838,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7128440226195567945, guid: c2bb7361845b5f247ab1da781211d8e0, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11916,6 +11920,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 2134522361}
+    - target: {fileID: 2349181323919426020, guid: 89cdfbf1b1dbc924389e368b47254ad5, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2816936670442927622, guid: 89cdfbf1b1dbc924389e368b47254ad5, type: 3}
       propertyPath: m_Name
       value: Enemy
