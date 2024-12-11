@@ -9,6 +9,7 @@ public class ShootingEnemyController : MonoBehaviour
     [SerializeField] Transform spitSpawnPoint;
     [SerializeField] GameObject player;
     [SerializeField] float secondBetweenShots;
+    [SerializeField] bool doesRespawn = false;
 
     private AudioSource audioSource;
     private float aimAngle;
@@ -57,10 +58,18 @@ public class ShootingEnemyController : MonoBehaviour
         audioSource.Play();
         spriteRenderer.enabled = false;
         isAlive = false;
-        yield return new WaitForSeconds(respawnDelay);
-        spriteRenderer.enabled = true;
-        isAlive = true;
-        transform.position = (Vector2)respawnPosition;
+        if (doesRespawn)
+        {
+            yield return new WaitForSeconds(respawnDelay);
+            spriteRenderer.enabled = true;
+            isAlive = true;
+            transform.position = (Vector2)respawnPosition;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
     }
 
     private bool CanShootAnotherBullet()

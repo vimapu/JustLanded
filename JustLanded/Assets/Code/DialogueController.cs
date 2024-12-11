@@ -68,6 +68,7 @@ public class DialogueController : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+            index = 0;
         }
     }
 }
