@@ -10,6 +10,7 @@ public class ShootingEnemyController : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] float secondBetweenShots;
 
+    private AudioSource audioSource;
     private float aimAngle;
 
     private Vector2 respawnPosition;
@@ -22,6 +23,7 @@ public class ShootingEnemyController : MonoBehaviour
     {
         respawnPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -52,6 +54,7 @@ public class ShootingEnemyController : MonoBehaviour
 
     private IEnumerator Die()
     {
+        audioSource.Play();
         spriteRenderer.enabled = false;
         isAlive = false;
         yield return new WaitForSeconds(respawnDelay);

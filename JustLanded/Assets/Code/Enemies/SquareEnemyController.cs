@@ -7,6 +7,7 @@ public class SquareEnemyController : MonoBehaviour
     [SerializeField] Transform[] positions;
     [SerializeField] float speed = 10f;
 
+    private AudioSource audioSource;
     private int positionIndex = 0;
     private Transform nextPosition;
     private Vector2 direction;
@@ -18,6 +19,7 @@ public class SquareEnemyController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         nextPosition = positions[positionIndex];
+        audioSource = GetComponent<AudioSource>();
         CalculateDirection();
     }
 
@@ -88,6 +90,7 @@ public class SquareEnemyController : MonoBehaviour
             collider.enabled = false;
         }
         isAlive = false;
+        audioSource.Play();
         Jump();
         Destroy(gameObject.transform.parent.gameObject, 0.5f);
     }
