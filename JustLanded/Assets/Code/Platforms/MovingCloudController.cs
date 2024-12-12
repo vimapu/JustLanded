@@ -1,6 +1,6 @@
-using UnityEditor.U2D.Sprites;
+
 using UnityEngine;
-using UnityEngine.TextCore;
+
 
 public class MovingCloudController : MonoBehaviour
 {
