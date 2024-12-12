@@ -62,13 +62,11 @@ public class MovementController : MonoBehaviour
     {
         platoformRigidbody = rigidbody;
         onPlatform = true;
-        Debug.Log("Setting on platform");
     }
 
     public void LeavePlatform()
     {
         onPlatform = false;
-        Debug.Log("Setting off platform");
     }
 
 }

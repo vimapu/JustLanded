@@ -1,4 +1,6 @@
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
+using UnityEngine.TextCore;
 
 public class MovingCloudController : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class MovingCloudController : MonoBehaviour
     private int positionIndex = 0;
     private Rigidbody2D rigidbody;
     private Vector2 direction;
+    private bool facingLeft = true;
 
 
     // Start is called before the first frame update
@@ -38,6 +41,7 @@ public class MovingCloudController : MonoBehaviour
                 positionIndex++;
             }
             nextPosition = positions[positionIndex];
+            FlipIfNecessary();
         }
         CalculateDirection();
 
@@ -71,5 +75,17 @@ public class MovingCloudController : MonoBehaviour
     private void CalculateDirection()
     {
         direction = (nextPosition.position - transform.position).normalized;
+    }
+
+    private void FlipIfNecessary()
+    {
+        CalculateDirection();
+        if ((direction.x > 0 && facingLeft) || (direction.x < 0 && !facingLeft))
+        {
+            facingLeft = !facingLeft;
+            var localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
     }
 }

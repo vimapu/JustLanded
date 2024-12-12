@@ -14,6 +14,7 @@ public class FriendDialogueController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player") && !hasActivatedDialogue)
         {
+            hasActivatedDialogue = true;
             dialogue.SetActive(true);
         }
     }
