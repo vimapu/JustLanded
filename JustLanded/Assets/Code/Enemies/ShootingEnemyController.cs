@@ -44,29 +44,30 @@ public class ShootingEnemyController : MonoBehaviour, IKillable
 
     }
 
-     private void OnCollisionEnter2D(Collision2D other)
+    //  private void OnCollisionEnter2D(Collision2D other)
+    // {
+    //     if (isAlive)
+    //     {
+    //         var player = other.collider.GetComponent<DeathAndRespawnController>();
+    //         if (player != null)
+    //         {
+    //             player.Kill(this);
+    //         }
+    //     }
+
+    // }
+
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (isAlive)
-        {
-            var player = other.collider.GetComponent<DeathAndRespawnController>();
+        var player = collider.GetComponent<DeathAndRespawnController>();
             if (player != null)
             {
                 player.Kill(this);
             }
-        }
-
     }
 
-    // void OnTriggerEnter2D(Collider2D collider)
-    // {
-    //     if (collider.gameObject.CompareTag("Player"))
-    //     {
-    //         StartCoroutine(Die());
-    //     }
-    // }
-
     public void Kill() {
-        Die();
+        StartCoroutine(Die());
     }
 
 

@@ -26,10 +26,10 @@ public class EnemySpitController : MonoBehaviour
             deathController.Die();
             Destroy(gameObject);
         }
-        // if ((whatDestroysBullet.value & (1 << collider.gameObject.layer)) > 0)
-        // {
-        //     Destroy(gameObject);
-        // }
+        if ((whatDestroysBullet.value & (1 << collider.gameObject.layer)) > 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void SetStraightVelocity()

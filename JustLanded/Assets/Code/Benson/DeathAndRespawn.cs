@@ -52,6 +52,7 @@ public class DeathAndRespawnController : MonoBehaviour
     {
         if (bashController.IsBashing())
         {
+            Debug.Log("Killing");
             killer.Kill();
         }
         else
