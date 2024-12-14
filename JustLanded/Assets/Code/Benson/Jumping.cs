@@ -58,7 +58,7 @@ public class Jumping : MonoBehaviour
         }
         if (!isAPressed && rigidbody.velocity.y > 0f)
         {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y * jumpPowerPercentWhenReleased);
+           // rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y * jumpPowerPercentWhenReleased);
         }
     }
 
@@ -92,5 +92,11 @@ public class Jumping : MonoBehaviour
     public void LearnDoubleJump()
     {
         hasLearnedDoubleJump = true;
+    }
+
+    public void Jump(float power)
+    {
+        rigidbody.velocity = new Vector2(rigidbody.velocity.x, power);
+        isJumping = true;
     }
 }

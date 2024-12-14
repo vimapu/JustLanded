@@ -6,6 +6,7 @@ TagManager:
   tags:
   - OneWayPlatform
   - Pistol
+  - Spring
   layers:
   - Default
   - TransparentFX
