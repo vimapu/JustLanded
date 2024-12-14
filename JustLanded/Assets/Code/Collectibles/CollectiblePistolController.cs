@@ -17,6 +17,7 @@ public class CollectiblePistolController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Colliding with gun");
             movementController.CollectPistol();
         }
         Destroy(gameObject);

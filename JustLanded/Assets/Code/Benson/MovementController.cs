@@ -83,7 +83,9 @@ public class MovementController : MonoBehaviour
 
     public void CollectPistol()
     {
+        Debug.Log("Activating gun");
         pistol.SetActive(true);
+        Debug.Log("Is pistol active" + pistol.activeSelf);
         hasPistol = true;
         gunController.ActivateGun();
     }
