@@ -6,6 +6,7 @@ public class FriendDialogueController : MonoBehaviour
 {
 
     [SerializeField] GameObject dialogue;
+    [SerializeField] string[] dialogueLines; 
 
     private bool hasActivatedDialogue = false;
 
@@ -16,6 +17,17 @@ public class FriendDialogueController : MonoBehaviour
         {
             hasActivatedDialogue = true;
             dialogue.SetActive(true);
+            var dialogueController = dialogue.GetComponent<DialogueController>();
+            dialogueController.SetLines(dialogueLines);
+            dialogueController.StartDialogue();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Player"))
+        {
+            dialogue.SetActive(false);
         }
     }
 }

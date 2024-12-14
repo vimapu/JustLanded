@@ -25,7 +25,7 @@ public class ShootingEnemyController : MonoBehaviour, IKillable
         respawnPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        player = GameObject.Find("Player");
+        //player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
