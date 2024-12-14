@@ -38,8 +38,8 @@ public class DeathAndRespawnController : MonoBehaviour
 
     private void Jump()
     {
-        //rigidbody.velocity = new Vector2(rigidbody.velocity.x, respawnJumpSpeed);
-        rigidbody.velocity = new Vector2(0, respawnJumpSpeed);
+        rigidbody.velocity = new Vector2(rigidbody.velocity.x, respawnJumpSpeed);
+        //rigidbody.velocity = new Vector2(0, respawnJumpSpeed);
     }
 
     public void Die()
@@ -67,6 +67,7 @@ public class DeathAndRespawnController : MonoBehaviour
         transform.position = (Vector2)respawnPosition;
         collider.enabled = true;
         isDead = false;
+        transform.parent = null;
         Jump();
         //Debug.Log("Respawning from position " + transform.position);
     }
