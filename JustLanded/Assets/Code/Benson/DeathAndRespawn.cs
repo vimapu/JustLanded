@@ -38,7 +38,8 @@ public class DeathAndRespawnController : MonoBehaviour
 
     private void Jump()
     {
-        rigidbody.velocity = new Vector2(rigidbody.velocity.x, respawnJumpSpeed);
+        //rigidbody.velocity = new Vector2(rigidbody.velocity.x, respawnJumpSpeed);
+        rigidbody.velocity = new Vector2(0, respawnJumpSpeed);
     }
 
     public void Die()
@@ -52,7 +53,6 @@ public class DeathAndRespawnController : MonoBehaviour
     {
         if (bashController.IsBashing())
         {
-            Debug.Log("Killing");
             killer.Kill();
         }
         else
