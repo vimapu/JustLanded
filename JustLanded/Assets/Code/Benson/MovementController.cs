@@ -16,6 +16,9 @@ public class MovementController : MonoBehaviour
 
     GunController gunController;
 
+    GameObject pistol;
+    bool hasPistol = false;
+
     bool isFacingRight = true;
 
     bool onPlatform = false;
@@ -28,6 +31,8 @@ public class MovementController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         inputAction.Enable();
         gunController = GetComponent<GunController>();
+        pistol = GameObject.Find("Pistol");
+        pistol.SetActive(false);
     }
 
     // Update is called once per frame
@@ -67,6 +72,12 @@ public class MovementController : MonoBehaviour
     public void LeavePlatform()
     {
         onPlatform = false;
+    }
+
+    public void CollectPistol() {
+        pistol.SetActive(true);
+        hasPistol = true;
+        gunController.ActivateGun();
     }
 
 }

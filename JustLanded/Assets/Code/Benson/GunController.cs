@@ -21,6 +21,7 @@ public class GunController : MonoBehaviour
     private bool isFlipped;
     private bool isInputPressed = false;
     private float lastShotTime;
+    private bool isGunActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,13 +42,16 @@ public class GunController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isInputPressed)
+        if (isGunActive)
         {
-            UpdateGunRotation();
-        }
-        if (Gamepad.current.rightTrigger.isPressed)
-        {
-            Shoot();
+            if (isInputPressed)
+            {
+                UpdateGunRotation();
+            }
+            if (Gamepad.current.rightTrigger.isPressed)
+            {
+                Shoot();
+            }
         }
     }
 
@@ -57,7 +61,7 @@ public class GunController : MonoBehaviour
         {
             lastShotTime = Time.time;
             // instantiate bullet and shoot
-            
+
             bulletInstance = Instantiate(bullet, bulletSpawnPoint.position, pistol.transform.rotation);
         }
     }
@@ -102,5 +106,15 @@ public class GunController : MonoBehaviour
     {
         isFlipped = !isFlipped;
         //pistol.transform.localScale = new Vector3(0.5f, -pistol.transform.localScale.y, 1f);
+    }
+
+    public void ActivateGun()
+    {
+        isGunActive = true;
+    }
+
+    public void DeactivateGun()
+    {
+        isGunActive = false;
     }
 }
