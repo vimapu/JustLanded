@@ -72,6 +72,7 @@ public class GunController : MonoBehaviour
             {
                 var rotation = pistol.transform.rotation;
                 rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z - 180);
+                //rotation = Quaternion.Euler(rotation.x, rotation.y -180, rotation.z);
                 bulletInstance = Instantiate(bullet, bulletSpawnPoint.position, rotation);
             }
         }
