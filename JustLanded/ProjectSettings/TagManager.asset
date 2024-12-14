@@ -7,6 +7,9 @@ TagManager:
   - OneWayPlatform
   - Pistol
   - Spring
+  - Bullet
+  - SquareEnemy
+  - TriangularEnemy
   layers:
   - Default
   - TransparentFX

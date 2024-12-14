@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc838523eb0eff1449234b90deaf7277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 60
   expirationTime: 3
   whatDestroysBullet:
     serializedVersion: 2

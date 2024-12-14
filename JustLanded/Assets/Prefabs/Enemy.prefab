@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2349181323919426020}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: TriangularEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,6 +105,7 @@ MonoBehaviour:
   spitSpawnPoint: {fileID: 4882536939182545233}
   player: {fileID: 0}
   secondBetweenShots: 1
+  doesRespawn: 0
 --- !u!68 &4815111295330919878
 EdgeCollider2D:
   m_ObjectHideFlags: 0

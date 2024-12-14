@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5522048242800691513}
   m_Layer: 0
   m_Name: SquareEnemy
-  m_TagString: Untagged
+  m_TagString: SquareEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,7 +51,7 @@ GameObject:
   - component: {fileID: 7128440226195567945}
   m_Layer: 11
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: SquareEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

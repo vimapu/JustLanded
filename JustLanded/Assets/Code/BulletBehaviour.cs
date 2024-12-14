@@ -21,8 +21,17 @@ public class BulletBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        if (collider.gameObject.CompareTag("SquareEnemy"))
+        {
+            collider.gameObject.GetComponent<SquareEnemyController>().Kill();
+        }
+        else if (collider.gameObject.CompareTag("TriangularEnemy"))
+        {
+            collider.gameObject.GetComponent<ShootingEnemyController>().Kill();
+        }
         if ((whatDestroysBullet.value & (1 << collider.gameObject.layer)) > 0)
         {
+            Debug.Log("Destroying bullet");
             Destroy(gameObject);
         }
     }
