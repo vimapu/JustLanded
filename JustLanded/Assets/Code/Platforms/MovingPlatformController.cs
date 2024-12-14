@@ -48,25 +48,45 @@ public class MovingPlatformController : MonoBehaviour
         rigidbody.velocity = direction * speed;
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collider.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            collider.transform.parent = transform;
+            collision.transform.parent = transform;
             movementController.SetPlatformRB(rigidbody);
             //playerRigidbody.gravityScale = playerRigidbody.gravityScale * gravityOnPlatform;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collider)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collider.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            collider.transform.parent = null;
+            collision.transform.parent = null;
             movementController.LeavePlatform();
             //playerRigidbody.gravityScale = playerRigidbody.gravityScale / gravityOnPlatform;
         }
     }
+
+    // private void OnTriggerEnter2D(Collider2D collider)
+    // {
+    //     if (collider.gameObject.CompareTag("Player"))
+    //     {
+    //         collider.transform.parent = transform;
+    //         movementController.SetPlatformRB(rigidbody);
+    //         //playerRigidbody.gravityScale = playerRigidbody.gravityScale * gravityOnPlatform;
+    //     }
+    // }
+
+    // private void OnTriggerExit2D(Collider2D collider)
+    // {
+    //     if (collider.gameObject.CompareTag("Player"))
+    //     {
+    //         collider.transform.parent = null;
+    //         movementController.LeavePlatform();
+    //         //playerRigidbody.gravityScale = playerRigidbody.gravityScale / gravityOnPlatform;
+    //     }
+    // }
 
     private void CalculateDirection()
     {

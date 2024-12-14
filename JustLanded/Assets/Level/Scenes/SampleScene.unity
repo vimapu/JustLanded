@@ -217,6 +217,11 @@ MonoBehaviour:
     just a test message :)
   - This is just a second line...
   textSpeed: 0.1
+--- !u!4 &217321048 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8554621196150675665, guid: 02d58dbb5b5c1b849ac0d4224e299070, type: 3}
+  m_PrefabInstance: {fileID: 3901857817422621363}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1011135077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1196,6 +1201,14 @@ PrefabInstance:
       propertyPath: playerRigidbody
       value: 
       objectReference: {fileID: 2134522365}
+    - target: {fileID: 9186260545601663182, guid: 02d58dbb5b5c1b849ac0d4224e299070, type: 3}
+      propertyPath: positions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9186260545601663182, guid: 02d58dbb5b5c1b849ac0d4224e299070, type: 3}
+      propertyPath: positions.Array.data[2]
+      value: 
+      objectReference: {fileID: 217321048}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

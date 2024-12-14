@@ -72,6 +72,7 @@ public class MovementController : MonoBehaviour
     public void LeavePlatform()
     {
         onPlatform = false;
+        Debug.Log("Leaving platform");
     }
 
     public void CollectPistol() {
