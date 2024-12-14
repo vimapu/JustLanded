@@ -1,5 +1,3 @@
-
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -67,7 +65,7 @@ public class MovementController : MonoBehaviour
         var localScale = transform.localScale;
         localScale.x *= -1f;
         transform.localScale = localScale;
-        gunController.Flip();
+        //gunController.Flip();
     }
 
     public void SetPlatformRB(Rigidbody2D rigidbody)
@@ -83,12 +81,11 @@ public class MovementController : MonoBehaviour
 
     public void CollectPistol()
     {
-        Debug.Log("Activating gun");
         pistol.SetActive(true);
-        Debug.Log("Is pistol active" + pistol.activeSelf);
         hasPistol = true;
         gunController.ActivateGun();
     }
+
     public bool IsFacingRight()
     {
         return isFacingRight;

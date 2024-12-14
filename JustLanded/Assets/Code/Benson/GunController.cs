@@ -14,6 +14,8 @@ public class GunController : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] Transform bulletSpawnPoint;
 
+    private MovementController movementController;
+
     private GameObject bulletInstance;
 
     private Vector2 direction;
@@ -27,6 +29,7 @@ public class GunController : MonoBehaviour
     void Start()
     {
         inputAction.Enable();
+        movementController = GetComponent<MovementController>();
     }
 
     // Update is called once per frame
@@ -61,8 +64,16 @@ public class GunController : MonoBehaviour
         {
             lastShotTime = Time.time;
             // instantiate bullet and shoot
-
-            bulletInstance = Instantiate(bullet, bulletSpawnPoint.position, pistol.transform.rotation);
+            if (movementController.IsFacingRight())
+            {
+                bulletInstance = Instantiate(bullet, bulletSpawnPoint.position, pistol.transform.rotation);
+            }
+            else
+            {
+                var rotation = pistol.transform.rotation;
+                rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z - 180);
+                bulletInstance = Instantiate(bullet, bulletSpawnPoint.position, rotation);
+            }
         }
     }
 
@@ -72,32 +83,46 @@ public class GunController : MonoBehaviour
     }
     private void UpdateGunRotation()
     {
+
         var aimAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        if (isFlipped)
+        Debug.Log("Aiming at " + direction + " with aiming angle " + aimAngle);
+        //if (isFlipped)
+        if (movementController.IsFacingRight())
         {
-            aimAngle -= 180;
+            if (direction.x >= 0)
+            {
+                pistol.transform.rotation = Quaternion.Euler(0, 0, aimAngle);
+            }
+            //aimAngle -= 180;
         }
-        pistol.transform.rotation = Quaternion.Euler(0, 0, aimAngle);
+        else
+        {
+            if (direction.x <= 0)
+            {
+                pistol.transform.rotation = Quaternion.Euler(0, 0, aimAngle - 180);
+            }
+            //pistol.transform.localScale = -pistol.transform.localScale;
+        }
 
-        Vector3 localScale = new Vector3(0.5f, pistol.transform.localScale.y, 1f);
 
-        Debug.Log("angle " + aimAngle);
-        // if (!isFlipped)
+        // Vector3 localScale = new Vector3(0.5f, pistol.transform.localScale.y, 1f);
+
+        // //Debug.Log("angle " + aimAngle);
+        // // if (!isFlipped)
+        // // {
+        // if (aimAngle != 0)
         // {
-        if (aimAngle != 0)
-        {
-            if (aimAngle > 90 || aimAngle < -90)
-            {
-                localScale.y = -0.5f;
-            }
-            else
-            {
-                localScale.y = 0.5f;
-            }
-        }
+        //     if (aimAngle > 90 || aimAngle < -90)
+        //     {
+        //         localScale.y = -0.5f;
+        //     }
+        //     else
+        //     {
+        //         localScale.y = 0.5f;
+        //     }
+        // }
         //}
-        pistol.transform.localScale = localScale;
+        //pistol.transform.localScale = localScale;
         //Debug.Log("Direction " + direction + " localScale " + localScale);
 
     }
