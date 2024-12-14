@@ -23,6 +23,7 @@ public class MovementController : MonoBehaviour
 
     bool onPlatform = false;
     Rigidbody2D platoformRigidbody;
+    BashController bashController;
 
 
     // Start is called before the first frame update
@@ -33,6 +34,7 @@ public class MovementController : MonoBehaviour
         gunController = GetComponent<GunController>();
         pistol = GameObject.Find("Pistol");
         pistol.SetActive(false);
+        bashController = GetComponent<BashController>();
     }
 
     // Update is called once per frame
@@ -47,11 +49,16 @@ public class MovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float xMovement = movement.x * speed;
-        if(onPlatform) {
-            xMovement += platoformRigidbody.velocity.x;
+        if (!bashController.IsBashing())
+        {
+            float xMovement = movement.x * speed;
+            if (onPlatform)
+            {
+                xMovement += platoformRigidbody.velocity.x;
+            }
+            rigidbody.velocity = new Vector2(xMovement, rigidbody.velocity.y);
+
         }
-        rigidbody.velocity = new Vector2(xMovement, rigidbody.velocity.y);
     }
 
     private void Flip()
@@ -75,10 +82,15 @@ public class MovementController : MonoBehaviour
         Debug.Log("Leaving platform");
     }
 
-    public void CollectPistol() {
+    public void CollectPistol()
+    {
         pistol.SetActive(true);
         hasPistol = true;
         gunController.ActivateGun();
+    }
+    public bool IsFacingRight()
+    {
+        return isFacingRight;
     }
 
 }

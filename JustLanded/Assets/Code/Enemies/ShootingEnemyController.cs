@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingEnemyController : MonoBehaviour
+public class ShootingEnemyController : MonoBehaviour, IKillable
 {
     [SerializeField] float respawnDelay = 1f;
     [SerializeField] GameObject spit;
@@ -44,12 +44,29 @@ public class ShootingEnemyController : MonoBehaviour
 
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
+     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collider.gameObject.CompareTag("Player"))
+        if (isAlive)
         {
-            StartCoroutine(Die());
+            var player = other.collider.GetComponent<DeathAndRespawnController>();
+            if (player != null)
+            {
+                player.Kill(this);
+            }
         }
+
+    }
+
+    // void OnTriggerEnter2D(Collider2D collider)
+    // {
+    //     if (collider.gameObject.CompareTag("Player"))
+    //     {
+    //         StartCoroutine(Die());
+    //     }
+    // }
+
+    public void Kill() {
+        Die();
     }
 
 

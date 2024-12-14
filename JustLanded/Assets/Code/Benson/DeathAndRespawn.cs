@@ -9,6 +9,7 @@ public class DeathAndRespawnController : MonoBehaviour
     Collider2D collider;
     private bool isDead = false;
     private Vector2 respawnPosition;
+    private BashController bashController;
 
     [SerializeField] float respawnJumpSpeed = 10f;
 
@@ -17,6 +18,7 @@ public class DeathAndRespawnController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
+        bashController = GetComponent<BashController>();
         SetRespawnPosition(transform.position);
     }
 
@@ -44,13 +46,24 @@ public class DeathAndRespawnController : MonoBehaviour
         isDead = true;
         collider.enabled = false;
         StartCoroutine(Respawn());
+    }
 
+    public void Kill(IKillable killer)
+    {
+        if (bashController.IsBashing())
+        {
+            killer.Kill();
+        }
+        else
+        {
+            Die();
+        }
     }
 
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(0.2f);
-        transform.position = (Vector2) respawnPosition;
+        transform.position = (Vector2)respawnPosition;
         collider.enabled = true;
         isDead = false;
         Jump();

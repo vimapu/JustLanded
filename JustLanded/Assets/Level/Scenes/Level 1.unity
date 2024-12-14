@@ -2788,6 +2788,7 @@ GameObject:
   - component: {fileID: 6710621783016478127}
   - component: {fileID: 1171394608281384015}
   - component: {fileID: 7118070524409941136}
+  - component: {fileID: 8642320303142262477}
   m_Layer: 0
   m_Name: Benson
   m_TagString: Player
@@ -35507,7 +35508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17a5a78fe12c1640b37350b531e91fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnJumpSpeed: 80
+  respawnJumpSpeed: 10
 --- !u!1001 &7032302741916647906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36365,6 +36366,20 @@ MonoBehaviour:
     m_Bits: 512
   wallCheckRight: {fileID: 120783824153533217}
   wallCheckLeft: {fileID: 7364418766803493003}
+--- !u!114 &8642320303142262477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999486699472434773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31264a525725b09439a15fcd061f74c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bashingSpeed: 80
+  bashingTime: 0.2
 --- !u!1 &8879465822285046839
 GameObject:
   m_ObjectHideFlags: 0

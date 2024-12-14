@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SquareEnemyController : MonoBehaviour
+public class SquareEnemyController : MonoBehaviour, IKillable
 {
     [SerializeField] Transform[] positions;
     [SerializeField] float speed = 10f;
@@ -57,7 +57,7 @@ public class SquareEnemyController : MonoBehaviour
             var player = other.collider.GetComponent<DeathAndRespawnController>();
             if (player != null)
             {
-                player.Die();
+                player.Kill(this);
             }
         }
 
@@ -93,5 +93,10 @@ public class SquareEnemyController : MonoBehaviour
         audioSource.Play();
         Jump();
         Destroy(gameObject.transform.parent.gameObject, 0.5f);
+    }
+
+    public void Kill()
+    {
+        Die();
     }
 }
