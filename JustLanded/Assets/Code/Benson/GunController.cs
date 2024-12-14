@@ -70,10 +70,11 @@ public class GunController : MonoBehaviour
             }
             else
             {
-                var rotation = pistol.transform.rotation;
-                rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z - 180);
-                //rotation = Quaternion.Euler(rotation.x, rotation.y -180, rotation.z);
-                bulletInstance = Instantiate(bullet, bulletSpawnPoint.position, rotation);
+                var rotation = pistol.transform.rotation.eulerAngles;
+                Debug.Log(rotation);
+                var eulerRotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z - 180);
+                //var eulerRotation = Quaternion.Euler(rotation.x, rotation.y -180, rotation.z);
+                bulletInstance = Instantiate(bullet, bulletSpawnPoint.position, eulerRotation);
             }
         }
     }
@@ -86,7 +87,7 @@ public class GunController : MonoBehaviour
     {
 
         var aimAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Debug.Log("Aiming at " + direction + " with aiming angle " + aimAngle);
+        //Debug.Log("Aiming at " + direction + " with aiming angle " + aimAngle);
         //if (isFlipped)
         if (movementController.IsFacingRight())
         {
