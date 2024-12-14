@@ -71,7 +71,7 @@ public class GunController : MonoBehaviour
             else
             {
                 var rotation = pistol.transform.rotation.eulerAngles;
-                Debug.Log(rotation);
+                //Debug.Log(rotation);
                 var eulerRotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z - 180);
                 //var eulerRotation = Quaternion.Euler(rotation.x, rotation.y -180, rotation.z);
                 bulletInstance = Instantiate(bullet, bulletSpawnPoint.position, eulerRotation);
