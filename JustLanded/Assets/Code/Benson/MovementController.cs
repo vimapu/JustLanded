@@ -68,6 +68,16 @@ public class MovementController : MonoBehaviour
         //gunController.Flip();
     }
 
+    public void SetFacingRight()
+    {
+        if (!isFacingRight)
+        {
+            var localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
+    }
+
     public void SetPlatformRB(Rigidbody2D rigidbody)
     {
         platoformRigidbody = rigidbody;

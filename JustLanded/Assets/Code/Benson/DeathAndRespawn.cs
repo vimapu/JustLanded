@@ -10,6 +10,7 @@ public class DeathAndRespawnController : MonoBehaviour
     private bool isDead = false;
     private Vector2 respawnPosition;
     private BashController bashController;
+    private MovementController movementController;
 
     [SerializeField] float respawnJumpSpeed = 10f;
 
@@ -67,6 +68,7 @@ public class DeathAndRespawnController : MonoBehaviour
         transform.position = (Vector2)respawnPosition;
         collider.enabled = true;
         isDead = false;
+        movementController.SetFacingRight();
         //rigidbody.transform.parent = null;
         Jump();
         //Debug.Log("Respawning from position " + transform.position);
