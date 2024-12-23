@@ -54,7 +54,7 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
         killPoints += points;
     }
 
-    private void AddCollectedGear(int points)
+    private void AddCollectedGear(float points)
     {
         collectedGear++;
         gearPoints += points;

@@ -2,5 +2,10 @@
 
 public class GearCollectedEvent
 {
-    public int Points { get; }
+
+    public GearCollectedEvent(float points)
+    {
+        Points = points;
+    }
+    public float Points { get; }
 }
