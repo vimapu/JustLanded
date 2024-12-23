@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IListener<T>
 {
-    void Update(T notification);
+    void Notify(T notification);
 
 }

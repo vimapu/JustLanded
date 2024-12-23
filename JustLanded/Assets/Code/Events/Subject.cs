@@ -6,6 +6,9 @@ public abstract class Subject<T>
 
     void Add(IListener<T> listener)
     {
+        if(Listeners == null) {
+            Listeners = new List<IListener<T>>();
+        }
         Listeners.Add(listener);
     }
 

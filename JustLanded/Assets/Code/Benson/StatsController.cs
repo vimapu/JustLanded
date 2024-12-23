@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatsController : MonoBehaviour
+public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>
 {
 
     [Header("Stat parameters")]
@@ -14,6 +14,7 @@ public class StatsController : MonoBehaviour
     private float numOfEnemies = 0;
     private float numOfKill = 0;
     private float killPoints = 0;
+    private float currentHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -23,18 +24,35 @@ public class StatsController : MonoBehaviour
         numOfEnemies += GameObject.FindGameObjectsWithTag("SquareEnemy").Length;
         // count num of gear
         numOfGear += GameObject.FindGameObjectsWithTag("Gear").Length;
+
+        currentHealth = maxHealth;
     }
 
     // called by the observed when it dies
-    public void addDeadEnemy(float points)
+    private void AddDeadEnemy(float points)
     {
         numOfKill++;
         killPoints += points;
     }
 
-    public void addCollectedGear(float points)
+    private void AddCollectedGear(int points)
     {
         collectedGear++;
         gearPoints += points;
+    }
+
+    public void Notify(GearCollectedEvent notification)
+    {
+        AddCollectedGear(notification.Points);
+    }
+
+    public void Notify(HealthItemCollectedEvent notification)
+    {
+        currentHealth = Mathf.Min(maxHealth, currentHealth + notification.HealthPoints);
+    }
+
+    public void Notify(DeadEnemyEvent notification)
+    {
+        AddDeadEnemy(notification.Points);
     }
 }
