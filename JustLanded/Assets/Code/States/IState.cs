@@ -1,15 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+
+
 using UnityEngine;
 
 public interface IState
 {
-    
+
+    void SetContext(StateContext context);
+    void EnterState();
+    void ExitState();
     void RunUpdateLogic();
 
     void RunPhysicsLogic();
 
-    // it should return null if it is in the right state
-    IState GetOptionalNextState();
-
+    // it checks conditions and moves to the next state
+    void CheckConditions();
+    void OnCollisionEnter2D(Collision2D collision);
+    void OnCollisionExit2D(Collision2D collision);
+    void OnTriggerEnter2D(Collider2D collider);
+    void OnTriggerExit2D(Collider2D collider);
 }
