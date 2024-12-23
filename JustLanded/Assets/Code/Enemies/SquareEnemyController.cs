@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SquareEnemyController : MonoBehaviour, IKillable
+public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>
 {
     [SerializeField] Transform[] positions;
     [SerializeField] float speed = 10f;
@@ -13,6 +13,7 @@ public class SquareEnemyController : MonoBehaviour, IKillable
     private Vector2 direction;
     private Rigidbody2D rigidbody;
     private bool isAlive = true;
+    private List<IListener<DeadEnemyEvent>> Listeners;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,7 @@ public class SquareEnemyController : MonoBehaviour, IKillable
         nextPosition = positions[positionIndex];
         audioSource = GetComponent<AudioSource>();
         CalculateDirection();
+        Listeners = new List<IListener<DeadEnemyEvent>>();
     }
 
     // Update is called once per frame
@@ -98,5 +100,24 @@ public class SquareEnemyController : MonoBehaviour, IKillable
     public void Kill()
     {
         Die();
+    }
+
+    public void Add(IListener<DeadEnemyEvent> listener)
+    {
+        Debug.Log("Adding listener to enemy subject");
+        Listeners.Add(listener);
+    }
+
+    public void Detach(IListener<DeadEnemyEvent> listener)
+    {
+        Listeners.Remove(listener);
+    }
+
+    public void Notify(DeadEnemyEvent notification)
+    {
+        foreach (IListener<DeadEnemyEvent> listener in Listeners)
+        {
+            listener.Notify(notification);
+        }
     }
 }

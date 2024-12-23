@@ -2,5 +2,10 @@
 
 public class DeadEnemyEvent
 {
-    public int Points { get; }
+    public DeadEnemyEvent(float points)
+    {
+        Points = points;
+    }
+
+    public float Points { get; }
 }

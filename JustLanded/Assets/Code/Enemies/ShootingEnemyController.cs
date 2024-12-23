@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingEnemyController : MonoBehaviour, IKillable
+public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>
 {
     [SerializeField] float respawnDelay = 1f;
     [SerializeField] GameObject spit;
@@ -10,6 +10,7 @@ public class ShootingEnemyController : MonoBehaviour, IKillable
     [SerializeField] GameObject player;
     [SerializeField] float secondBetweenShots;
     [SerializeField] bool doesRespawn = false;
+    [SerializeField] float points = 0;
 
     private AudioSource audioSource;
     private float aimAngle;
@@ -18,6 +19,7 @@ public class ShootingEnemyController : MonoBehaviour, IKillable
     private float lastShotTime;
     private SpriteRenderer spriteRenderer;
     private bool isAlive = true;
+    private List<IListener<DeadEnemyEvent>> Listeners;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +28,7 @@ public class ShootingEnemyController : MonoBehaviour, IKillable
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         //player = GameObject.Find("Player");
+        Listeners = new List<IListener<DeadEnemyEvent>>();
     }
 
     // Update is called once per frame
@@ -61,13 +64,14 @@ public class ShootingEnemyController : MonoBehaviour, IKillable
     void OnTriggerEnter2D(Collider2D collider)
     {
         var player = collider.GetComponent<DeathAndRespawnController>();
-            if (player != null)
-            {
-                player.Kill(this);
-            }
+        if (player != null)
+        {
+            player.Kill(this);
+        }
     }
 
-    public void Kill() {
+    public void Kill()
+    {
         StartCoroutine(Die());
     }
 
@@ -77,6 +81,7 @@ public class ShootingEnemyController : MonoBehaviour, IKillable
         audioSource.Play();
         spriteRenderer.enabled = false;
         isAlive = false;
+        Notify(new DeadEnemyEvent(points));
         if (doesRespawn)
         {
             yield return new WaitForSeconds(respawnDelay);
@@ -94,5 +99,24 @@ public class ShootingEnemyController : MonoBehaviour, IKillable
     private bool CanShootAnotherBullet()
     {
         return isAlive && (Time.time - lastShotTime) > secondBetweenShots;
+    }
+
+    public void Add(IListener<DeadEnemyEvent> listener)
+    {
+        Debug.Log("Adding listener to enemy subject");
+        Listeners.Add(listener);
+    }
+
+    public void Detach(IListener<DeadEnemyEvent> listener)
+    {
+        Listeners.Remove(listener);
+    }
+
+    public void Notify(DeadEnemyEvent notification)
+    {
+        foreach (IListener<DeadEnemyEvent> listener in Listeners)
+        {
+            listener.Notify(notification);
+        }
     }
 }

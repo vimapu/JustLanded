@@ -20,7 +20,6 @@ public class CollectibleGearController : MonoBehaviour, Subject<GearCollectedEve
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            // TODO: add to the score
             Notify(new GearCollectedEvent(value));
             Destroy(gameObject);
         }
@@ -30,6 +29,7 @@ public class CollectibleGearController : MonoBehaviour, Subject<GearCollectedEve
 
     public void Add(IListener<GearCollectedEvent> listener)
     {
+        Debug.Log("Adding listener to gear controller");
         Listeners.Add(listener);
     }
 
