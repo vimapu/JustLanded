@@ -3,30 +3,32 @@ using Unity.VisualScripting;
 
 public class StateContext
 {
-    private IState State;
+    private IState _state;
 
     public StateContext(IState initialState)
     {
-        State = initialState;
+        _state = initialState;
+        _state.EnterState();
+        _state.SetContext(this);
     }
 
-    void RunUpdateLogic()
+    public void RunUpdateLogic()
     {
-        State.CheckConditions();
-        State.RunUpdateLogic();
+        _state.CheckConditions();
+        _state.RunUpdateLogic();
     }
 
-    void RunPhysicsLogic()
+    public void RunPhysicsLogic()
     {
-        State.RunPhysicsLogic();
+        _state.RunPhysicsLogic();
     }
 
-    void ChangeState(IState newState)
+    public void ChangeState(IState newState)
     {
-        State.ExitState();
-        State = newState;
-        State.EnterState();
-        State.SetContext(this);
+        _state.ExitState();
+        _state = newState;
+        _state.EnterState();
+        _state.SetContext(this);
     }
 
 
