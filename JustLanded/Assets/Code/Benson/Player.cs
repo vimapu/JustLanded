@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Jobs;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,14 +27,16 @@ public class Player : MonoBehaviour
     [Header("Respawning parameters")]
     [SerializeField] float RespawnJumpSpeed = 10f;
 
-    [Header("Jump System")]
+    [Header("Jump parameters")]
     [SerializeField] float JumpPower = 10f;
     [SerializeField] float JumpPowerPercentWhenReleased;
-
     [SerializeField] LayerMask GroundLayer;
     [SerializeField] LayerMask WallLayer;
     [SerializeField] Transform WallCheckRight;
     [SerializeField] Transform WallCheckLeft;
+
+    [Header("Platform parameters")]
+    [SerializeField] LayerMask PlatformLayer;
 
 
 
@@ -54,6 +57,8 @@ public class Player : MonoBehaviour
     public IState OnStairsState { get { return _onStairsState; } }
     private IState _onSurfaceState;
     public IState OnSurfaceState { get { return _onSurfaceState; } }
+    private IState _onPlatformState;
+    public IState OnPlatformState { get { return _onPlatformState; } }
 
     // bashing attributes
     private bool _isBashing = false;
@@ -112,6 +117,7 @@ public class Player : MonoBehaviour
         _onStairsState = new GunControlStateDecorator(new OnStairsState(this));
         _onSurfaceState = new GunControlStateDecorator(new OnSurfaceState(this));
         _bashingState = new GunControlStateDecorator(new BashingState(this));
+        _onPlatformState = new GunControlStateDecorator(new OnPlatformState(this));
         stateContext = new StateContext(_onAirState);
         InputAction.Enable();
         _pistol = GameObject.Find("Pistol");
@@ -255,7 +261,11 @@ public class Player : MonoBehaviour
         return InputAction.IsPressed();
     }
 
-    private IEnumerator DisableCollision()
+    public void DisableCollision()
+    {
+        StartCoroutine(DisableCollisionRoutine());
+    }
+    private IEnumerator DisableCollisionRoutine()
     {
         BoxCollider2D platformColider = _currentOneWayPlatform.GetComponent<BoxCollider2D>();
 
@@ -321,6 +331,16 @@ public class Player : MonoBehaviour
     public bool IsGrounded()
     {
         return Physics2D.OverlapCapsule(_rigidbody.position, new Vector2(2.4f, 2.4f), CapsuleDirection2D.Horizontal, 0, GroundLayer);
+    }
+
+    public bool IsOnPlatform()
+    {
+        return Physics2D.OverlapCapsule(_rigidbody.position, new Vector2(2.4f, 2.4f), CapsuleDirection2D.Horizontal, 0, PlatformLayer);
+    }
+
+    public GameObject GetCurrentPlatform()
+    {
+        return Physics2D.OverlapCapsule(_rigidbody.position, new Vector2(2.4f, 2.4f), CapsuleDirection2D.Horizontal, 0, PlatformLayer).GameObject();
     }
 
     public bool IsWalled()

@@ -26,11 +26,15 @@ public class OnAirState : IState
 
     public void CheckConditions()
     {
-        if (_player.IsGrounded() || _player.IsWalled())
+        if (_player.IsOnPlatform())
+        {
+            _context.ChangeState(_player.OnPlatformState);
+        }
+        else if (_player.IsGrounded() || _player.IsWalled())
         {
             _context.ChangeState(_player.OnSurfaceState);
         }
-        else if (Gamepad.current.bButton.IsPressed())
+        else if (_player.IsBButtonPressed)
         {
             _context.ChangeState(_player.BashingState);
         }
