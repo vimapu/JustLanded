@@ -98,6 +98,8 @@ public class Player : MonoBehaviour
     public bool IsBButtonPressed { get { return _isBButtonPressed; } }
     private bool _isYButtonPressed = false;
     public bool IsYButtonPressed { get { return _isYButtonPressed; } }
+    private bool _isRightTriggerPressed;
+    public bool IsRightTriggerPressed { get { return _isRightTriggerPressed; } }
     private Vector2 _leftStickDirection;
     public Vector2 LeftStickDirection { get { return _leftStickDirection; } }
 
@@ -123,6 +125,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RecordInput();
         stateContext.RunUpdateLogic();
     }
 
@@ -146,6 +149,15 @@ public class Player : MonoBehaviour
     public bool IsBashing()
     {
         return _isBashing && (Time.time - _bashStartTime) < BashingTime;
+    }
+
+    private void RecordInput()
+    {
+        _leftStickDirection = InputAction.ReadValue<Vector2>();
+        _isAButtonPressed = Gamepad.current.aButton.IsPressed();
+        _isBButtonPressed = Gamepad.current.bButton.IsPressed();
+        _isYButtonPressed = Gamepad.current.yButton.IsPressed();
+        _isRightTriggerPressed = Gamepad.current.rightTrigger.IsPressed();
     }
 
     public void SetFacingRight()

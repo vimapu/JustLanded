@@ -68,7 +68,7 @@ public class OnAirState : IState
     public void RunUpdateLogic()
     {
         // it allows the player to move laterally and downwards
-        movement = new Vector2(_player.Rigidbody.velocity.x, Mathf.Max(0, _player.Rigidbody.velocity.y));
+        movement = new Vector2(_player.LeftStickDirection.x, Mathf.Max(0, _player.LeftStickDirection.y));
     }
 
     public void SetContext(StateContext context)
