@@ -54,12 +54,16 @@ public class OnAirState : IState
 
     public void RunPhysicsLogic()
     {
-        throw new System.NotImplementedException();
+        if (_player.IsAButtonPressed && _canDoubleJump && !_hasJumped)
+        {
+            _player.Rigidbody.velocity = new Vector2(_player.Rigidbody.velocity.x, _player.GetJumpPower());
+            _hasJumped = true;
+        }
     }
 
     public void RunUpdateLogic()
     {
-        throw new System.NotImplementedException();
+        // nothing, the pressing of controller buttons is done in the player update block
     }
 
     public void SetContext(StateContext context)

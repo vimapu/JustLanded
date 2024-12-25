@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] float RespawnJumpSpeed = 10f;
 
     [Header("Jump System")]
-    [SerializeField] float JumpPower;
+    [SerializeField] float JumpPower = 10f;
     [SerializeField] float JumpPowerPercentWhenReleased;
 
     [SerializeField] LayerMask GroundLayer;
@@ -39,6 +40,8 @@ public class Player : MonoBehaviour
     private GameObject _pistol;
 
     private Rigidbody2D _rigidbody;
+    public Rigidbody2D Rigidbody { get { return _rigidbody; } }
+
     private Collider2D _collider;
 
     private StateContext stateContext;
@@ -208,6 +211,11 @@ public class Player : MonoBehaviour
                 _pistol.transform.rotation = Quaternion.Euler(0, 0, aimAngle - 180);
             }
         }
+    }
+
+    public float GetJumpPower()
+    {
+        return JumpPower;
     }
 
     public void Flip()
