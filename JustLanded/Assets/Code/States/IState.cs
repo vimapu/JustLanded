@@ -14,8 +14,5 @@ public interface IState
 
     // it checks conditions and moves to the next state
     void CheckConditions();
-    void OnCollisionEnter2D(Collision2D collision);
-    void OnCollisionExit2D(Collision2D collision);
-    void OnTriggerEnter2D(Collider2D collider);
-    void OnTriggerExit2D(Collider2D collider);
+    
 }

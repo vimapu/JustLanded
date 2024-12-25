@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class OnAirState : IState
 {
@@ -11,6 +12,11 @@ public class OnAirState : IState
     private Player _player;
     private StateContext _context;
 
+    // internal attributes  
+    private bool _hasJumped;
+    private bool _canDoubleJump;
+
+
     public OnAirState(Player player)
     {
         _player = player;
@@ -18,38 +24,33 @@ public class OnAirState : IState
 
     public void CheckConditions()
     {
-        throw new System.NotImplementedException();
+        if (_player.IsGrounded() || _player.IsWalled())
+        {
+            _context.ChangeState(_player.OnSurfaceState);
+        }
+        else if (Gamepad.current.bButton.IsPressed())
+        {
+            _context.ChangeState(_player.BashingState);
+        }
+        else if (_player.IsInLadder)
+        {
+            _context.ChangeState(_player.OnStairsState);
+        }
     }
 
     public void EnterState()
     {
-        throw new System.NotImplementedException();
+        _hasJumped = false;
+        _canDoubleJump = _player.CanDoubleJump();
     }
 
     public void ExitState()
     {
-        throw new System.NotImplementedException();
+        _player.IsJumping = false;
+        _hasJumped = false;
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        throw new System.NotImplementedException();
-    }
 
-    public void OnCollisionExit2D(Collision2D collision)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnTriggerEnter2D(Collider2D collider)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnTriggerExit2D(Collider2D collider)
-    {
-        throw new System.NotImplementedException();
-    }
 
     public void RunPhysicsLogic()
     {

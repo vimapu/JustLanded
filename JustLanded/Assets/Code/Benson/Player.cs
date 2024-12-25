@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -75,17 +76,28 @@ public class Player : MonoBehaviour
     private float _vertical;
     private float _speed = 8f;
     private float _gravityScale;
+    private bool _isInLadder = false;
+    public bool IsInLadder { get { return _isInLadder; } }
 
     // death and respawning attributes
     private bool _isDead = false;
     private Vector2 _respawnPosition;
     // jump attributes
-    private bool isAPressed = false;
-
     private bool canDoubleJump = false;
     private bool hasLearnedDoubleJump = false;
+    private bool _isJumping = false;
+    public bool IsJumping { get { return _isJumping; } set { _isJumping = value; } }
 
-    private bool isJumping = false;
+    // gamepad controller attributes
+    private bool _isAButtonPressed = false;
+    public bool IsAButtonPressed { get { return _isAButtonPressed; } }
+    private bool _isBButtonPressed = false;
+    public bool IsBButtonPressed { get { return _isBButtonPressed; } }
+    private bool _isYButtonPressed = false;
+    public bool IsYButtonPressed { get { return _isYButtonPressed; } }
+    private Vector2 _leftStickDirection;
+    public Vector2 LeftStickDirection { get { return _leftStickDirection; } }
+
 
     // Start is called before the first frame update
     void Start()
@@ -281,12 +293,12 @@ public class Player : MonoBehaviour
         Jump();
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics2D.OverlapCapsule(_rigidbody.position, new Vector2(2.4f, 2.4f), CapsuleDirection2D.Horizontal, 0, GroundLayer);
     }
 
-    private bool IsWalled()
+    public bool IsWalled()
     {
         return Physics2D.OverlapCircle(WallCheckRight.position, 0.5f, WallLayer)
         || Physics2D.OverlapCircle(WallCheckLeft.position, 0.5f, WallLayer);
@@ -297,9 +309,14 @@ public class Player : MonoBehaviour
         hasLearnedDoubleJump = true;
     }
 
+    public bool CanDoubleJump()
+    {
+        return hasLearnedDoubleJump;
+    }
+
     public void Jump(float power)
     {
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, power);
-        isJumping = true;
+        _isJumping = true; // TODO: see if it can be substituted by isOnAir
     }
 }
