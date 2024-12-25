@@ -15,6 +15,8 @@ public class OnAirState : IState
     // internal attributes  
     private bool _hasJumped;
     private bool _canDoubleJump;
+    private float _movementSpeed;
+    private Vector2 movement;
 
 
     public OnAirState(Player player)
@@ -42,6 +44,7 @@ public class OnAirState : IState
     {
         _hasJumped = false;
         _canDoubleJump = _player.CanDoubleJump();
+        _movementSpeed = _player.GetMovementSpeed();
     }
 
     public void ExitState()
@@ -50,8 +53,6 @@ public class OnAirState : IState
         _hasJumped = false;
     }
 
-
-
     public void RunPhysicsLogic()
     {
         if (_player.IsAButtonPressed && _canDoubleJump && !_hasJumped)
@@ -59,11 +60,15 @@ public class OnAirState : IState
             _player.Rigidbody.velocity = new Vector2(_player.Rigidbody.velocity.x, _player.GetJumpPower());
             _hasJumped = true;
         }
+        float xMovement = movement.x * _movementSpeed;
+        float yMovement = movement.y * _movementSpeed;
+        _player.Rigidbody.velocity = new Vector2(xMovement, _player.Rigidbody.velocity.y + yMovement);
     }
 
     public void RunUpdateLogic()
     {
-        // nothing, the pressing of controller buttons is done in the player update block
+        // it allows the player to move laterally and downwards
+        movement = new Vector2(_player.Rigidbody.velocity.x, Mathf.Max(0, _player.Rigidbody.velocity.y));
     }
 
     public void SetContext(StateContext context)

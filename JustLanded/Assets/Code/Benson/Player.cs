@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] float BashingTime = 0.5f;
 
     [Header("Movement parameters")]
-    [SerializeField] float Speed;
+    [SerializeField] float MovementSpeed;
     [SerializeField] InputAction InputAction;
     [SerializeField] private CircleCollider2D playerCollider;
 
@@ -216,6 +216,11 @@ public class Player : MonoBehaviour
     public float GetJumpPower()
     {
         return JumpPower;
+    }
+
+    public float GetMovementSpeed()
+    {
+        return MovementSpeed;
     }
 
     public void Flip()
