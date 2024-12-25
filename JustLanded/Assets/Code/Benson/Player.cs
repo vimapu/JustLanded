@@ -24,6 +24,16 @@ public class Player : MonoBehaviour
     [Header("Respawning parameters")]
     [SerializeField] float RespawnJumpSpeed = 10f;
 
+    [Header("Jump System")]
+    [SerializeField] float JumpPower;
+    [SerializeField] float JumpPowerPercentWhenReleased;
+
+    [SerializeField] LayerMask GroundLayer;
+    [SerializeField] LayerMask WallLayer;
+    [SerializeField] Transform WallCheckRight;
+    [SerializeField] Transform WallCheckLeft;
+
+
 
     private GameObject _pistol;
 
@@ -69,7 +79,13 @@ public class Player : MonoBehaviour
     // death and respawning attributes
     private bool _isDead = false;
     private Vector2 _respawnPosition;
+    // jump attributes
+    private bool isAPressed = false;
 
+    private bool canDoubleJump = false;
+    private bool hasLearnedDoubleJump = false;
+
+    private bool isJumping = false;
 
     // Start is called before the first frame update
     void Start()
@@ -263,5 +279,27 @@ public class Player : MonoBehaviour
         SetFacingRight();
 
         Jump();
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapCapsule(_rigidbody.position, new Vector2(2.4f, 2.4f), CapsuleDirection2D.Horizontal, 0, GroundLayer);
+    }
+
+    private bool IsWalled()
+    {
+        return Physics2D.OverlapCircle(WallCheckRight.position, 0.5f, WallLayer)
+        || Physics2D.OverlapCircle(WallCheckLeft.position, 0.5f, WallLayer);
+    }
+
+    public void LearnDoubleJump()
+    {
+        hasLearnedDoubleJump = true;
+    }
+
+    public void Jump(float power)
+    {
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, power);
+        isJumping = true;
     }
 }
