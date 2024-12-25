@@ -7,19 +7,24 @@ public class Player : MonoBehaviour
 
     private StateContext stateContext;
     // states' declarations
-    private BashingState bashingState;
-    private OnAirState onAirState;
-    private OnStairsState onStairsState;
-    private OnSurfaceState onSurfaceState;
+    private IState _bashingState;
+    public IState BashingState { get { return _bashingState; } }
+    private IState _onAirState;
+    public IState OnAirState { get { return _onAirState; } }
+    private IState _onStairsState;
+    public IState OnStairsState { get { return _onStairsState; } }
+    private IState _onSurfaceState;
+    public IState OnSurfaceState { get { return _onSurfaceState; } }
+
 
     // Start is called before the first frame update
     void Start()
     {
-        onAirState = new OnAirState(this);
-        onStairsState = new OnStairsState(this);
-        onSurfaceState = new OnSurfaceState(this);
-        bashingState = new BashingState(this);
-        stateContext = new StateContext(onAirState);
+        _onAirState = new GunControlStateDecorator(new OnAirState(this));
+        _onStairsState = new GunControlStateDecorator(new OnStairsState(this));
+        _onSurfaceState = new GunControlStateDecorator(new OnSurfaceState(this));
+        _bashingState = new GunControlStateDecorator(new BashingState(this));
+        stateContext = new StateContext(_onAirState);
     }
 
     // Update is called once per frame
@@ -28,7 +33,8 @@ public class Player : MonoBehaviour
         stateContext.RunUpdateLogic();
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         stateContext.RunPhysicsLogic();
     }
 }
