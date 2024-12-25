@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [Header("Movement parameters")]
     [SerializeField] float Speed;
     [SerializeField] InputAction InputAction;
+    [SerializeField] private CircleCollider2D playerCollider;
 
     [Header("Gun parameters")]
     [SerializeField] GameObject Pistol;
@@ -20,10 +21,14 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject Bullet;
     [SerializeField] Transform BulletSpawnPoint;
 
+    [Header("Respawning parameters")]
+    [SerializeField] float RespawnJumpSpeed = 10f;
+
 
     private GameObject _pistol;
 
     private Rigidbody2D _rigidbody;
+    private Collider2D _collider;
 
     private StateContext stateContext;
     // states' declarations
@@ -46,12 +51,24 @@ public class Player : MonoBehaviour
 
     // gun attributes
     private GameObject _bulletInstance;
-
     private Vector2 _direction; //TODO: remove for unified direction vector
     private bool _isFlipped;
     private bool _isInputPressed = false;
     private float _lastShotTime;
     private bool _isGunActive = false;
+
+    // platform attributes
+    private GameObject _currentOneWayPlatform;
+
+    // ladder attributes
+    private bool _canClimb;
+    private float _vertical;
+    private float _speed = 8f;
+    private float _gravityScale;
+
+    // death and respawning attributes
+    private bool _isDead = false;
+    private Vector2 _respawnPosition;
 
 
     // Start is called before the first frame update
@@ -66,6 +83,10 @@ public class Player : MonoBehaviour
         InputAction.Enable();
         _pistol = GameObject.Find("Pistol");
         _pistol.SetActive(false);
+        _canClimb = false;
+        _gravityScale = GetComponent<Rigidbody2D>().gravityScale;
+        _collider = GetComponent<Collider2D>();
+        SetRespawnPosition(transform.position);
     }
 
     // Update is called once per frame
@@ -174,5 +195,73 @@ public class Player : MonoBehaviour
     public void DeactivateGun()
     {
         _isGunActive = false;
+    }
+
+    public bool IsPressingDown()
+    {
+        return InputAction.IsPressed();
+    }
+
+    private IEnumerator DisableCollision()
+    {
+        BoxCollider2D platformColider = _currentOneWayPlatform.GetComponent<BoxCollider2D>();
+
+        Physics2D.IgnoreCollision(playerCollider, platformColider);
+        yield return new WaitForSeconds(0.25f);
+
+        Physics2D.IgnoreCollision(playerCollider, platformColider, false);
+    }
+
+    public void EnableClimbing()
+    {
+        _canClimb = true;
+        _rigidbody.gravityScale = 0f;
+    }
+
+    public void DisableClimbing()
+    {
+        _canClimb = false;
+        _rigidbody.gravityScale = _gravityScale;
+    }
+
+    public void SetRespawnPosition(Vector2 position)
+    {
+        _respawnPosition = position;
+    }
+
+    private void Jump()
+    {
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, RespawnJumpSpeed);
+        //rigidbody.velocity = new Vector2(0, respawnJumpSpeed);
+    }
+
+    public void Die()
+    {
+        _isDead = true;
+        _collider.enabled = false;
+        StartCoroutine(Respawn());
+    }
+
+    public void Kill(IKillable killer)
+    {
+        if (IsBashing())
+        {
+            killer.Kill();
+        }
+        else
+        {
+            Die();
+        }
+    }
+
+    private IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(0.4f);
+        transform.position = (Vector2)_respawnPosition;
+        _collider.enabled = true;
+        _isDead = false;
+        SetFacingRight();
+
+        Jump();
     }
 }
