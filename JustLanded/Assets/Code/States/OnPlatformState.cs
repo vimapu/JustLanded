@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class OnPlatformState : IState
@@ -11,11 +12,11 @@ public class OnPlatformState : IState
     private bool _isOneWayPlatform;
     private Vector2 _movement;
     private float _movementSpeed;
-    private float _jumpSpeed;
 
     public OnPlatformState(Player player)
     {
         _player = player;
+        _movementSpeed = _player.GetMovementSpeed();
     }
     public void CheckConditions()
     {
@@ -25,7 +26,11 @@ public class OnPlatformState : IState
         }
         else if (!_player.IsOnPlatform())
         {
-            if (_player.IsGrounded() || _player.IsWalled())
+            if (_player.IsOnAir)
+            {
+                _context.ChangeState(_player.OnAirState);
+            }
+            else if (_player.IsGrounded() || _player.IsWalled())
             {
                 _context.ChangeState(_player.OnSurfaceState);
             }
@@ -38,6 +43,7 @@ public class OnPlatformState : IState
 
     public void EnterState()
     {
+        Debug.Log("Entering OnPlatformState");
         var currentPlatform = _player.GetCurrentPlatform();
         _currentPlatformRigidBody = currentPlatform.GetComponent<Rigidbody2D>();
         _isOneWayPlatform = currentPlatform.CompareTag("OneWayPlatform");
@@ -45,24 +51,27 @@ public class OnPlatformState : IState
 
     public void ExitState()
     {
+        Debug.Log("Exiting OnPlatformState");
         _isOneWayPlatform = false;
         _currentPlatformRigidBody = null;
     }
 
     public void RunPhysicsLogic()
     {
-        float yMovement = 0f;
-
         if (_player.IsAButtonPressed) // jumping
         {
-            yMovement = _player.GetJumpPower();
+            _player.Jump(_player.GetJumpPower());
         }
-        else if (_isOneWayPlatform && _movement.y < 0.01f) // going through one way platforms
+        else
         {
-            yMovement = _movement.y * _movementSpeed;
-            _player.DisableCollision();
+            float yMovement = 0f;
+            if (_isOneWayPlatform && _movement.y < 0.01f) // going through one way platforms
+            {
+                yMovement = _movement.y * _movementSpeed;
+                _player.DisableCollision();
+            }
+            _player.Rigidbody.velocity = new Vector2(_movement.x * _movementSpeed, yMovement) + _currentPlatformRigidBody.velocity;
         }
-        _player.Rigidbody.velocity = new Vector2(_movement.x * _movementSpeed, yMovement) + _currentPlatformRigidBody.velocity;
     }
 
     public void RunUpdateLogic()

@@ -23,7 +23,7 @@ public class OnSurfaceState : IState
         {
             _context.ChangeState(_player.BashingState);
         }
-        else if (!_player.IsGrounded())
+        else if (!_player.IsGrounded() && !_player.IsWalled())
         {
             if (_player.IsOnAir)
             {
