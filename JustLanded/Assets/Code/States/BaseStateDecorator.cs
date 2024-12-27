@@ -17,9 +17,13 @@ public class BaseStateDecorator : IState
 
     public void CheckConditions()
     {
-        if (_player.IsBButtonPressed)
+        if (_player.IsBButtonPressed && !_decoratedState.Equals(_player.BashingState))
         {
             _context.ChangeState(_player.BashingState);
+        }
+        else if (_player.IsInLadder && !_decoratedState.Equals(_player.OnStairsState))
+        {
+            _context.ChangeState(_player.OnStairsState);
         }
         else
         {

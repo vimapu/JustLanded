@@ -22,21 +22,21 @@ public class OnPlatformState : IState
     {
         if (_player.IsBButtonPressed)
         {
-        //    _context.ChangeState(_player.BashingState);
+            //    _context.ChangeState(_player.BashingState);
         }
         else if (!_player.IsOnPlatform())
         {
-            if (_player.IsOnAir)
-            {
-                _context.ChangeState(_player.OnAirState);
-            }
-            else if (_player.IsGrounded() || _player.IsWalled())
+            if (_player.IsGrounded() || _player.IsWalled())
             {
                 _context.ChangeState(_player.OnSurfaceState);
             }
             else if (_player.IsInLadder)
             {
                 _context.ChangeState(_player.OnStairsState);
+            }
+            else
+            {
+                _context.ChangeState(_player.OnAirState);
             }
         }
     }

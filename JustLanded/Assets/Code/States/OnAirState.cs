@@ -30,17 +30,13 @@ public class OnAirState : IState
         {
             _context.ChangeState(_player.OnPlatformState);
         }
-        else if (_player.IsGrounded() || _player.IsWalled())
-        {
-            _context.ChangeState(_player.OnSurfaceState);
-        }
         // else if (_player.IsBButtonPressed)
         // {
         //     _context.ChangeState(_player.BashingState);
         // }
-        else if (_player.IsInLadder)
+        else if (_player.IsGrounded() || _player.IsWalled())
         {
-            _context.ChangeState(_player.OnStairsState);
+            _context.ChangeState(_player.OnSurfaceState);
         }
     }
 
