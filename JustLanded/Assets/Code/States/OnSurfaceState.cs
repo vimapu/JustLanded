@@ -19,15 +19,14 @@ public class OnSurfaceState : IState
 
     public void CheckConditions()
     {
-        if (!_player.IsGrounded())
+        if (_player.IsBButtonPressed)
         {
-            if (_player.IsBashing())
+            _context.ChangeState(_player.BashingState);
+        }
+        else if (!_player.IsGrounded())
+        {
+            if (_player.IsOnAir)
             {
-                _context.ChangeState(_player.BashingState);
-            }
-            else if (_player.IsJumping)
-            {
-                Debug.Log("About to change to on air state");
                 _context.ChangeState(_player.OnAirState);
             }
             else if (_player.IsOnPlatform())
@@ -41,6 +40,8 @@ public class OnSurfaceState : IState
     {
         // TODO: implement
         Debug.Log("Entering on surface state");
+        _player.IsOnAir = false;
+
     }
 
     public void ExitState()

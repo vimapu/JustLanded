@@ -93,8 +93,10 @@ public class Player : MonoBehaviour
     // jump attributes
     private bool canDoubleJump = false;
     private bool hasLearnedDoubleJump = false;
-    private bool _isJumping = false;
-    public bool IsJumping { get { return _isJumping; } set { _isJumping = value; } }
+    private bool _isOnAir = false;
+    public bool IsOnAir { get { return _isOnAir; } set { _isOnAir = value; } }
+    private bool _hasDoubleJumped = false;
+    public bool HasDoubleJumped { get { return _hasDoubleJumped; } set { _hasDoubleJumped = value; } }
 
     // gamepad controller attributes
     private bool _isAButtonPressed = false;
@@ -141,21 +143,21 @@ public class Player : MonoBehaviour
     }
 
     /* Methods to control the bashing state*/
-    void StartBash()
+    public void StartBash()
     {
         _isBashing = true;
-        _bashStartTime = Time.time;
+        //_bashStartTime = Time.time;
     }
 
-    void FinishBash()
+    public void FinishBash()
     {
         _isBashing = false;
     }
 
-    public bool IsBashing()
-    {
-        return _isBashing && (Time.time - _bashStartTime) < BashingTime;
-    }
+    // public bool IsBashing()
+    // {
+    //     return _isBashing && (Time.time - _bashStartTime) < BashingTime;
+    // }
 
     private void RecordInput()
     {
@@ -307,7 +309,7 @@ public class Player : MonoBehaviour
 
     public void Kill(IKillable killer)
     {
-        if (IsBashing())
+        if (_isBashing)
         {
             killer.Kill();
         }
@@ -362,6 +364,17 @@ public class Player : MonoBehaviour
     public void Jump(float power)
     {
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, power);
-        _isJumping = true; // TODO: see if it can be substituted by isOnAir
+        _isOnAir = true;
     }
+    public float GetBashingSpeed()
+    {
+        return BashingSpeed;
+    }
+
+    public float GetBashingTime()
+    {
+        return BashingTime;
+    }
+
 }
+

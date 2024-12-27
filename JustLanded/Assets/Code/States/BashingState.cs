@@ -5,9 +5,18 @@ public class BashingState : IState
 
     private Player _player;
     private StateContext _context;
+
+    private float _bashingTime;
+    private float _bashStartTime;
+    private float _bashingSpeed;
+
+
+
     public BashingState(Player player)
     {
         _player = player;
+        _bashingTime = _player.GetBashingTime();
+        _bashingSpeed = _player.GetBashingSpeed();
     }
 
     /**
@@ -16,31 +25,59 @@ public class BashingState : IState
  **/
     public void CheckConditions()
     {
-        throw new System.NotImplementedException();
+        if (!IsBashing())
+        {
+            if (_player.IsInLadder)
+            {
+                _context.ChangeState(_player.OnStairsState);
+            }
+            else if (_player.IsOnAir)
+            {
+                _context.ChangeState(_player.OnAirState);
+            }
+            else if (_player.IsGrounded() || _player.IsWalled())
+            {
+                _context.ChangeState(_player.OnSurfaceState);
+            }
+            else if (_player.IsOnPlatform())
+            {
+                _context.ChangeState(_player.OnPlatformState);
+            }
+        }
     }
 
     public void EnterState()
     {
-        throw new System.NotImplementedException();
+        _bashStartTime = Time.time;
+        _player.StartBash();
+        Debug.Log("Entering bashing state");
     }
 
     public void ExitState()
     {
-        throw new System.NotImplementedException();
+        _player.FinishBash();
+        Debug.Log("Exiting BashingState");
     }
 
     public void RunPhysicsLogic()
     {
-        throw new System.NotImplementedException();
+        var speed = _player.IsFacingRight() ? _bashingSpeed : -_bashingSpeed;
+        _player.Rigidbody.velocity = new Vector2(speed, _player.Rigidbody.velocity.y);
     }
 
     public void RunUpdateLogic()
     {
-        throw new System.NotImplementedException();
+        // TODO: implement if anything
     }
 
     public void SetContext(StateContext context)
     {
         _context = context;
+    }
+
+    private bool IsBashing()
+    {
+        Debug.Log("basing time " + (Time.time - _bashStartTime));
+        return (Time.time - _bashStartTime) < _bashingTime;
     }
 }

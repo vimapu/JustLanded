@@ -55,7 +55,6 @@ public class OnAirState : IState
     public void ExitState()
     {
         Debug.Log("Exiting OnAirState");
-        _player.IsJumping = false;
         _hasJumped = false;
     }
 
