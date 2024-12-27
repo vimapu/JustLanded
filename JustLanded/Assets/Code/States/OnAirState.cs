@@ -13,10 +13,12 @@ public class OnAirState : IState
     private StateContext _context;
 
     // internal attributes  
-    private bool _hasJumped;
+    private bool _hasJumped = false;
     private bool _canDoubleJump;
     private float _movementSpeed;
     private Vector2 movement;
+    private bool _hasJumpButtonBeenReleased = false;
+    private bool _wasPressed = true;
 
 
     public OnAirState(Player player)
@@ -30,10 +32,6 @@ public class OnAirState : IState
         {
             _context.ChangeState(_player.OnPlatformState);
         }
-        // else if (_player.IsBButtonPressed)
-        // {
-        //     _context.ChangeState(_player.BashingState);
-        // }
         else if (_player.IsGrounded() || _player.IsWalled())
         {
             _context.ChangeState(_player.OnSurfaceState);
@@ -42,37 +40,48 @@ public class OnAirState : IState
 
     public void EnterState()
     {
-        Debug.Log("Entering OnAirState");
+        //Debug.Log("Entering OnAirState");
         _hasJumped = false;
         _canDoubleJump = _player.CanDoubleJump();
         _movementSpeed = _player.GetMovementSpeed();
         _player.IsOnAir = true;
+        _hasJumpButtonBeenReleased = false;
     }
 
     public void ExitState()
     {
-        Debug.Log("Exiting OnAirState");
+        //Debug.Log("Exiting OnAirState");
+        Debug.Log("was pressed " + _wasPressed + " can double jump: " + _canDoubleJump + " has been released " + _hasJumpButtonBeenReleased + " has jumped " + _hasJumped);
         _hasJumped = false;
         _player.IsOnAir = false;
+        _hasJumpButtonBeenReleased = false;
     }
 
     public void RunPhysicsLogic()
     {
-        if (_player.IsAButtonPressed && _canDoubleJump && !_hasJumped)
+        if (_player.IsAButtonPressed && _canDoubleJump && _hasJumpButtonBeenReleased && !_hasJumped)
         {
-            _player.Rigidbody.velocity = new Vector2(_player.Rigidbody.velocity.x, _player.GetJumpPower());
+            //Debug.Log("Is double jumping");
+            _player.Jump(_player.GetJumpPower());
             _hasJumped = true;
         }
-        float xMovement = movement.x * _movementSpeed;
-        float yMovement = movement.y * _movementSpeed;// TODO: it adds to the jump, it should be only when positive
-        _player.Rigidbody.velocity = new Vector2(xMovement, _player.Rigidbody.velocity.y + yMovement);
-        //Debug.Log("RigibBodyVelocity: "+ _player.Rigidbody.velocity);
+        else
+        {
+            float xMovement = movement.x * _movementSpeed;
+            float yMovement = movement.y * _movementSpeed;
+            _player.Rigidbody.velocity = new Vector2(xMovement, _player.Rigidbody.velocity.y + yMovement);
+        }
     }
 
     public void RunUpdateLogic()
     {
         // it allows the player to move laterally and downwards
         movement = new Vector2(_player.LeftStickDirection.x, Mathf.Min(0, _player.LeftStickDirection.y));
+        if (_wasPressed && !_player.IsAButtonPressed)
+        {
+            _hasJumpButtonBeenReleased = true;
+        }
+        _wasPressed = _player.IsAButtonPressed;
     }
 
     public void SetContext(StateContext context)

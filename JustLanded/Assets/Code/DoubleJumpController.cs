@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class DoubleJumpController : MonoBehaviour
 {
-    private Jumping jumpingController;
+    private Player player;
 
     void Start()
     {
-        jumpingController = GameObject.FindGameObjectWithTag("Player").GetComponent<Jumping>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            jumpingController.LearnDoubleJump();
+            player.LearnDoubleJump();
             Destroy(gameObject);
         }
 
