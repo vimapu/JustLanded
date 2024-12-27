@@ -34,10 +34,10 @@ public class OnAirState : IState
         {
             _context.ChangeState(_player.OnSurfaceState);
         }
-        else if (_player.IsBButtonPressed)
-        {
-            _context.ChangeState(_player.BashingState);
-        }
+        // else if (_player.IsBButtonPressed)
+        // {
+        //     _context.ChangeState(_player.BashingState);
+        // }
         else if (_player.IsInLadder)
         {
             _context.ChangeState(_player.OnStairsState);
@@ -68,7 +68,7 @@ public class OnAirState : IState
             _hasJumped = true;
         }
         float xMovement = movement.x * _movementSpeed;
-        float yMovement = movement.y * _movementSpeed;
+        float yMovement = movement.y * _movementSpeed;// TODO: it adds to the jump, it should be only when positive
         _player.Rigidbody.velocity = new Vector2(xMovement, _player.Rigidbody.velocity.y + yMovement);
         //Debug.Log("RigibBodyVelocity: "+ _player.Rigidbody.velocity);
     }
@@ -76,7 +76,7 @@ public class OnAirState : IState
     public void RunUpdateLogic()
     {
         // it allows the player to move laterally and downwards
-        movement = new Vector2(_player.LeftStickDirection.x, Mathf.Max(0, _player.LeftStickDirection.y));
+        movement = new Vector2(_player.LeftStickDirection.x, Mathf.Min(0, _player.LeftStickDirection.y));
     }
 
     public void SetContext(StateContext context)

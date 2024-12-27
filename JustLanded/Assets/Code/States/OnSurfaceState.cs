@@ -21,7 +21,7 @@ public class OnSurfaceState : IState
     {
         if (_player.IsBButtonPressed)
         {
-            _context.ChangeState(_player.BashingState);
+    //        _context.ChangeState(_player.BashingState);
         }
         else if (!_player.IsGrounded() && !_player.IsWalled())
         {

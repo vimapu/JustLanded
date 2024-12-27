@@ -8,8 +8,8 @@ public class StateContext
     public StateContext(IState initialState)
     {
         _state = initialState;
+         _state.SetContext(this);
         _state.EnterState();
-        _state.SetContext(this);
     }
 
     public void RunUpdateLogic()

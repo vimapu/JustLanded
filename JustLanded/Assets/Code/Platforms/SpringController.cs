@@ -10,7 +10,7 @@ public class SpringController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            var jumpingController = collider.gameObject.GetComponent<Jumping>();
+            var jumpingController = collider.gameObject.GetComponent<Player>();
             jumpingController.Jump(jumpSpeed);
         }
     }

@@ -21,7 +21,10 @@ public class BaseStateDecorator : IState
         {
             _context.ChangeState(_player.BashingState);
         }
-        _decoratedState.CheckConditions();
+        else
+        {
+            _decoratedState.CheckConditions();
+        }
     }
 
     public void EnterState()
@@ -62,6 +65,7 @@ public class BaseStateDecorator : IState
 
     public void SetContext(StateContext context)
     {
+        _context = context;
         _decoratedState.SetContext(context);
     }
 }

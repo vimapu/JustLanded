@@ -22,7 +22,7 @@ public class OnPlatformState : IState
     {
         if (_player.IsBButtonPressed)
         {
-            _context.ChangeState(_player.BashingState);
+        //    _context.ChangeState(_player.BashingState);
         }
         else if (!_player.IsOnPlatform())
         {
@@ -47,6 +47,7 @@ public class OnPlatformState : IState
         var currentPlatform = _player.GetCurrentPlatform();
         _currentPlatformRigidBody = currentPlatform.GetComponent<Rigidbody2D>();
         _isOneWayPlatform = currentPlatform.CompareTag("OneWayPlatform");
+        _player.IsOnAir = false;
     }
 
     public void ExitState()

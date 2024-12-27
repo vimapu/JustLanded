@@ -208,18 +208,18 @@ public class Player : MonoBehaviour
     }
     public void UpdateGunRotation()
     {
-
-        var aimAngle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+//        var aimAngle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+        var aimAngle = Mathf.Atan2(LeftStickDirection.y, LeftStickDirection.x) * Mathf.Rad2Deg;
         if (_isFacingRight)
         {
-            if (_direction.x >= 0)
+            if (LeftStickDirection.x >= 0)
             {
                 _pistol.transform.rotation = Quaternion.Euler(0, 0, aimAngle);
             }
         }
         else
         {
-            if (_direction.x <= 0)
+            if (LeftStickDirection.x <= 0)
             {
                 _pistol.transform.rotation = Quaternion.Euler(0, 0, aimAngle - 180);
             }
