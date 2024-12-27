@@ -11,33 +11,33 @@ public class GunControlStateDecorator : IState
 
     public void CheckConditions()
     {
-        throw new System.NotImplementedException();
+        // TODO: implement
     }
 
     public void EnterState()
     {
-        throw new System.NotImplementedException();
+        // TODO: implement
     }
 
     public void ExitState()
     {
-        throw new System.NotImplementedException();
+        // TODO: implement
     }
 
 
 
     public void RunPhysicsLogic()
     {
-        throw new System.NotImplementedException();
+        _decoratedState.RunPhysicsLogic();
     }
 
     public void RunUpdateLogic()
     {
-        throw new System.NotImplementedException();
+        _decoratedState.RunUpdateLogic();
     }
 
     public void SetContext(StateContext context)
     {
-        throw new System.NotImplementedException();
+        _decoratedState.SetContext(context);
     }
 }
