@@ -111,17 +111,19 @@ public class Player : MonoBehaviour
     public bool IsRightTriggerPressed { get { return _isRightTriggerPressed; } }
     private Vector2 _leftStickDirection;
     public Vector2 LeftStickDirection { get { return _leftStickDirection; } }
+    private bool _isLeftStickPressed;
+    public bool IsLeftStickPressed { get { return _isLeftStickPressed; } }
 
 
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _onAirState = new GunControlStateDecorator(new OnAirState(this));
-        _OnLadderState = new GunControlStateDecorator(new OnLadderState(this));
-        _onSurfaceState = new GunControlStateDecorator(new OnSurfaceState(this));
-        _bashingState = new GunControlStateDecorator(new BashingState(this));
-        _onPlatformState = new GunControlStateDecorator(new OnPlatformState(this));
+        _onAirState = new BaseStateDecorator(this, new OnAirState(this));
+        _OnLadderState = new BaseStateDecorator(this, new OnLadderState(this));
+        _onSurfaceState = new BaseStateDecorator(this, new OnSurfaceState(this));
+        _bashingState = new BaseStateDecorator(this, new BashingState(this));
+        _onPlatformState = new BaseStateDecorator(this, new OnPlatformState(this));
         stateContext = new StateContext(_onAirState);
         InputAction.Enable();
         _pistol = GameObject.Find("Pistol");
@@ -168,17 +170,10 @@ public class Player : MonoBehaviour
         _isBButtonPressed = Gamepad.current.bButton.IsPressed();
         _isYButtonPressed = Gamepad.current.yButton.IsPressed();
         _isRightTriggerPressed = Gamepad.current.rightTrigger.IsPressed();
+        _isLeftStickPressed = InputAction.IsPressed();
     }
 
-    public void SetFacingRight()
-    {
-        if (!_isFacingRight)
-        {
-            var localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-        }
-    }
+
 
     public void CollectPistol()
     {
@@ -187,12 +182,8 @@ public class Player : MonoBehaviour
         ActivateGun();
     }
 
-    public bool IsFacingRight()
-    {
-        return _isFacingRight;
-    }
 
-    private void Shoot()
+    public void Shoot()
     {
         if (_lastShotTime != null && CanShootAnotherBullet()) // TODO: remove first clause
         {
@@ -215,7 +206,7 @@ public class Player : MonoBehaviour
     {
         return (Time.time - _lastShotTime) > SecondBetweenShots;
     }
-    private void UpdateGunRotation()
+    public void UpdateGunRotation()
     {
 
         var aimAngle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
@@ -235,6 +226,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ActivateGun()
+    {
+        _isGunActive = true;
+    }
+
+    public void DeactivateGun()
+    {
+        _isGunActive = false;
+    }
+
+    public bool IsGunActive()
+    {
+        return _isGunActive;
+    }
+
     public float GetJumpPower()
     {
         return JumpPower;
@@ -252,17 +258,24 @@ public class Player : MonoBehaviour
 
     public void Flip()
     {
+        _isFacingRight = !_isFacingRight;
+        var localScale = transform.localScale;
+        localScale.x *= -1f;
+        transform.localScale = localScale;
         _isFlipped = !_isFlipped;
+        //gunController.Flip();
     }
 
-    public void ActivateGun()
+    public void SetFacingRight()
     {
-        _isGunActive = true;
+        if (!_isFacingRight)
+        {
+            Flip();
+        }
     }
-
-    public void DeactivateGun()
+    public bool IsFacingRight()
     {
-        _isGunActive = false;
+        return _isFacingRight;
     }
 
     public bool IsPressingDown()
