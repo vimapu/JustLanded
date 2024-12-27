@@ -208,7 +208,6 @@ public class Player : MonoBehaviour
     }
     public void UpdateGunRotation()
     {
-//        var aimAngle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
         var aimAngle = Mathf.Atan2(LeftStickDirection.y, LeftStickDirection.x) * Mathf.Rad2Deg;
         if (_isFacingRight)
         {
