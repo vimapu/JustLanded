@@ -57,8 +57,8 @@ public class MovingCloudController : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             //Debug.Log("Entering platform");
-            collider.transform.parent = transform;
-            movementController.SetPlatformRB(rigidbody);
+            //collider.transform.parent = transform;
+            //movementController.SetPlatformRB(rigidbody);
             //playerRigidbody.gravityScale = playerRigidbody.gravityScale * gravityOnPlatform;
         }
     }
@@ -68,8 +68,8 @@ public class MovingCloudController : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             //Debug.Log("Exiting platform");
-            collider.transform.parent = null;
-            movementController.LeavePlatform();
+           // collider.transform.parent = null;
+            //movementController.LeavePlatform();
             //playerRigidbody.gravityScale = playerRigidbody.gravityScale / gravityOnPlatform;
         }
     }
