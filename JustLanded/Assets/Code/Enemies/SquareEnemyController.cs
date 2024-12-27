@@ -56,7 +56,7 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     {
         if (isAlive)
         {
-            var player = other.collider.GetComponent<DeathAndRespawnController>();
+            var player = other.collider.GetComponent<Player>();
             if (player != null)
             {
                 player.Die();
