@@ -3381,6 +3381,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 2
   doesRespawn: 0
+  points: 0
 --- !u!212 &506474352
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6622,6 +6623,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 2
   doesRespawn: 0
+  points: 0
 --- !u!212 &1164427725
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11856,6 +11858,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 2
   doesRespawn: 0
+  points: 0
 --- !u!212 &2026999851
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12276,6 +12279,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 1
   doesRespawn: 0
+  points: 0
 --- !u!212 &2076494128
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13206,6 +13210,7 @@ GameObject:
   - component: {fileID: 5483658214807844409}
   - component: {fileID: 288502366853630161}
   - component: {fileID: 7011605844506196693}
+  - component: {fileID: 8642320303142262478}
   - component: {fileID: 8642320303142262476}
   - component: {fileID: 7021859374427808490}
   - component: {fileID: 7488349029996633125}
@@ -27705,6 +27710,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 2
   doesRespawn: 0
+  points: 0
 --- !u!61 &3196248937018601446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -52564,6 +52570,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 1
   doesRespawn: 0
+  points: 0
 --- !u!4 &5099465630759095397
 Transform:
   m_ObjectHideFlags: 0
@@ -54690,6 +54697,89 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bashingSpeed: 80
   bashingTime: 0.2
+--- !u!114 &8642320303142262478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999486699472434773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbec3bbf8d2a81b40810980f7a3b31fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BashingSpeed: 80
+  BashingTime: 0.2
+  MovementSpeed: 20
+  InputAction:
+    m_Name: Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 3f12a46a-3181-4ad2-bff7-058706d37811
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 2D Vector
+      m_Id: e7f7f217-a30a-47e9-9ee5-277b5a50d9c1
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 4
+    - m_Name: up
+      m_Id: 2f743e8f-60b2-4ed3-9ecb-43734cdbdfe3
+      m_Path: <Gamepad>/leftStick/up
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 8
+    - m_Name: down
+      m_Id: ee91a44f-8377-4a8a-8839-f72edc78836e
+      m_Path: <Gamepad>/leftStick/down
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 8
+    - m_Name: left
+      m_Id: afdc866a-7fbe-430c-a3e6-dcea7745f0b7
+      m_Path: <Gamepad>/leftStick/left
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 8
+    - m_Name: right
+      m_Id: 128fe612-20af-4202-853d-d79a3c2e13c2
+      m_Path: <Gamepad>/leftStick/right
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 8
+    m_Flags: 0
+  playerCollider: {fileID: 7011605844506196693}
+  Pistol: {fileID: 5174503655026418341}
+  SecondBetweenShots: 0.2
+  Bullet: {fileID: 8882027379622580678, guid: 95036b0bc9052804d9443bf492107c37, type: 3}
+  BulletSpawnPoint: {fileID: 2137377807988845409}
+  RespawnJumpSpeed: 10
+  JumpPower: 50
+  JumpPowerPercentWhenReleased: 0.5
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 520
+  WallLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  WallCheckRight: {fileID: 120783824153533217}
+  WallCheckLeft: {fileID: 7364418766803493003}
+  PlatformLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!4 &8682525924688936492
 Transform:
   m_ObjectHideFlags: 0

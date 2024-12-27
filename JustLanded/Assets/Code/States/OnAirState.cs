@@ -46,6 +46,7 @@ public class OnAirState : IState
 
     public void EnterState()
     {
+        Debug.Log("Entering OnAirState");
         _hasJumped = false;
         _canDoubleJump = _player.CanDoubleJump();
         _movementSpeed = _player.GetMovementSpeed();
