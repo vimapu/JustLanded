@@ -56,8 +56,8 @@ public class Player : MonoBehaviour
     public IState BashingState { get { return _bashingState; } }
     private IState _onAirState;
     public IState OnAirState { get { return _onAirState; } }
-    private IState _onStairsState;
-    public IState OnStairsState { get { return _onStairsState; } }
+    private IState _OnLadderState;
+    public IState OnStairsState { get { return _OnLadderState; } }
     private IState _onSurfaceState;
     public IState OnSurfaceState { get { return _onSurfaceState; } }
     private IState _onPlatformState;
@@ -118,7 +118,7 @@ public class Player : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _onAirState = new GunControlStateDecorator(new OnAirState(this));
-        _onStairsState = new GunControlStateDecorator(new OnLadderState(this));
+        _OnLadderState = new GunControlStateDecorator(new OnLadderState(this));
         _onSurfaceState = new GunControlStateDecorator(new OnSurfaceState(this));
         _bashingState = new GunControlStateDecorator(new BashingState(this));
         _onPlatformState = new GunControlStateDecorator(new OnPlatformState(this));
