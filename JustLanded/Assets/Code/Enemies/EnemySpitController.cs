@@ -22,7 +22,7 @@ public class EnemySpitController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            var deathController = collider.GetComponent<DeathAndRespawnController>();
+            var deathController = collider.GetComponent<Player>();
             deathController.Die();
             Destroy(gameObject);
         }

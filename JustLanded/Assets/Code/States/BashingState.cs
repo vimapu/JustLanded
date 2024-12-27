@@ -31,10 +31,6 @@ public class BashingState : IState
             {
                 _context.ChangeState(_player.OnStairsState);
             }
-            else if (_player.IsOnAir)
-            {
-                _context.ChangeState(_player.OnAirState);
-            }
             else if (_player.IsGrounded() || _player.IsWalled())
             {
                 _context.ChangeState(_player.OnSurfaceState);
@@ -42,6 +38,10 @@ public class BashingState : IState
             else if (_player.IsOnPlatform())
             {
                 _context.ChangeState(_player.OnPlatformState);
+            }
+            else
+            {
+                _context.ChangeState(_player.OnAirState);
             }
         }
     }
@@ -77,7 +77,7 @@ public class BashingState : IState
 
     private bool IsBashing()
     {
-        Debug.Log("basing time " + (Time.time - _bashStartTime));
+        //Debug.Log("basing time " + (Time.time - _bashStartTime));
         return (Time.time - _bashStartTime) < _bashingTime;
     }
 }

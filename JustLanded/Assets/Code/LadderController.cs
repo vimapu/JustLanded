@@ -7,19 +7,19 @@ public class LadderController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        var player = collider.GetComponent<LadderClimbing>();
+        var player = collider.GetComponent<Player>();
         if (player != null)
         {
-            player.EnableClimbing();
+            player.EnterLadder();
         }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        var player = collider.GetComponent<LadderClimbing>();
+        var player = collider.GetComponent<Player>();
         if (player != null)
         {
-            player.DisableClimbing();
+            player.LeaveLadder();
         }
     }
 }

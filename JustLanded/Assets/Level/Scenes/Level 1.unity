@@ -54780,6 +54780,7 @@ MonoBehaviour:
   PlatformLayer:
     serializedVersion: 2
     m_Bits: 128
+  LadderSpeed: 15
 --- !u!4 &8682525924688936492
 Transform:
   m_ObjectHideFlags: 0

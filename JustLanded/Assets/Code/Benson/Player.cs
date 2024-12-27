@@ -38,6 +38,9 @@ public class Player : MonoBehaviour
     [Header("Platform parameters")]
     [SerializeField] LayerMask PlatformLayer;
 
+    [Header("Ladder parameters")]
+    [SerializeField] float LadderSpeed;
+
 
 
     private GameObject _pistol;
@@ -82,10 +85,9 @@ public class Player : MonoBehaviour
     // ladder attributes
     private bool _canClimb;
     private float _vertical;
-    private float _speed = 8f;
     private float _gravityScale;
     private bool _isInLadder = false;
-    public bool IsInLadder { get { return _isInLadder; } }
+    public bool IsInLadder { get { return _isInLadder; } set { _isInLadder = value; } }
 
     // death and respawning attributes
     private bool _isDead = false;
@@ -116,7 +118,7 @@ public class Player : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _onAirState = new GunControlStateDecorator(new OnAirState(this));
-        _onStairsState = new GunControlStateDecorator(new OnStairsState(this));
+        _onStairsState = new GunControlStateDecorator(new OnLadderState(this));
         _onSurfaceState = new GunControlStateDecorator(new OnSurfaceState(this));
         _bashingState = new GunControlStateDecorator(new BashingState(this));
         _onPlatformState = new GunControlStateDecorator(new OnPlatformState(this));
@@ -238,6 +240,11 @@ public class Player : MonoBehaviour
         return JumpPower;
     }
 
+    public float GetLadderSpeed()
+    {
+        return LadderSpeed;
+    }
+
     public float GetMovementSpeed()
     {
         return MovementSpeed;
@@ -277,16 +284,14 @@ public class Player : MonoBehaviour
         Physics2D.IgnoreCollision(playerCollider, platformColider, false);
     }
 
-    public void EnableClimbing()
+    public void EnterLadder()
     {
-        _canClimb = true;
-        _rigidbody.gravityScale = 0f;
+        _isInLadder = true;
     }
 
-    public void DisableClimbing()
+    public void LeaveLadder()
     {
-        _canClimb = false;
-        _rigidbody.gravityScale = _gravityScale;
+        _isInLadder = false;
     }
 
     public void SetRespawnPosition(Vector2 position)
@@ -294,11 +299,11 @@ public class Player : MonoBehaviour
         _respawnPosition = position;
     }
 
-    private void Jump()
-    {
-        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, RespawnJumpSpeed);
-        //rigidbody.velocity = new Vector2(0, respawnJumpSpeed);
-    }
+    // private void Jump()
+    // {
+    //     _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, RespawnJumpSpeed);
+    //     //rigidbody.velocity = new Vector2(0, respawnJumpSpeed);
+    // }
 
     public void Die()
     {
@@ -326,8 +331,9 @@ public class Player : MonoBehaviour
         _collider.enabled = true;
         _isDead = false;
         SetFacingRight();
+        stateContext.ChangeState(OnSurfaceState);
 
-        Jump();
+        Jump(RespawnJumpSpeed);
     }
 
     public bool IsGrounded()

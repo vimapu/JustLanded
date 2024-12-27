@@ -50,12 +50,14 @@ public class OnAirState : IState
         _hasJumped = false;
         _canDoubleJump = _player.CanDoubleJump();
         _movementSpeed = _player.GetMovementSpeed();
+        _player.IsOnAir = true;
     }
 
     public void ExitState()
     {
         Debug.Log("Exiting OnAirState");
         _hasJumped = false;
+        _player.IsOnAir = false;
     }
 
     public void RunPhysicsLogic()
