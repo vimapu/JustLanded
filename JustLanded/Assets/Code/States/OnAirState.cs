@@ -54,6 +54,7 @@ public class OnAirState : IState
 
     public void ExitState()
     {
+        Debug.Log("Exiting OnAirState");
         _player.IsJumping = false;
         _hasJumped = false;
     }
@@ -68,6 +69,7 @@ public class OnAirState : IState
         float xMovement = movement.x * _movementSpeed;
         float yMovement = movement.y * _movementSpeed;
         _player.Rigidbody.velocity = new Vector2(xMovement, _player.Rigidbody.velocity.y + yMovement);
+        //Debug.Log("RigibBodyVelocity: "+ _player.Rigidbody.velocity);
     }
 
     public void RunUpdateLogic()

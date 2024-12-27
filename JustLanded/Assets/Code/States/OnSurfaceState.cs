@@ -8,35 +8,63 @@ public class OnSurfaceState : IState
     private Player _player;
     private StateContext _context;
 
+    private Vector2 _movement;
+    private float _movementSpeed;
+
     public OnSurfaceState(Player player)
     {
         _player = player;
+        _movementSpeed = _player.GetMovementSpeed();
     }
+
     public void CheckConditions()
     {
-        throw new System.NotImplementedException();
+        if (!_player.IsGrounded())
+        {
+            if (_player.IsBashing())
+            {
+                _context.ChangeState(_player.BashingState);
+            }
+            else if (_player.IsJumping)
+            {
+                Debug.Log("About to change to on air state");
+                _context.ChangeState(_player.OnAirState);
+            }
+            else if (_player.IsOnPlatform())
+            {
+                _context.ChangeState(_player.OnPlatformState);
+            }
+        }
     }
 
     public void EnterState()
     {
-        throw new System.NotImplementedException();
+        // TODO: implement
+        Debug.Log("Entering on surface state");
     }
 
     public void ExitState()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Exiting on surface state");
     }
 
 
 
     public void RunPhysicsLogic()
     {
-        throw new System.NotImplementedException();
+        if (_player.IsAButtonPressed) // jumping
+        {
+            _player.Jump(_player.GetJumpPower());
+        }
+        else
+        {
+            _player.Rigidbody.velocity = new Vector2(_movement.x * _movementSpeed, _player.Rigidbody.velocity.y);
+        }
     }
 
     public void RunUpdateLogic()
     {
-        throw new System.NotImplementedException();
+        _movement = new Vector2(_player.LeftStickDirection.x, _player.LeftStickDirection.y);
     }
 
     public void SetContext(StateContext context)

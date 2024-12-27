@@ -62,21 +62,21 @@ public class Jumping : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (IsGrounded() || IsWalled())
-        {
-            isJumping = false;
-        }
-    }
+    // void OnTriggerEnter2D(Collider2D collider)
+    // {
+    //     if (IsGrounded() || IsWalled())
+    //     {
+    //         isJumping = false;
+    //     }
+    // }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (IsGrounded() || IsWalled())
-        {
-            isJumping = false;
-        }
-    }
+    // void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     if (IsGrounded() || IsWalled())
+    //     {
+    //         isJumping = false;
+    //     }
+    // }
 
     private bool IsGrounded()
     {

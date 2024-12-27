@@ -11,17 +11,17 @@ public class GunControlStateDecorator : IState
 
     public void CheckConditions()
     {
-        // TODO: implement
+        _decoratedState.CheckConditions();
     }
 
     public void EnterState()
     {
-        // TODO: implement
+        _decoratedState.EnterState();
     }
 
     public void ExitState()
     {
-        // TODO: implement
+        _decoratedState.ExitState();
     }
 
 

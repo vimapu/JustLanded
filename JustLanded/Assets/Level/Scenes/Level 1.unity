@@ -13391,7 +13391,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999486699472434773}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a659677e0faac249a4adb1ae745390e, type: 3}
   m_Name: 
@@ -53290,7 +53290,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999486699472434773}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dac7adeec67140d41b678ad371c3144e, type: 3}
   m_Name: 
@@ -53611,7 +53611,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999486699472434773}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c17a5a78fe12c1640b37350b531e91fb, type: 3}
   m_Name: 
@@ -53636,7 +53636,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999486699472434773}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a10e94fd67386ad42a578ab8323aafb3, type: 3}
   m_Name: 
@@ -53893,7 +53893,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999486699472434773}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95e00c490a2dae14da98f8a4b187e3fe, type: 3}
   m_Name: 
@@ -54668,7 +54668,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999486699472434773}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4aacd541a785cad4b81491f97ea05264, type: 3}
   m_Name: 
@@ -54690,7 +54690,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999486699472434773}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31264a525725b09439a15fcd061f74c5, type: 3}
   m_Name: 
@@ -54771,7 +54771,7 @@ MonoBehaviour:
   JumpPowerPercentWhenReleased: 0.5
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 520
+    m_Bits: 776
   WallLayer:
     serializedVersion: 2
     m_Bits: 512
