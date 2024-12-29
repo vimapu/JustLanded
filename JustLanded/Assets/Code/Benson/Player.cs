@@ -5,6 +5,7 @@ using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -41,6 +42,9 @@ public class Player : MonoBehaviour
     [Header("Ladder parameters")]
     [SerializeField] float LadderSpeed;
 
+    [Header("Health Bar parameters")]
+    [SerializeField] Image HealthBar;
+    [SerializeField] float MaxHealthAmount = 100f;
 
 
     private GameObject _pistol;
@@ -100,6 +104,9 @@ public class Player : MonoBehaviour
     private bool _hasDoubleJumped = false;
     public bool HasDoubleJumped { get { return _hasDoubleJumped; } set { _hasDoubleJumped = value; } }
 
+    // health attributes
+    private float _healthAmount;
+
     // gamepad controller attributes
     private bool _isAButtonPressed = false;
     public bool IsAButtonPressed { get { return _isAButtonPressed; } }
@@ -131,6 +138,7 @@ public class Player : MonoBehaviour
         _canClimb = false;
         _gravityScale = GetComponent<Rigidbody2D>().gravityScale;
         _collider = GetComponent<Collider2D>();
+        _healthAmount = MaxHealthAmount;
         SetRespawnPosition(transform.position);
     }
 
@@ -319,6 +327,8 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
+        // TODO: notify death to stats
+        _healthAmount = MaxHealthAmount;
         _isDead = true;
         _collider.enabled = false;
         StartCoroutine(Respawn());
@@ -334,6 +344,27 @@ public class Player : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void TakeDamage(float damage, IKillable killer)
+    {
+        if (_isBashing)
+        {
+            killer.Kill();
+        }
+        else
+        {
+            Debug.Log("It should take damage: " + damage);
+            _healthAmount -= damage;
+            HealthBar.fillAmount = _healthAmount / 100f;
+        }
+    }
+
+    public void Heal(float healingAmount)
+    {
+        _healthAmount += healingAmount;
+        _healthAmount = Mathf.Clamp(_healthAmount, 0, 100);
+        healthBar.fillAmount = _healthAmount / 100f;
     }
 
     private IEnumerator Respawn()
