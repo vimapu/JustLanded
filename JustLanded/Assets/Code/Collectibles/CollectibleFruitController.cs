@@ -6,7 +6,7 @@ using UnityEngine;
 public class CollectibleFruitController : MonoBehaviour, Subject<HealthItemCollectedEvent>
 {
 
-    [SerializeField] float value = 1f;
+    [SerializeField] float value = 50f;
 
     private List<IListener<HealthItemCollectedEvent>> Listeners;
 
