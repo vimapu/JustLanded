@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>
@@ -9,6 +10,8 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
 
     [Header("Stat parameters")]
     [SerializeField] float maxHealth;
+    [SerializeField] TextMeshPro PointsText;
+    [SerializeField] TextMeshPro GearText;
 
     private float numOfGear = 0;
     private float collectedGear = 0;
@@ -18,9 +21,14 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
     private float killPoints = 0;
     private float currentHealth;
 
+    private String _pointsOriginalText;
+    private String _gearOriginalText;
+
     // Start is called before the first frame update
     void Start()
     {
+        _pointsOriginalText = PointsText.text;
+        _gearOriginalText = GearText.text;
         // count number of enemy
         numOfEnemies += GameObject.FindGameObjectsWithTag("TriangularEnemy").Length;
         numOfEnemies += GameObject.FindGameObjectsWithTag("SquareEnemy").Length;
@@ -52,12 +60,15 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
     {
         numOfKill++;
         killPoints += points;
+        PointsText.text = _pointsOriginalText + (gearPoints + killPoints);
     }
 
     private void AddCollectedGear(float points)
     {
         collectedGear++;
         gearPoints += points;
+        GearText.text = _gearOriginalText + collectedGear;
+        PointsText.text = _pointsOriginalText + (gearPoints + killPoints);
     }
 
     public void Notify(GearCollectedEvent notification)
