@@ -364,7 +364,7 @@ public class Player : MonoBehaviour
     {
         _healthAmount += healingAmount;
         _healthAmount = Mathf.Clamp(_healthAmount, 0, 100);
-        healthBar.fillAmount = _healthAmount / 100f;
+        HealthBar.fillAmount = _healthAmount / 100f;
     }
 
     private IEnumerator Respawn()
