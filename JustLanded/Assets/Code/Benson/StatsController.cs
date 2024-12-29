@@ -10,8 +10,8 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
 
     [Header("Stat parameters")]
     [SerializeField] float maxHealth;
-    [SerializeField] TextMeshPro PointsText;
-    [SerializeField] TextMeshPro GearText;
+    [SerializeField] TextMeshProUGUI PointsText;
+    [SerializeField] TextMeshProUGUI GearText;
 
     private float numOfGear = 0;
     private float collectedGear = 0;
@@ -33,26 +33,29 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
         numOfEnemies += GameObject.FindGameObjectsWithTag("TriangularEnemy").Length;
         numOfEnemies += GameObject.FindGameObjectsWithTag("SquareEnemy").Length;
         // count num of gear
-        numOfGear += GameObject.FindGameObjectsWithTag("Gear").Length;
+        /***numOfGear += GameObject.FindGameObjectsWithTag("Gear").Length; **/
 
         currentHealth = maxHealth;
 
         // adding itself as listener
-        List<Subject<GearCollectedEvent>> gearSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<GearCollectedEvent>>().ToList();
-        foreach (Subject<GearCollectedEvent> gearSubject in gearSubjects)
-        {
-            gearSubject.Add(this);
-        }
-        List<Subject<HealthItemCollectedEvent>> healthSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<HealthItemCollectedEvent>>().ToList();
-        foreach (Subject<HealthItemCollectedEvent> healthSubject in healthSubjects)
-        {
-            healthSubject.Add(this);
-        }
-        List<Subject<DeadEnemyEvent>> enemyDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<DeadEnemyEvent>>().ToList();
-        foreach (Subject<DeadEnemyEvent> enemyDeathSubject in enemyDeathSubjects)
-        {
-            enemyDeathSubject.Add(this);
-        }
+        // List<Subject<GearCollectedEvent>> gearSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<GearCollectedEvent>>().ToList();
+        // foreach (Subject<GearCollectedEvent> gearSubject in gearSubjects)
+        // {
+        //     gearSubject.Add(this);
+        // }
+        // List<Subject<HealthItemCollectedEvent>> healthSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<HealthItemCollectedEvent>>().ToList();
+        // foreach (Subject<HealthItemCollectedEvent> healthSubject in healthSubjects)
+        // {
+        //     healthSubject.Add(this);
+        // }
+        // List<Subject<DeadEnemyEvent>> enemyDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<DeadEnemyEvent>>().ToList();
+        // foreach (Subject<DeadEnemyEvent> enemyDeathSubject in enemyDeathSubjects)
+        // {
+        //     enemyDeathSubject.Add(this);
+        // }
+        // setting the points to zero
+        GearText.text = _gearOriginalText + collectedGear;
+        PointsText.text = _pointsOriginalText + (gearPoints + killPoints);
     }
 
     // called by the observed when it dies
