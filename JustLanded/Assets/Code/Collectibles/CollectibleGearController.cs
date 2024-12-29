@@ -10,8 +10,7 @@ public class CollectibleGearController : MonoBehaviour, Subject<GearCollectedEve
 
     private List<IListener<GearCollectedEvent>> Listeners;
 
-
-    void Start()
+    void Awake()
     {
         Listeners = new List<IListener<GearCollectedEvent>>();
     }
@@ -40,7 +39,8 @@ public class CollectibleGearController : MonoBehaviour, Subject<GearCollectedEve
 
     public void Notify(GearCollectedEvent notification)
     {
-        foreach(IListener<GearCollectedEvent> listener in Listeners) {
+        foreach (IListener<GearCollectedEvent> listener in Listeners)
+        {
             listener.Notify(notification);
         }
     }

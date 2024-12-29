@@ -15,6 +15,11 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     private bool isAlive = true;
     private List<IListener<DeadEnemyEvent>> Listeners;
 
+
+    void Awake()
+    {
+        Listeners = new List<IListener<DeadEnemyEvent>>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +27,6 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
         nextPosition = positions[positionIndex];
         audioSource = GetComponent<AudioSource>();
         CalculateDirection();
-        Listeners = new List<IListener<DeadEnemyEvent>>();
     }
 
     // Update is called once per frame
