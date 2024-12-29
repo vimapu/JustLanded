@@ -7,6 +7,8 @@
 /JustLanded/[Bb]uilds/
 /JustLanded/[Ll]ogs/
 /JustLanded/[Uu]ser[Ss]ettings/
+/JustLanded/Assets/Cainos*
+/JustLanded/Assets/Pixel*
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
