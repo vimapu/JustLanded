@@ -12,6 +12,12 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
     [SerializeField] float maxHealth;
     [SerializeField] TextMeshProUGUI PointsText;
     [SerializeField] TextMeshProUGUI GearText;
+    [Header("End of level screen parameters")]
+    [SerializeField] TextMeshProUGUI GearCollectedText;
+    [SerializeField] TextMeshProUGUI TotalPointsText;
+    [SerializeField] TextMeshProUGUI EnemiesKilledText;
+    [SerializeField] TextMeshProUGUI NumberOfDeathsText;
+    [SerializeField] GameObject EndOfLevelPanel;
 
     private float numOfGear = 0;
     private float collectedGear = 0;
@@ -20,6 +26,7 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
     private float numOfKill = 0;
     private float killPoints = 0;
     private float currentHealth;
+    private float deathTimes = 0;
 
     private String _pointsOriginalText;
     private String _gearOriginalText;
@@ -98,6 +105,10 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
     public void Notify(EndOfLevelEvent notification)
     {
         Debug.Log("Stats controller has received end of level event.");
-//        throw new NotImplementedException(); // TODO: activate the end of level screen with all the stats
+        TotalPointsText.text += (gearPoints + killPoints);
+        GearCollectedText.text += collectedGear;
+        EnemiesKilledText.text += numOfKill;
+        NumberOfDeathsText.text += deathTimes;
+        EndOfLevelPanel.SetActive(true);
     }
 }

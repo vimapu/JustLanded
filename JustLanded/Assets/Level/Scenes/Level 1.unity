@@ -978,7 +978,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 400, y: 200}
-  m_SizeDelta: {x: 500, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &125519812
 MonoBehaviour:
@@ -1112,7 +1112,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 400, y: 300}
-  m_SizeDelta: {x: 500, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &163208628
 MonoBehaviour:
@@ -3566,7 +3566,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 400, y: 100}
-  m_SizeDelta: {x: 500, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494996343
 MonoBehaviour:
@@ -11859,7 +11859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1893337158
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12476,7 +12476,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 400, y: 0}
-  m_SizeDelta: {x: 500, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1955179292
 MonoBehaviour:
@@ -56525,6 +56525,11 @@ MonoBehaviour:
   maxHealth: 100
   PointsText: {fileID: 2146599314}
   GearText: {fileID: 881598903}
+  GearCollectedText: {fileID: 163208628}
+  TotalPointsText: {fileID: 1955179292}
+  EnemiesKilledText: {fileID: 125519812}
+  NumberOfDeathsText: {fileID: 494996343}
+  EndOfLevelPanel: {fileID: 1893337157}
 --- !u!1001 &8675890784513831992
 PrefabInstance:
   m_ObjectHideFlags: 0
