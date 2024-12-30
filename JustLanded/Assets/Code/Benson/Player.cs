@@ -47,7 +47,7 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, Subject<PlayerD
     [SerializeField] Image HealthBar;
     [SerializeField] float MaxHealthAmount = 100f;
 
-    private List<IListener<PlayerDeathEvent> _listeners;
+    private List<IListener<PlayerDeathEvent>> _listeners;
     private GameObject _pistol;
 
     private Rigidbody2D _rigidbody;
