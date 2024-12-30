@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>
+public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>
 {
     [SerializeField] float respawnDelay = 1f;
     [SerializeField] GameObject spit;
@@ -33,6 +34,11 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         //player = GameObject.Find("Player");
+         List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
+        foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
+        {
+            endOfLevelSubject.Add(this);
+        }
     }
 
     // Update is called once per frame
@@ -122,5 +128,10 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
         {
             listener.Notify(notification);
         }
+    }
+
+    public void Notify(EndOfLevelEvent notification)
+    {
+        this.gameObject.SetActive(false);
     }
 }

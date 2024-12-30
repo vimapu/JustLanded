@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>
+public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>
 {
     [SerializeField] Transform[] positions;
     [SerializeField] float speed = 10f;
@@ -27,6 +28,11 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
         nextPosition = positions[positionIndex];
         audioSource = GetComponent<AudioSource>();
         CalculateDirection();
+        List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
+        foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
+        {
+            endOfLevelSubject.Add(this);
+        }
     }
 
     // Update is called once per frame
@@ -123,5 +129,10 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
         {
             listener.Notify(notification);
         }
+    }
+
+    public void Notify(EndOfLevelEvent notification)
+    {
+        this.gameObject.SetActive(false);
     }
 }
