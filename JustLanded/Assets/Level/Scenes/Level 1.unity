@@ -56508,7 +56508,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   LadderSpeed: 15
-  HealthBar: {fileID: 0}
+  HealthBar: {fileID: 2026635615}
   MaxHealthAmount: 100
 --- !u!114 &8642320303142262479
 MonoBehaviour:

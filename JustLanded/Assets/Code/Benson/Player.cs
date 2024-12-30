@@ -340,6 +340,7 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, Subject<PlayerD
     public void Die()
     {
         _healthAmount = MaxHealthAmount;
+        HealthBar.fillAmount = _healthAmount / 100f;
         _isDead = true;
         _collider.enabled = false;
         Notify(new PlayerDeathEvent());
@@ -366,9 +367,19 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, Subject<PlayerD
         }
         else
         {
-            Debug.Log("It should take damage: " + damage);
-            _healthAmount -= damage;
-            HealthBar.fillAmount = _healthAmount / 100f;
+            TakeDamage(damage);
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("It should take damage: " + damage);
+        _healthAmount -= damage;
+        _healthAmount = Mathf.Max(_healthAmount, 0);
+        HealthBar.fillAmount = _healthAmount / 100f;
+        if (_healthAmount <= 0)
+        {
+            Die();
         }
     }
 

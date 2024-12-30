@@ -7,6 +7,7 @@ public class EnemySpitController : MonoBehaviour
     [SerializeField] float speed = 20f;
     [SerializeField] float expirationTime = 3f;
     [SerializeField] LayerMask whatDestroysBullet;
+    [SerializeField] float damage = 25f;
 
     private Rigidbody2D rb;
 
@@ -22,8 +23,8 @@ public class EnemySpitController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            var deathController = collider.GetComponent<Player>();
-            deathController.Die();
+            var player = collider.GetComponent<Player>();
+            player.TakeDamage(damage);
             Destroy(gameObject);
         }
         if ((whatDestroysBullet.value & (1 << collider.gameObject.layer)) > 0)
