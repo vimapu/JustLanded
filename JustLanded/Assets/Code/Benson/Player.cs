@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IListener<EndOfLevelEvent>
 {
 
     [Header("Bashing parameters")]
@@ -140,6 +141,12 @@ public class Player : MonoBehaviour
         _collider = GetComponent<Collider2D>();
         _healthAmount = MaxHealthAmount;
         SetRespawnPosition(transform.position);
+        // add listener to end of level event
+        List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
+        foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
+        {
+            endOfLevelSubject.Add(this);
+        }
     }
 
     // Update is called once per frame
@@ -425,5 +432,10 @@ public class Player : MonoBehaviour
         return BashingTime;
     }
 
+    public void Notify(EndOfLevelEvent notification)
+    {
+        Debug.Log("Player has received end of level event");
+        //throw new NotImplementedException(); // TODO: add new state where the player cannot move
+    }
 }
 

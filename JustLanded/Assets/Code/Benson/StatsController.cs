@@ -5,7 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>
+public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfLevelEvent>
 {
 
     [Header("Stat parameters")]
@@ -53,6 +53,12 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
         {
             enemyDeathSubject.Add(this);
         }
+        List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
+        foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
+        {
+            endOfLevelSubject.Add(this);
+        }
+
         // setting the points to zero
         GearText.text = _gearOriginalText + collectedGear;
         PointsText.text = _pointsOriginalText + (gearPoints + killPoints);
@@ -87,5 +93,11 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
     public void Notify(DeadEnemyEvent notification)
     {
         AddDeadEnemy(notification.Points);
+    }
+
+    public void Notify(EndOfLevelEvent notification)
+    {
+        Debug.Log("Stats controller has received end of level event.");
+//        throw new NotImplementedException(); // TODO: activate the end of level screen with all the stats
     }
 }
