@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour, IListener<EndOfLevelEvent>
+public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, Subject<PlayerDeathEvent>
 {
 
     [Header("Bashing parameters")]
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>
     [SerializeField] Image HealthBar;
     [SerializeField] float MaxHealthAmount = 100f;
 
-
+    private List<IListener<PlayerDeathEvent> _listeners;
     private GameObject _pistol;
 
     private Rigidbody2D _rigidbody;
@@ -122,6 +122,11 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>
     private bool _isLeftStickPressed;
     public bool IsLeftStickPressed { get { return _isLeftStickPressed; } }
 
+
+    void Awake()
+    {
+        _listeners = new List<IListener<PlayerDeathEvent>>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -334,10 +339,10 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>
 
     public void Die()
     {
-        // TODO: notify death to stats
         _healthAmount = MaxHealthAmount;
         _isDead = true;
         _collider.enabled = false;
+        Notify(new PlayerDeathEvent());
         StartCoroutine(Respawn());
     }
 
@@ -436,6 +441,24 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>
     {
         Debug.Log("Player has received end of level event");
         //throw new NotImplementedException(); // TODO: add new state where the player cannot move
+    }
+
+    public void Add(IListener<PlayerDeathEvent> listener)
+    {
+        _listeners.Add(listener);
+    }
+
+    public void Detach(IListener<PlayerDeathEvent> listener)
+    {
+        _listeners.Remove(listener);
+    }
+
+    public void Notify(PlayerDeathEvent notification)
+    {
+        foreach (IListener<PlayerDeathEvent> listener in _listeners)
+        {
+            listener.Notify(notification);
+        }
     }
 }
 

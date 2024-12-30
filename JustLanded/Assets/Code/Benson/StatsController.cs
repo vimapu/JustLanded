@@ -5,7 +5,8 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfLevelEvent>
+public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>,
+IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
 {
 
     [Header("Stat parameters")]
@@ -19,14 +20,14 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
     [SerializeField] TextMeshProUGUI NumberOfDeathsText;
     [SerializeField] GameObject EndOfLevelPanel;
 
-    private float numOfGear = 0;
-    private float collectedGear = 0;
-    private float gearPoints = 0;
-    private float numOfEnemies = 0;
-    private float numOfKill = 0;
-    private float killPoints = 0;
-    private float currentHealth;
-    private float deathTimes = 0;
+    private float _gearCount = 0;
+    private float _collectedGear = 0;
+    private float _gearPoints = 0;
+    private float _enemyCount = 0;
+    private float _killCount = 0;
+    private float _killPoints = 0;
+    private float _currentHealth;
+    private float _deathCount = 0;
 
     private String _pointsOriginalText;
     private String _gearOriginalText;
@@ -37,12 +38,12 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
         _pointsOriginalText = PointsText.text;
         _gearOriginalText = GearText.text;
         // count number of enemy
-        numOfEnemies += GameObject.FindGameObjectsWithTag("TriangularEnemy").Length;
-        numOfEnemies += GameObject.FindGameObjectsWithTag("SquareEnemy").Length;
+        _enemyCount += GameObject.FindGameObjectsWithTag("TriangularEnemy").Length;
+        _enemyCount += GameObject.FindGameObjectsWithTag("SquareEnemy").Length;
         // count num of gear
         /***numOfGear += GameObject.FindGameObjectsWithTag("Gear").Length; **/
 
-        currentHealth = maxHealth;
+        _currentHealth = maxHealth;
 
         // adding itself as listener
         List<Subject<GearCollectedEvent>> gearSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<GearCollectedEvent>>().ToList();
@@ -65,26 +66,31 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
         {
             endOfLevelSubject.Add(this);
         }
+        List<Subject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<PlayerDeathEvent>>().ToList();
+        foreach (Subject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
+        {
+            playerDeathSubject.Add(this);
+        }
 
         // setting the points to zero
-        GearText.text = _gearOriginalText + collectedGear;
-        PointsText.text = _pointsOriginalText + (gearPoints + killPoints);
+        GearText.text = _gearOriginalText + _collectedGear;
+        PointsText.text = _pointsOriginalText + (_gearPoints + _killPoints);
     }
 
     // called by the observed when it dies
     private void AddDeadEnemy(float points)
     {
-        numOfKill++;
-        killPoints += points;
-        PointsText.text = _pointsOriginalText + (gearPoints + killPoints);
+        _killCount++;
+        _killPoints += points;
+        PointsText.text = _pointsOriginalText + (_gearPoints + _killPoints);
     }
 
     private void AddCollectedGear(float points)
     {
-        collectedGear++;
-        gearPoints += points;
-        GearText.text = _gearOriginalText + collectedGear;
-        PointsText.text = _pointsOriginalText + (gearPoints + killPoints);
+        _collectedGear++;
+        _gearPoints += points;
+        GearText.text = _gearOriginalText + _collectedGear;
+        PointsText.text = _pointsOriginalText + (_gearPoints + _killPoints);
     }
 
     public void Notify(GearCollectedEvent notification)
@@ -94,7 +100,7 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
 
     public void Notify(HealthItemCollectedEvent notification)
     {
-        currentHealth = Mathf.Min(maxHealth, currentHealth + notification.HealthPoints);
+        _currentHealth = Mathf.Min(maxHealth, _currentHealth + notification.HealthPoints);
     }
 
     public void Notify(DeadEnemyEvent notification)
@@ -105,10 +111,15 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
     public void Notify(EndOfLevelEvent notification)
     {
         Debug.Log("Stats controller has received end of level event.");
-        TotalPointsText.text += (gearPoints + killPoints);
-        GearCollectedText.text += collectedGear;
-        EnemiesKilledText.text += numOfKill;
-        NumberOfDeathsText.text += deathTimes;
+        TotalPointsText.text += (_gearPoints + _killPoints);
+        GearCollectedText.text += _collectedGear;
+        EnemiesKilledText.text += _killCount;
+        NumberOfDeathsText.text += _deathCount;
         EndOfLevelPanel.SetActive(true);
+    }
+
+    public void Notify(PlayerDeathEvent notification)
+    {
+        _deathCount++;
     }
 }
