@@ -43,7 +43,7 @@ public class OnPlatformState : IState
 
     public void EnterState()
     {
-        Debug.Log("Entering OnPlatformState");
+        //Debug.Log("Entering OnPlatformState");
         var currentPlatform = _player.GetCurrentPlatform();
         _currentPlatformRigidBody = currentPlatform.GetComponent<Rigidbody2D>();
         _isOneWayPlatform = currentPlatform.CompareTag("OneWayPlatform");

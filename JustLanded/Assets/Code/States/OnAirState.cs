@@ -51,7 +51,7 @@ public class OnAirState : IState
     public void ExitState()
     {
         //Debug.Log("Exiting OnAirState");
-        Debug.Log("was pressed " + _wasPressed + " can double jump: " + _canDoubleJump + " has been released " + _hasJumpButtonBeenReleased + " has jumped " + _hasJumped);
+        //Debug.Log("was pressed " + _wasPressed + " can double jump: " + _canDoubleJump + " has been released " + _hasJumpButtonBeenReleased + " has jumped " + _hasJumped);
         _hasJumped = false;
         _player.IsOnAir = false;
         _hasJumpButtonBeenReleased = false;
