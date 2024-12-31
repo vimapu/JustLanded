@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, Subject<PlayerDeathEvent>
+public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<HealthItemCollectedEvent>, Subject<PlayerDeathEvent>
 {
 
     [Header("Bashing parameters")]
@@ -151,6 +151,11 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, Subject<PlayerD
         foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
         {
             endOfLevelSubject.Add(this);
+        }
+        List<Subject<HealthItemCollectedEvent>> healthItemSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<HealthItemCollectedEvent>>().ToList();
+        foreach (Subject<HealthItemCollectedEvent> healthItemSubject in healthItemSubjects)
+        {
+            healthItemSubject.Add(this);
         }
     }
 
@@ -450,9 +455,7 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, Subject<PlayerD
 
     public void Notify(EndOfLevelEvent notification)
     {
-        Debug.Log("Player has received end of level event");
         stateContext.ChangeState(new LevelFinishedState());
-        //throw new NotImplementedException(); // TODO: add new state where the player cannot move
     }
 
     public void Add(IListener<PlayerDeathEvent> listener)
@@ -471,6 +474,11 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, Subject<PlayerD
         {
             listener.Notify(notification);
         }
+    }
+
+    public void Notify(HealthItemCollectedEvent notification)
+    {
+        Heal(notification.HealthPoints);
     }
 }
 
