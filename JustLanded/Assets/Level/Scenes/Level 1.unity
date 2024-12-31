@@ -3862,7 +3862,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 2
   doesRespawn: 0
-  points: 0
+  points: 200
   damage: 75
 --- !u!212 &506474352
 SpriteRenderer:
@@ -7243,7 +7243,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 2
   doesRespawn: 0
-  points: 0
+  points: 200
   damage: 75
 --- !u!212 &1164427725
 SpriteRenderer:
@@ -13120,7 +13120,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 2
   doesRespawn: 0
-  points: 0
+  points: 200
   damage: 75
 --- !u!212 &2026999851
 SpriteRenderer:
@@ -28726,7 +28726,7 @@ Transform:
   m_GameObject: {fileID: 8700538947768008289}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 18.4, z: -10}
+  m_LocalPosition: {x: 245.7, y: 34.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28786,7 +28786,7 @@ Transform:
   m_GameObject: {fileID: 9132320000848533192}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 18.4, z: -10}
+  m_LocalPosition: {x: 245.7, y: 34.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29095,7 +29095,7 @@ Transform:
   m_GameObject: {fileID: 999486699472434773}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 18.4, z: 0}
+  m_LocalPosition: {x: 245.7, y: 34.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29168,7 +29168,7 @@ MonoBehaviour:
   player: {fileID: 999486699472434773}
   secondBetweenShots: 2
   doesRespawn: 0
-  points: 0
+  points: 200
   damage: 75
 --- !u!61 &3196248937018601446
 BoxCollider2D:

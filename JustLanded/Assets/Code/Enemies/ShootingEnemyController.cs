@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>
+public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
 {
     [SerializeField] float respawnDelay = 1f;
     [SerializeField] GameObject spit;
@@ -11,7 +11,7 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
     [SerializeField] GameObject player;
     [SerializeField] float secondBetweenShots;
     [SerializeField] bool doesRespawn = false;
-    [SerializeField] float points = 200;
+    [SerializeField] float points = 200f;
     [SerializeField] float damage = 75;
 
     private AudioSource audioSource;
@@ -39,6 +39,11 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
         foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
         {
             endOfLevelSubject.Add(this);
+        }
+        List<Subject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<PlayerDeathEvent>>().ToList();
+        foreach (Subject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
+        {
+            playerDeathSubject.Add(this);
         }
     }
 
@@ -75,7 +80,7 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
     void OnTriggerEnter2D(Collider2D collider)
     {
         var player = collider.GetComponent<Player>();
-        if (player != null)
+        if (player != null && isAlive)
         {
             player.TakeDamage(damage, this);
         }
@@ -102,9 +107,23 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
         }
         else
         {
-            Destroy(gameObject, 0.5f);
+            //Destroy(gameObject, 0.5f);
+            Deactivate();
         }
 
+    }
+
+    IEnumerator Deactivate()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.SetActive(false);
+    }
+
+    void Reactivate()
+    {
+        gameObject.SetActive(true);
+        spriteRenderer.enabled = true;
+        isAlive = true;
     }
 
     private bool CanShootAnotherBullet()
@@ -133,6 +152,12 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
 
     public void Notify(EndOfLevelEvent notification)
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+    }
+
+    public void Notify(PlayerDeathEvent notification)
+    {
+        Debug.Log("received player death event");
+        Reactivate();
     }
 }
