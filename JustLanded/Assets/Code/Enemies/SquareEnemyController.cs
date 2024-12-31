@@ -18,6 +18,7 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     private Vector2 direction;
     private Rigidbody2D rigidbody;
     private bool isAlive = true;
+    private bool _hasDied = false;
     private Vector2 initialPosition;
     private List<IListener<DeadEnemyEvent>> _listeners;
 
@@ -114,7 +115,11 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
         }
         isAlive = false;
         audioSource.Play();
-        Notify(new DeadEnemyEvent(points));
+        if (!_hasDied)
+        {
+            Notify(new DeadEnemyEvent(points));
+            _hasDied = true;
+        }
         Jump();
         StartCoroutine(Deactivate());
         //        Destroy(gameObject.transform.parent.gameObject, 0.5f);

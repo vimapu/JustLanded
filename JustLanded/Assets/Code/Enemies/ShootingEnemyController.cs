@@ -16,7 +16,7 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
 
     private AudioSource audioSource;
     private float aimAngle;
-
+    private bool _hasDied = false;
     private Vector2 respawnPosition;
     private float lastShotTime;
     private SpriteRenderer spriteRenderer;
@@ -97,7 +97,11 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
         audioSource.Play();
         spriteRenderer.enabled = false;
         isAlive = false;
-        Notify(new DeadEnemyEvent(points));
+        if (!_hasDied)
+        {
+            Notify(new DeadEnemyEvent(points));
+            _hasDied = true;
+        }
         if (doesRespawn)
         {
             yield return new WaitForSeconds(respawnDelay);
