@@ -298,6 +298,8 @@ MonoBehaviour:
   - {fileID: 870884307}
   - {fileID: 760629525}
   speed: 10
+  damage: 50
+  points: 100
 --- !u!61 &16486589
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1932,6 +1934,8 @@ MonoBehaviour:
   - {fileID: 1584904911}
   - {fileID: 1339249732}
   speed: 10
+  damage: 50
+  points: 100
 --- !u!61 &215089183
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3859,6 +3863,7 @@ MonoBehaviour:
   secondBetweenShots: 2
   doesRespawn: 0
   points: 0
+  damage: 75
 --- !u!212 &506474352
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6201,6 +6206,8 @@ MonoBehaviour:
   - {fileID: 905376732}
   - {fileID: 1598037140}
   speed: 10
+  damage: 50
+  points: 100
 --- !u!61 &1041922551
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6765,6 +6772,8 @@ MonoBehaviour:
   - {fileID: 1996929261}
   - {fileID: 210558897}
   speed: 10
+  damage: 50
+  points: 100
 --- !u!61 &1080082278
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7235,6 +7244,7 @@ MonoBehaviour:
   secondBetweenShots: 2
   doesRespawn: 0
   points: 0
+  damage: 75
 --- !u!212 &1164427725
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8444,6 +8454,8 @@ MonoBehaviour:
   - {fileID: 1952773557}
   - {fileID: 333104810}
   speed: 15
+  damage: 50
+  points: 100
 --- !u!61 &1340590894
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13109,6 +13121,7 @@ MonoBehaviour:
   secondBetweenShots: 2
   doesRespawn: 0
   points: 0
+  damage: 75
 --- !u!212 &2026999851
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13530,6 +13543,7 @@ MonoBehaviour:
   secondBetweenShots: 1
   doesRespawn: 0
   points: 0
+  damage: 75
 --- !u!212 &2076494128
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13902,6 +13916,8 @@ MonoBehaviour:
   - {fileID: 1311281200}
   - {fileID: 1468510110}
   speed: 10
+  damage: 50
+  points: 100
 --- !u!61 &2136840449
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -28710,7 +28726,7 @@ Transform:
   m_GameObject: {fileID: 8700538947768008289}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 315.63, y: 204.06, z: -10}
+  m_LocalPosition: {x: 118.6, y: 29.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28770,7 +28786,7 @@ Transform:
   m_GameObject: {fileID: 9132320000848533192}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 315.63, y: 204.06, z: -10}
+  m_LocalPosition: {x: 118.6, y: 29.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29079,7 +29095,7 @@ Transform:
   m_GameObject: {fileID: 999486699472434773}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 315.63, y: 204.06, z: 0}
+  m_LocalPosition: {x: 118.6, y: 29.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29153,6 +29169,7 @@ MonoBehaviour:
   secondBetweenShots: 2
   doesRespawn: 0
   points: 0
+  damage: 75
 --- !u!61 &3196248937018601446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -29214,6 +29231,8 @@ MonoBehaviour:
   - {fileID: 2598384888772573949}
   - {fileID: 3750163198115334236}
   speed: 10
+  damage: 50
+  points: 100
 --- !u!4 &3364888705035399012
 Transform:
   m_ObjectHideFlags: 0
@@ -54070,6 +54089,7 @@ MonoBehaviour:
   secondBetweenShots: 1
   doesRespawn: 0
   points: 0
+  damage: 75
 --- !u!4 &5099465630759095397
 Transform:
   m_ObjectHideFlags: 0

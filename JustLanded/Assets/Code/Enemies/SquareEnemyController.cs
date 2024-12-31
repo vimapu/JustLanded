@@ -5,7 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>
+public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
 {
     [SerializeField] Transform[] positions;
     [SerializeField] float speed = 10f;
@@ -18,6 +18,7 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     private Vector2 direction;
     private Rigidbody2D rigidbody;
     private bool isAlive = true;
+    private Vector2 initialPosition;
     private List<IListener<DeadEnemyEvent>> _listeners;
 
 
@@ -31,11 +32,17 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
         rigidbody = GetComponent<Rigidbody2D>();
         nextPosition = positions[positionIndex];
         audioSource = GetComponent<AudioSource>();
+        initialPosition = transform.position;
         CalculateDirection();
         List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
         foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
         {
             endOfLevelSubject.Add(this);
+        }
+        List<Subject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<PlayerDeathEvent>>().ToList();
+        foreach (Subject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
+        {
+            playerDeathSubject.Add(this);
         }
     }
 
@@ -109,7 +116,14 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
         audioSource.Play();
         Notify(new DeadEnemyEvent(points));
         Jump();
-        Destroy(gameObject.transform.parent.gameObject, 0.5f);
+        StartCoroutine(Deactivate());
+        //        Destroy(gameObject.transform.parent.gameObject, 0.5f);
+    }
+
+    IEnumerator Deactivate()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.transform.parent.gameObject.SetActive(false);
     }
 
     public void Kill()
@@ -139,5 +153,23 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     public void Notify(EndOfLevelEvent notification)
     {
         gameObject.SetActive(false);
+    }
+
+    public void Notify(PlayerDeathEvent notification)
+    {
+        Reactivate();
+    }
+
+    void Reactivate()
+    {
+        transform.position = initialPosition;
+        gameObject.transform.parent.gameObject.SetActive(true);
+        BoxCollider2D[] colliders = GetComponents<BoxCollider2D>();
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            BoxCollider2D collider = (BoxCollider2D)colliders.GetValue(i);
+            collider.enabled = true;
+        }
+        isAlive = true;
     }
 }

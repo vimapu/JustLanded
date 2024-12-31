@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class CollectibleFruitController : MonoBehaviour, Subject<HealthItemCollectedEvent>
+public class CollectibleFruitController : MonoBehaviour, Subject<HealthItemCollectedEvent>, IListener<PlayerDeathEvent>
 {
 
     [SerializeField] float value = 50f;
@@ -15,12 +16,21 @@ public class CollectibleFruitController : MonoBehaviour, Subject<HealthItemColle
         Listeners = new List<IListener<HealthItemCollectedEvent>>();
     }
 
+    void Start()
+    {
+        List<Subject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<PlayerDeathEvent>>().ToList();
+        foreach (Subject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
+        {
+            playerDeathSubject.Add(this);
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("Player"))
         {
             Notify(new HealthItemCollectedEvent(value));
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -43,5 +53,10 @@ public class CollectibleFruitController : MonoBehaviour, Subject<HealthItemColle
         {
             listener.Notify(notification);
         }
+    }
+
+    public void Notify(PlayerDeathEvent notification)
+    {
+        gameObject.SetActive(true);
     }
 }
