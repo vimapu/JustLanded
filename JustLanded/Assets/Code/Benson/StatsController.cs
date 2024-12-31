@@ -50,6 +50,7 @@ IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfL
         foreach (Subject<GearCollectedEvent> gearSubject in gearSubjects)
         {
             gearSubject.Add(this);
+            _gearCount++;
         }
         List<Subject<HealthItemCollectedEvent>> healthSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<HealthItemCollectedEvent>>().ToList();
         foreach (Subject<HealthItemCollectedEvent> healthSubject in healthSubjects)
