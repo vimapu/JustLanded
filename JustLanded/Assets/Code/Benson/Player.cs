@@ -451,6 +451,7 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, Subject<PlayerD
     public void Notify(EndOfLevelEvent notification)
     {
         Debug.Log("Player has received end of level event");
+        stateContext.ChangeState(new LevelFinishedState());
         //throw new NotImplementedException(); // TODO: add new state where the player cannot move
     }
 
