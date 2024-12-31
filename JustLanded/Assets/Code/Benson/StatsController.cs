@@ -112,8 +112,8 @@ IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfL
     {
         Debug.Log("Stats controller has received end of level event.");
         TotalPointsText.text += (_gearPoints + _killPoints);
-        GearCollectedText.text += _collectedGear;
-        EnemiesKilledText.text += _killCount;
+        GearCollectedText.text += _collectedGear + "/" + _gearCount;
+        EnemiesKilledText.text += _killCount + "/" + _enemyCount;
         NumberOfDeathsText.text += _deathCount;
         EndOfLevelPanel.SetActive(true);
     }
