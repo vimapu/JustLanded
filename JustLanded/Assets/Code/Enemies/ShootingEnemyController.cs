@@ -11,7 +11,8 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
     [SerializeField] GameObject player;
     [SerializeField] float secondBetweenShots;
     [SerializeField] bool doesRespawn = false;
-    [SerializeField] float points = 0;
+    [SerializeField] float points = 200;
+    [SerializeField] float damage = 75;
 
     private AudioSource audioSource;
     private float aimAngle;
@@ -33,8 +34,8 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
         respawnPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        //player = GameObject.Find("Player");
-         List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
+
+        List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
         foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
         {
             endOfLevelSubject.Add(this);
@@ -76,7 +77,7 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
         var player = collider.GetComponent<Player>();
         if (player != null)
         {
-            player.Kill(this);
+            player.TakeDamage(damage, this);
         }
     }
 

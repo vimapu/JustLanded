@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>
 {
     [SerializeField] Transform[] positions;
     [SerializeField] float speed = 10f;
+    [SerializeField] float damage = 50f;
+    [SerializeField] float points = 100f;
 
     private AudioSource audioSource;
     private int positionIndex = 0;
@@ -14,12 +18,12 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     private Vector2 direction;
     private Rigidbody2D rigidbody;
     private bool isAlive = true;
-    private List<IListener<DeadEnemyEvent>> Listeners;
+    private List<IListener<DeadEnemyEvent>> _listeners;
 
 
     void Awake()
     {
-        Listeners = new List<IListener<DeadEnemyEvent>>();
+        _listeners = new List<IListener<DeadEnemyEvent>>();
     }
     // Start is called before the first frame update
     void Start()
@@ -69,7 +73,7 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
             var player = other.collider.GetComponent<Player>();
             if (player != null)
             {
-                player.Die();
+                player.TakeDamage(damage);
             }
         }
 
@@ -103,6 +107,7 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
         }
         isAlive = false;
         audioSource.Play();
+        Notify(new DeadEnemyEvent(points));
         Jump();
         Destroy(gameObject.transform.parent.gameObject, 0.5f);
     }
@@ -115,17 +120,17 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     public void Add(IListener<DeadEnemyEvent> listener)
     {
         Debug.Log("Adding listener to enemy subject");
-        Listeners.Add(listener);
+        _listeners.Add(listener);
     }
 
     public void Detach(IListener<DeadEnemyEvent> listener)
     {
-        Listeners.Remove(listener);
+        _listeners.Remove(listener);
     }
 
     public void Notify(DeadEnemyEvent notification)
     {
-        foreach (IListener<DeadEnemyEvent> listener in Listeners)
+        foreach (IListener<DeadEnemyEvent> listener in _listeners)
         {
             listener.Notify(notification);
         }
@@ -133,6 +138,6 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
 
     public void Notify(EndOfLevelEvent notification)
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
