@@ -7,21 +7,21 @@ public class FallingCloudController : MonoBehaviour
 
     [SerializeField] float fallDelay = 1f;
     [SerializeField] float respawnDelay = 1f;
-    private bool isFalling = false;
+    private bool _isFalling = false;
 
-    private Rigidbody2D rigidbody;
-    private Vector2 respawnPosition;
+    private Rigidbody2D _rigidbody;
+    private Vector2 _respawnPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        respawnPosition = transform.position;
-        rigidbody = GetComponent<Rigidbody2D>();
+        _respawnPosition = transform.position;
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isFalling) return;
+        if (_isFalling) return;
         if (collision.gameObject.CompareTag("Player"))
         {
             StartCoroutine(Fall());
@@ -30,15 +30,15 @@ public class FallingCloudController : MonoBehaviour
 
     private IEnumerator Fall()
     {
-        isFalling = true;
+        _isFalling = true;
         yield return new WaitForSeconds(fallDelay);
-        rigidbody.bodyType = RigidbodyType2D.Dynamic;
+        _rigidbody.bodyType = RigidbodyType2D.Dynamic;
         
         yield return new WaitForSeconds(respawnDelay);
-        isFalling = false;
-        rigidbody.velocity = Vector2.zero;
-        rigidbody.bodyType = RigidbodyType2D.Kinematic;
-        transform.position = (Vector2) respawnPosition;
+        _isFalling = false;
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.bodyType = RigidbodyType2D.Kinematic;
+        transform.position = (Vector2) _respawnPosition;
 
     }
 

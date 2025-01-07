@@ -6,41 +6,36 @@ public class MovingCloudController : MonoBehaviour
 {
 
     [SerializeField] Transform[] positions;
-    [SerializeField] float gravityOnPlatform = 5;
     [SerializeField] float speed = 10f;
-    [SerializeField] Rigidbody2D playerRigidbody;
 
-
-    MovementController movementController;
-    private Transform nextPosition;
-    private int positionIndex = 0;
-    private Rigidbody2D rigidbody;
-    private Vector2 direction;
-    private bool facingLeft = true;
+    private Transform _nextPosition;
+    private int _positionIndex = 0;
+    private Rigidbody2D _rigidbody;
+    private Vector2 _direction;
+    private bool _facingLeft = true;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        movementController = GameObject.FindGameObjectWithTag("Player").GetComponent<MovementController>();
-        nextPosition = positions[positionIndex];
-        rigidbody = GetComponent<Rigidbody2D>();
+        _nextPosition = positions[_positionIndex];
+        _rigidbody = GetComponent<Rigidbody2D>();
         CalculateDirection();
     }
 
     void Update()
     {
-        if (Vector2.Distance(nextPosition.position, transform.position) < 0.2f)
+        if (Vector2.Distance(_nextPosition.position, transform.position) < 0.2f)
         {
-            if (positionIndex + 1 >= positions.Length)
+            if (_positionIndex + 1 >= positions.Length)
             {
-                positionIndex = 0;
+                _positionIndex = 0;
             }
             else
             {
-                positionIndex++;
+                _positionIndex++;
             }
-            nextPosition = positions[positionIndex];
+            _nextPosition = positions[_positionIndex];
             FlipIfNecessary();
         }
         CalculateDirection();
@@ -49,42 +44,20 @@ public class MovingCloudController : MonoBehaviour
     void FixedUpdate()
     {
         // starts moving towards the next position
-        rigidbody.velocity = direction * speed;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.CompareTag("Player"))
-        {
-            //Debug.Log("Entering platform");
-            //collider.transform.parent = transform;
-            //movementController.SetPlatformRB(rigidbody);
-            //playerRigidbody.gravityScale = playerRigidbody.gravityScale * gravityOnPlatform;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (collider.gameObject.CompareTag("Player"))
-        {
-            //Debug.Log("Exiting platform");
-           // collider.transform.parent = null;
-            //movementController.LeavePlatform();
-            //playerRigidbody.gravityScale = playerRigidbody.gravityScale / gravityOnPlatform;
-        }
+        _rigidbody.velocity = _direction * speed;
     }
 
     private void CalculateDirection()
     {
-        direction = (nextPosition.position - transform.position).normalized;
+        _direction = (_nextPosition.position - transform.position).normalized;
     }
 
     private void FlipIfNecessary()
     {
         CalculateDirection();
-        if ((direction.x > 0 && facingLeft) || (direction.x < 0 && !facingLeft))
+        if ((_direction.x > 0 && _facingLeft) || (_direction.x < 0 && !_facingLeft))
         {
-            facingLeft = !facingLeft;
+            _facingLeft = !_facingLeft;
             var localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;

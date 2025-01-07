@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class SpringController : MonoBehaviour
 {
-    [SerializeField] float jumpSpeed;
+    [SerializeField] float JumpSpeed = 100f;
 
-    private AudioSource audioSource;
+    private AudioSource _audioSource;
 
     void Start() {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            audioSource.Play();
-            var jumpingController = collider.gameObject.GetComponent<Player>();
-            jumpingController.Jump(jumpSpeed);
+            _audioSource.Play();
+            var player = collider.gameObject.GetComponent<Player>();
+            player.Jump(JumpSpeed);
         }
     }
 }
