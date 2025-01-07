@@ -5,12 +5,11 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>,
-IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
+public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, IListener<DeadEnemyEvent>, 
+    IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
 {
 
     [Header("Stat parameters")]
-    [SerializeField] float maxHealth;
     [SerializeField] TextMeshProUGUI PointsText;
     [SerializeField] TextMeshProUGUI GearText;
     [Header("End of level screen parameters")]
@@ -20,14 +19,13 @@ IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfL
     [SerializeField] TextMeshProUGUI NumberOfDeathsText;
     [SerializeField] GameObject EndOfLevelPanel;
 
-    private float _gearCount = 0;
-    private float _collectedGear = 0;
-    private float _gearPoints = 0;
-    private float _enemyCount = 0;
-    private float _killCount = 0;
-    private float _killPoints = 0;
-    private float _currentHealth;
-    private float _deathCount = 0;
+    private float _gearCount = 0f;
+    private float _collectedGear = 0f;
+    private float _gearPoints = 0f;
+    private float _enemyCount = 0f;
+    private float _killCount = 0f;
+    private float _killPoints = 0f;
+    private float _deathCount = 0f;
 
     private String _pointsOriginalText;
     private String _gearOriginalText;
@@ -40,10 +38,6 @@ IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfL
         // count number of enemy
         _enemyCount += GameObject.FindGameObjectsWithTag("TriangularEnemy").Length;
         _enemyCount += GameObject.FindGameObjectsWithTag("SquareEnemy").Length;
-        // count num of gear
-        /***numOfGear += GameObject.FindGameObjectsWithTag("Gear").Length; **/
-
-        _currentHealth = maxHealth;
 
         // adding itself as listener
         List<Subject<GearCollectedEvent>> gearSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<GearCollectedEvent>>().ToList();
@@ -51,11 +45,6 @@ IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfL
         {
             gearSubject.Add(this);
             _gearCount++;
-        }
-        List<Subject<HealthItemCollectedEvent>> healthSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<HealthItemCollectedEvent>>().ToList();
-        foreach (Subject<HealthItemCollectedEvent> healthSubject in healthSubjects)
-        {
-            healthSubject.Add(this);
         }
         List<Subject<DeadEnemyEvent>> enemyDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<DeadEnemyEvent>>().ToList();
         foreach (Subject<DeadEnemyEvent> enemyDeathSubject in enemyDeathSubjects)
@@ -97,11 +86,6 @@ IListener<HealthItemCollectedEvent>, IListener<DeadEnemyEvent>, IListener<EndOfL
     public void Notify(GearCollectedEvent notification)
     {
         AddCollectedGear(notification.Points);
-    }
-
-    public void Notify(HealthItemCollectedEvent notification)
-    {
-        _currentHealth = Mathf.Min(maxHealth, _currentHealth + notification.HealthPoints);
     }
 
     public void Notify(DeadEnemyEvent notification)

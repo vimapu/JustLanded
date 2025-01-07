@@ -378,7 +378,7 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("It should take damage: " + damage);
+        //Debug.Log("It should take damage: " + damage);
         _healthAmount -= damage;
         _healthAmount = Mathf.Max(_healthAmount, 0);
         HealthBar.fillAmount = _healthAmount / 100f;
