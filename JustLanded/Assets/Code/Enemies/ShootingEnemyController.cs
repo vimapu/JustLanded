@@ -64,19 +64,6 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
 
     }
 
-    //  private void OnCollisionEnter2D(Collision2D other)
-    // {
-    //     if (isAlive)
-    //     {
-    //         var player = other.collider.GetComponent<DeathAndRespawnController>();
-    //         if (player != null)
-    //         {
-    //             player.Kill(this);
-    //         }
-    //     }
-
-    // }
-
     void OnTriggerEnter2D(Collider2D collider)
     {
         var player = collider.GetComponent<Player>();
@@ -90,7 +77,6 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
     {
         StartCoroutine(Die());
     }
-
 
     private IEnumerator Die()
     {
@@ -111,7 +97,6 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
         }
         else
         {
-            //Destroy(gameObject, 0.5f);
             Deactivate();
         }
 
@@ -137,7 +122,6 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
 
     public void Add(IListener<DeadEnemyEvent> listener)
     {
-        Debug.Log("Adding listener to enemy subject");
         _listeners.Add(listener);
     }
 
@@ -161,7 +145,6 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
 
     public void Notify(PlayerDeathEvent notification)
     {
-        Debug.Log("received player death event");
         Reactivate();
     }
 }
