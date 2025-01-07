@@ -8,18 +8,18 @@ using UnityEngine;
 public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
 {
     [SerializeField] Transform[] positions;
-    [SerializeField] float speed = 10f;
-    [SerializeField] float damage = 50f;
-    [SerializeField] float points = 100f;
+    [SerializeField] float Speed = 10f;
+    [SerializeField] float Damage = 50f;
+    [SerializeField] float Points = 100f;
 
-    private AudioSource audioSource;
-    private int positionIndex = 0;
-    private Transform nextPosition;
-    private Vector2 direction;
-    private Rigidbody2D rigidbody;
-    private bool isAlive = true;
+    private AudioSource _audioSource;
+    private int _positionIndex = 0;
+    private Transform _nextPosition;
+    private Vector2 _direction;
+    private Rigidbody2D _rigidbody;
+    private bool _isAlive = true;
     private bool _hasDied = false;
-    private Vector2 initialPosition;
+    private Vector2 _initialPosition;
     private List<IListener<DeadEnemyEvent>> _listeners;
 
 
@@ -30,10 +30,10 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        nextPosition = positions[positionIndex];
-        audioSource = GetComponent<AudioSource>();
-        initialPosition = transform.position;
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _nextPosition = positions[_positionIndex];
+        _audioSource = GetComponent<AudioSource>();
+        _initialPosition = transform.position;
         CalculateDirection();
         List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
         foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
@@ -50,17 +50,17 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(nextPosition.position, transform.position) < 0.2f)
+        if (Vector2.Distance(_nextPosition.position, transform.position) < 0.2f)
         {
-            if (positionIndex + 1 >= positions.Length)
+            if (_positionIndex + 1 >= positions.Length)
             {
-                positionIndex = 0;
+                _positionIndex = 0;
             }
             else
             {
-                positionIndex++;
+                _positionIndex++;
             }
-            nextPosition = positions[positionIndex];
+            _nextPosition = positions[_positionIndex];
         }
         CalculateDirection();
     }
@@ -68,20 +68,20 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
     void FixedUpdate()
     {
         // starts moving towards the next position
-        if (isAlive)
+        if (_isAlive)
         {
-            rigidbody.velocity = direction * speed;
+            _rigidbody.velocity = _direction * Speed;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (isAlive)
+        if (_isAlive)
         {
             var player = other.collider.GetComponent<Player>();
             if (player != null)
             {
-                player.TakeDamage(damage);
+                player.TakeDamage(Damage);
             }
         }
 
@@ -97,12 +97,12 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
 
     private void CalculateDirection()
     {
-        direction = (nextPosition.position - transform.position).normalized;
+        _direction = (_nextPosition.position - transform.position).normalized;
     }
 
     private void Jump()
     {
-        rigidbody.velocity = new Vector2(0f, 5f);
+        _rigidbody.velocity = new Vector2(0f, 5f);
     }
 
     public void Die()
@@ -113,16 +113,15 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
             BoxCollider2D collider = (BoxCollider2D)colliders.GetValue(i);
             collider.enabled = false;
         }
-        isAlive = false;
-        audioSource.Play();
+        _isAlive = false;
+        _audioSource.Play();
         if (!_hasDied)
         {
-            Notify(new DeadEnemyEvent(points));
+            Notify(new DeadEnemyEvent(Points));
             _hasDied = true;
         }
         Jump();
         StartCoroutine(Deactivate());
-        //        Destroy(gameObject.transform.parent.gameObject, 0.5f);
     }
 
     IEnumerator Deactivate()
@@ -138,7 +137,6 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
 
     public void Add(IListener<DeadEnemyEvent> listener)
     {
-        Debug.Log("Adding listener to enemy subject");
         _listeners.Add(listener);
     }
 
@@ -167,7 +165,7 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
 
     void Reactivate()
     {
-        transform.position = initialPosition;
+        transform.position = _initialPosition;
         gameObject.transform.parent.gameObject.SetActive(true);
         BoxCollider2D[] colliders = GetComponents<BoxCollider2D>();
         for (int i = 0; i < colliders.Length; i++)
@@ -175,6 +173,6 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
             BoxCollider2D collider = (BoxCollider2D)colliders.GetValue(i);
             collider.enabled = true;
         }
-        isAlive = true;
+        _isAlive = true;
     }
 }
