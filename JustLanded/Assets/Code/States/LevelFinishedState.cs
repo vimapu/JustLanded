@@ -13,7 +13,6 @@ public class LevelFinishedState : IState
 
     public void EnterState()
     {
-        Debug.Log("Entering level finished state");
         // nothing
     }
 

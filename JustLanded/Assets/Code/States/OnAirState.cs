@@ -40,7 +40,6 @@ public class OnAirState : IState
 
     public void EnterState()
     {
-        //Debug.Log("Entering OnAirState");
         _hasJumped = false;
         _canDoubleJump = _player.CanDoubleJump();
         _movementSpeed = _player.GetMovementSpeed();
@@ -50,8 +49,6 @@ public class OnAirState : IState
 
     public void ExitState()
     {
-        //Debug.Log("Exiting OnAirState");
-        //Debug.Log("was pressed " + _wasPressed + " can double jump: " + _canDoubleJump + " has been released " + _hasJumpButtonBeenReleased + " has jumped " + _hasJumped);
         _hasJumped = false;
         _player.IsOnAir = false;
         _hasJumpButtonBeenReleased = false;
@@ -61,7 +58,6 @@ public class OnAirState : IState
     {
         if (_player.IsAButtonPressed && _canDoubleJump && _hasJumpButtonBeenReleased && !_hasJumped)
         {
-            //Debug.Log("Is double jumping");
             _player.Jump(_player.GetJumpPower());
             _hasJumped = true;
         }

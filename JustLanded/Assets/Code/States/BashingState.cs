@@ -50,13 +50,11 @@ public class BashingState : IState
     {
         _bashStartTime = Time.time;
         _player.StartBash();
-        Debug.Log("Entering bashing state");
     }
 
     public void ExitState()
     {
         _player.FinishBash();
-        Debug.Log("Exiting BashingState");
     }
 
     public void RunPhysicsLogic()
@@ -77,7 +75,6 @@ public class BashingState : IState
 
     private bool IsBashing()
     {
-        //Debug.Log("basing time " + (Time.time - _bashStartTime));
         return (Time.time - _bashStartTime) < _bashingTime;
     }
 }

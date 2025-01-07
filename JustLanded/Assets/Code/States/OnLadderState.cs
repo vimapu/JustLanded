@@ -23,11 +23,7 @@ public class OnLadderState : IState
     }
     public void CheckConditions()
     {
-        if (_player.IsBButtonPressed)
-        {
-        //    _context.ChangeState(_player.BashingState);
-        }
-        else if (!_player.IsInLadder)
+        if (!_player.IsInLadder)
         {
             if (_player.IsGrounded() || _player.IsWalled())
             {

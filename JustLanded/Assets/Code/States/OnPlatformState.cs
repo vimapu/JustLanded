@@ -20,11 +20,7 @@ public class OnPlatformState : IState
     }
     public void CheckConditions()
     {
-        if (_player.IsBButtonPressed)
-        {
-            //    _context.ChangeState(_player.BashingState);
-        }
-        else if (!_player.IsOnPlatform())
+        if (!_player.IsOnPlatform())
         {
             if (_player.IsGrounded() || _player.IsWalled())
             {
@@ -43,7 +39,6 @@ public class OnPlatformState : IState
 
     public void EnterState()
     {
-        //Debug.Log("Entering OnPlatformState");
         var currentPlatform = _player.GetCurrentPlatform();
         _currentPlatformRigidBody = currentPlatform.GetComponent<Rigidbody2D>();
         _isOneWayPlatform = currentPlatform.CompareTag("OneWayPlatform");
@@ -52,7 +47,6 @@ public class OnPlatformState : IState
 
     public void ExitState()
     {
-        Debug.Log("Exiting OnPlatformState");
         _isOneWayPlatform = false;
         _currentPlatformRigidBody = null;
     }
