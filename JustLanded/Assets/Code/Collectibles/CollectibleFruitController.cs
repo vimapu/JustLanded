@@ -9,11 +9,11 @@ public class CollectibleFruitController : MonoBehaviour, Subject<HealthItemColle
 
     [SerializeField] float value = 50f;
 
-    private List<IListener<HealthItemCollectedEvent>> Listeners;
+    private List<IListener<HealthItemCollectedEvent>> _listeners;
 
     void Awake()
     {
-        Listeners = new List<IListener<HealthItemCollectedEvent>>();
+        _listeners = new List<IListener<HealthItemCollectedEvent>>();
     }
 
     void Start()
@@ -38,18 +38,17 @@ public class CollectibleFruitController : MonoBehaviour, Subject<HealthItemColle
 
     public void Add(IListener<HealthItemCollectedEvent> listener)
     {
-        Debug.Log("Adding listener to gear controller");
-        Listeners.Add(listener);
+        _listeners.Add(listener);
     }
 
     public void Detach(IListener<HealthItemCollectedEvent> listener)
     {
-        Listeners.Remove(listener);
+        _listeners.Remove(listener);
     }
 
     public void Notify(HealthItemCollectedEvent notification)
     {
-        foreach (IListener<HealthItemCollectedEvent> listener in Listeners)
+        foreach (IListener<HealthItemCollectedEvent> listener in _listeners)
         {
             listener.Notify(notification);
         }

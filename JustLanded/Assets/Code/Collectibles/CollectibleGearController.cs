@@ -8,11 +8,11 @@ public class CollectibleGearController : MonoBehaviour, Subject<GearCollectedEve
 
     [SerializeField] float value = 1f;
 
-    private List<IListener<GearCollectedEvent>> Listeners;
+    private List<IListener<GearCollectedEvent>> _listeners;
 
     void Awake()
     {
-        Listeners = new List<IListener<GearCollectedEvent>>();
+        _listeners = new List<IListener<GearCollectedEvent>>();
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -24,22 +24,19 @@ public class CollectibleGearController : MonoBehaviour, Subject<GearCollectedEve
         }
     }
 
-
-
     public void Add(IListener<GearCollectedEvent> listener)
     {
-        Debug.Log("Adding listener to gear controller");
-        Listeners.Add(listener);
+        _listeners.Add(listener);
     }
 
     public void Detach(IListener<GearCollectedEvent> listener)
     {
-        Listeners.Remove(listener);
+        _listeners.Remove(listener);
     }
 
     public void Notify(GearCollectedEvent notification)
     {
-        foreach (IListener<GearCollectedEvent> listener in Listeners)
+        foreach (IListener<GearCollectedEvent> listener in _listeners)
         {
             listener.Notify(notification);
         }

@@ -5,11 +5,11 @@ using UnityEngine;
 public class CollectiblePistolController : MonoBehaviour
 {
 
-    private Player player;
+    private Player _player;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
 
@@ -17,8 +17,7 @@ public class CollectiblePistolController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            //Debug.Log("Colliding with gun");
-            player.CollectPistol();
+            _player.CollectPistol();
         }
         Destroy(gameObject);
     }
