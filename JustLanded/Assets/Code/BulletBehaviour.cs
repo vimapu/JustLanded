@@ -9,12 +9,12 @@ public class BulletBehaviour : MonoBehaviour
     [SerializeField] float expirationTime = 3f;
     [SerializeField] LayerMask whatDestroysBullet;
 
-    private Rigidbody2D rb;
+    private Rigidbody2D _rigidbody;
 
     // Start is called before the first frame update
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         SetStraightVelocity();
         SetDestroyTime();
     }
@@ -31,14 +31,13 @@ public class BulletBehaviour : MonoBehaviour
         }
         if ((whatDestroysBullet.value & (1 << collider.gameObject.layer)) > 0)
         {
-            Debug.Log("Destroying bullet");
             Destroy(gameObject);
         }
     }
 
     private void SetStraightVelocity()
     {
-        rb.velocity = transform.right * speed;
+        _rigidbody.velocity = transform.right * speed;
     }
 
     private void SetDestroyTime()

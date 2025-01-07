@@ -18,7 +18,6 @@ public class EndOfLevelController : MonoBehaviour, ISubject<EndOfLevelEvent>
         var player = collider.GetComponent<Player>();
         if (player != null)
         {
-            Debug.Log("End of level");
             Notify(new EndOfLevelEvent());
         }
     }

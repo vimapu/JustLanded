@@ -9,15 +9,14 @@ public class DialogueController : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textComponent;
     [SerializeField] float textSpeed;
-    private int index;
-    private bool hasStarted = false;
+    private int _index;
+    private bool _hasStarted = false;
     private string[] lines;
 
     // Start is called before the first frame update
     void Start()
     {
         textComponent.text = string.Empty;
-        //StartDialogue();
     }
 
     // Update is called once per frame
@@ -25,34 +24,24 @@ public class DialogueController : MonoBehaviour
     {
         if (Gamepad.current.aButton.isPressed)
         {
-            //Debug.Log("")
-            if (textComponent.text == lines[index])
+            if (textComponent.text == lines[_index])
             {
                 NextLine();
             }
-            // else
-            // {
-            //     Debug.Log("Stopping coroutines");
-            //     StopAllCoroutines();
-            //     textComponent.text = lines[index];
-            // }
-
         }
     }
 
     public void StartDialogue()
     {
-        index = 0;
-        hasStarted = true;
+        _index = 0;
+        _hasStarted = true;
         textComponent.text = string.Empty;
-        //Debug.Log(lines);
         StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine()
     {
-        //Debug.Log("printing line: " + lines[index]);
-        foreach (char c in lines[index].ToCharArray())
+        foreach (char c in lines[_index].ToCharArray())
         {
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
@@ -61,17 +50,16 @@ public class DialogueController : MonoBehaviour
 
     void NextLine()
     {
-        if (index < lines.Length - 1)
+        if (_index < lines.Length - 1)
         {
-            index++;
-            Debug.Log("New line");
+            _index++;
             textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
         }
         else
         {
             gameObject.SetActive(false);
-            index = 0;
+            _index = 0;
         }
     }
 
