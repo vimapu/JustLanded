@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<HealthItemCollectedEvent>, Subject<PlayerDeathEvent>
+public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<HealthItemCollectedEvent>, ISubject<PlayerDeathEvent>
 {
 
     [Header("Bashing parameters")]
@@ -147,13 +147,13 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
         _healthAmount = MaxHealthAmount;
         SetRespawnPosition(transform.position);
         // add listener to end of level event
-        List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
-        foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
+        List<ISubject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<EndOfLevelEvent>>().ToList();
+        foreach (ISubject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
         {
             endOfLevelSubject.Add(this);
         }
-        List<Subject<HealthItemCollectedEvent>> healthItemSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<HealthItemCollectedEvent>>().ToList();
-        foreach (Subject<HealthItemCollectedEvent> healthItemSubject in healthItemSubjects)
+        List<ISubject<HealthItemCollectedEvent>> healthItemSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<HealthItemCollectedEvent>>().ToList();
+        foreach (ISubject<HealthItemCollectedEvent> healthItemSubject in healthItemSubjects)
         {
             healthItemSubject.Add(this);
         }

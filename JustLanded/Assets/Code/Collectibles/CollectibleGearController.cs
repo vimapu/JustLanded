@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectibleGearController : MonoBehaviour, Subject<GearCollectedEvent>
+public class CollectibleGearController : MonoBehaviour, ISubject<GearCollectedEvent>
 {
 
     [SerializeField] float value = 1f;

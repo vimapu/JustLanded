@@ -8,14 +8,14 @@ public class FriendDialogueController : MonoBehaviour
     [SerializeField] GameObject dialogue;
     [SerializeField] string[] dialogueLines; 
 
-    private bool hasActivatedDialogue = false;
+    private bool _hasActivatedDialogue = false;
 
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("Player") && !hasActivatedDialogue)
+        if (collider.gameObject.CompareTag("Player") && !_hasActivatedDialogue)
         {
-            hasActivatedDialogue = true;
+            _hasActivatedDialogue = true;
             dialogue.SetActive(true);
             var dialogueController = dialogue.GetComponent<DialogueController>();
             dialogueController.SetLines(dialogueLines);

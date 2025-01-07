@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndOfLevelController : MonoBehaviour, Subject<EndOfLevelEvent>
+public class EndOfLevelController : MonoBehaviour, ISubject<EndOfLevelEvent>
 {
 
     private List<IListener<EndOfLevelEvent>> _listeners;

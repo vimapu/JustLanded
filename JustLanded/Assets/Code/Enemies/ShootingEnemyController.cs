@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
+public class ShootingEnemyController : MonoBehaviour, IKillable, ISubject<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
 {
     [SerializeField] float RespawnDelay = 1f;
     [SerializeField] GameObject Spit;
@@ -35,13 +35,13 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _audioSource = GetComponent<AudioSource>();
 
-        List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
-        foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
+        List<ISubject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<EndOfLevelEvent>>().ToList();
+        foreach (ISubject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
         {
             endOfLevelSubject.Add(this);
         }
-        List<Subject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<PlayerDeathEvent>>().ToList();
-        foreach (Subject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
+        List<ISubject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<PlayerDeathEvent>>().ToList();
+        foreach (ISubject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
         {
             playerDeathSubject.Add(this);
         }

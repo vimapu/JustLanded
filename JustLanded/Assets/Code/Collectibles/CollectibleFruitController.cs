@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CollectibleFruitController : MonoBehaviour, Subject<HealthItemCollectedEvent>, IListener<PlayerDeathEvent>
+public class CollectibleFruitController : MonoBehaviour, ISubject<HealthItemCollectedEvent>, IListener<PlayerDeathEvent>
 {
 
     [SerializeField] float value = 50f;
@@ -18,8 +18,8 @@ public class CollectibleFruitController : MonoBehaviour, Subject<HealthItemColle
 
     void Start()
     {
-        List<Subject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<PlayerDeathEvent>>().ToList();
-        foreach (Subject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
+        List<ISubject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<PlayerDeathEvent>>().ToList();
+        foreach (ISubject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
         {
             playerDeathSubject.Add(this);
         }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public interface Subject<T>
+public interface ISubject<T>
 {
 
     void Add(IListener<T> listener);

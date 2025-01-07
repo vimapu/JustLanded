@@ -40,24 +40,24 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
         _enemyCount += GameObject.FindGameObjectsWithTag("SquareEnemy").Length;
 
         // adding itself as listener
-        List<Subject<GearCollectedEvent>> gearSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<GearCollectedEvent>>().ToList();
-        foreach (Subject<GearCollectedEvent> gearSubject in gearSubjects)
+        List<ISubject<GearCollectedEvent>> gearSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<GearCollectedEvent>>().ToList();
+        foreach (ISubject<GearCollectedEvent> gearSubject in gearSubjects)
         {
             gearSubject.Add(this);
             _gearCount++;
         }
-        List<Subject<DeadEnemyEvent>> enemyDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<DeadEnemyEvent>>().ToList();
-        foreach (Subject<DeadEnemyEvent> enemyDeathSubject in enemyDeathSubjects)
+        List<ISubject<DeadEnemyEvent>> enemyDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<DeadEnemyEvent>>().ToList();
+        foreach (ISubject<DeadEnemyEvent> enemyDeathSubject in enemyDeathSubjects)
         {
             enemyDeathSubject.Add(this);
         }
-        List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
-        foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
+        List<ISubject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<EndOfLevelEvent>>().ToList();
+        foreach (ISubject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
         {
             endOfLevelSubject.Add(this);
         }
-        List<Subject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<PlayerDeathEvent>>().ToList();
-        foreach (Subject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
+        List<ISubject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<PlayerDeathEvent>>().ToList();
+        foreach (ISubject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
         {
             playerDeathSubject.Add(this);
         }

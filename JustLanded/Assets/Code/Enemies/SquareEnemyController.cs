@@ -5,7 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
+public class SquareEnemyController : MonoBehaviour, IKillable, ISubject<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
 {
     [SerializeField] Transform[] positions;
     [SerializeField] float Speed = 10f;
@@ -35,13 +35,13 @@ public class SquareEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemy
         _audioSource = GetComponent<AudioSource>();
         _initialPosition = transform.position;
         CalculateDirection();
-        List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
-        foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
+        List<ISubject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<EndOfLevelEvent>>().ToList();
+        foreach (ISubject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
         {
             endOfLevelSubject.Add(this);
         }
-        List<Subject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<PlayerDeathEvent>>().ToList();
-        foreach (Subject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
+        List<ISubject<PlayerDeathEvent>> playerDeathSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<ISubject<PlayerDeathEvent>>().ToList();
+        foreach (ISubject<PlayerDeathEvent> playerDeathSubject in playerDeathSubjects)
         {
             playerDeathSubject.Add(this);
         }
