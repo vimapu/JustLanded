@@ -5,35 +5,35 @@ using UnityEngine;
 
 public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEnemyEvent>, IListener<EndOfLevelEvent>, IListener<PlayerDeathEvent>
 {
-    [SerializeField] float respawnDelay = 1f;
-    [SerializeField] GameObject spit;
-    [SerializeField] Transform spitSpawnPoint;
-    [SerializeField] GameObject player;
-    [SerializeField] float secondBetweenShots;
-    [SerializeField] bool doesRespawn = false;
-    [SerializeField] float points = 200f;
-    [SerializeField] float damage = 75;
+    [SerializeField] float RespawnDelay = 1f;
+    [SerializeField] GameObject Spit;
+    [SerializeField] Transform SpitSpawnPoint;
+    [SerializeField] GameObject Player;
+    [SerializeField] float SecondBetweenShots = 2f;
+    [SerializeField] bool DoesRespawn = false;
+    [SerializeField] float Points = 200f;
+    [SerializeField] float Damage = 75f;
 
-    private AudioSource audioSource;
-    private float aimAngle;
+    private AudioSource _audioSource;
+    private float _aimAngle;
     private bool _hasDied = false;
-    private Vector2 respawnPosition;
-    private float lastShotTime;
-    private SpriteRenderer spriteRenderer;
-    private bool isAlive = true;
-    private List<IListener<DeadEnemyEvent>> Listeners;
+    private Vector2 _respawnPosition;
+    private float _lastShotTime;
+    private SpriteRenderer _spriteRenderer;
+    private bool _isAlive = true;
+    private List<IListener<DeadEnemyEvent>> _listeners;
 
     void Awake()
     {
-        Listeners = new List<IListener<DeadEnemyEvent>>();
+        _listeners = new List<IListener<DeadEnemyEvent>>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        respawnPosition = transform.position;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        audioSource = GetComponent<AudioSource>();
+        _respawnPosition = transform.position;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
 
         List<Subject<EndOfLevelEvent>> endOfLevelSubjects = FindObjectsOfType<MonoBehaviour>(true).OfType<Subject<EndOfLevelEvent>>().ToList();
         foreach (Subject<EndOfLevelEvent> endOfLevelSubject in endOfLevelSubjects)
@@ -50,16 +50,16 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
     // Update is called once per frame
     void Update()
     {
-        Vector2 direction = (Vector2)(player.transform.position - transform.position).normalized;
-        aimAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Vector2 direction = (Vector2)(Player.transform.position - transform.position).normalized;
+        _aimAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
     }
 
     void FixedUpdate()
     {
         if (CanShootAnotherBullet())
         {
-            lastShotTime = Time.time;
-            Instantiate(spit, spitSpawnPoint.position, Quaternion.Euler(0, 0, aimAngle));
+            _lastShotTime = Time.time;
+            Instantiate(Spit, SpitSpawnPoint.position, Quaternion.Euler(0, 0, _aimAngle));
         }
 
     }
@@ -80,9 +80,9 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
     void OnTriggerEnter2D(Collider2D collider)
     {
         var player = collider.GetComponent<Player>();
-        if (player != null && isAlive)
+        if (player != null && _isAlive)
         {
-            player.TakeDamage(damage, this);
+            player.TakeDamage(Damage, this);
         }
     }
 
@@ -94,20 +94,20 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
 
     private IEnumerator Die()
     {
-        audioSource.Play();
-        spriteRenderer.enabled = false;
-        isAlive = false;
+        _audioSource.Play();
+        _spriteRenderer.enabled = false;
+        _isAlive = false;
         if (!_hasDied)
         {
-            Notify(new DeadEnemyEvent(points));
+            Notify(new DeadEnemyEvent(Points));
             _hasDied = true;
         }
-        if (doesRespawn)
+        if (DoesRespawn)
         {
-            yield return new WaitForSeconds(respawnDelay);
-            spriteRenderer.enabled = true;
-            isAlive = true;
-            transform.position = (Vector2)respawnPosition;
+            yield return new WaitForSeconds(RespawnDelay);
+            _spriteRenderer.enabled = true;
+            _isAlive = true;
+            transform.position = (Vector2)_respawnPosition;
         }
         else
         {
@@ -126,29 +126,29 @@ public class ShootingEnemyController : MonoBehaviour, IKillable, Subject<DeadEne
     void Reactivate()
     {
         gameObject.SetActive(true);
-        spriteRenderer.enabled = true;
-        isAlive = true;
+        _spriteRenderer.enabled = true;
+        _isAlive = true;
     }
 
     private bool CanShootAnotherBullet()
     {
-        return isAlive && (Time.time - lastShotTime) > secondBetweenShots;
+        return _isAlive && (Time.time - _lastShotTime) > SecondBetweenShots;
     }
 
     public void Add(IListener<DeadEnemyEvent> listener)
     {
         Debug.Log("Adding listener to enemy subject");
-        Listeners.Add(listener);
+        _listeners.Add(listener);
     }
 
     public void Detach(IListener<DeadEnemyEvent> listener)
     {
-        Listeners.Remove(listener);
+        _listeners.Remove(listener);
     }
 
     public void Notify(DeadEnemyEvent notification)
     {
-        foreach (IListener<DeadEnemyEvent> listener in Listeners)
+        foreach (IListener<DeadEnemyEvent> listener in _listeners)
         {
             listener.Notify(notification);
         }
