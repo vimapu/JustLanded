@@ -68,12 +68,10 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
 
     // bashing attributes
     private bool _isBashing = false;
-    bool _hasPistol = false;
 
     bool _isFacingRight = true;
 
     // gun attributes
-    private GameObject _bulletInstance;
     private bool _isFlipped;
     private float _lastShotTime;
     private bool _isGunActive = false;
@@ -184,7 +182,6 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
     public void CollectPistol()
     {
         _pistol.SetActive(true);
-        _hasPistol = true;
         ActivateGun();
     }
 
@@ -197,13 +194,13 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
             // instantiate bullet and shoot
             if (_isFacingRight)
             {
-                _bulletInstance = Instantiate(Bullet, BulletSpawnPoint.position, _pistol.transform.rotation);
+                Instantiate(Bullet, BulletSpawnPoint.position, _pistol.transform.rotation);
             }
             else
             {
                 var rotation = _pistol.transform.rotation.eulerAngles;
                 var eulerRotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z - 180);
-                _bulletInstance = Instantiate(Bullet, BulletSpawnPoint.position, eulerRotation);
+                Instantiate(Bullet, BulletSpawnPoint.position, eulerRotation);
             }
         }
     }
