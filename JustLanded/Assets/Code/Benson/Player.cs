@@ -21,7 +21,6 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
     [SerializeField] private CircleCollider2D playerCollider;
 
     [Header("Gun parameters")]
-    [SerializeField] GameObject Pistol;
     [SerializeField] float SecondBetweenShots;
     [SerializeField] GameObject Bullet;
     [SerializeField] Transform BulletSpawnPoint;
@@ -31,7 +30,6 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
 
     [Header("Jump parameters")]
     [SerializeField] float JumpPower = 10f;
-    [SerializeField] float JumpPowerPercentWhenReleased;
     [SerializeField] LayerMask GroundLayer;
     [SerializeField] LayerMask WallLayer;
     [SerializeField] Transform WallCheckRight;
@@ -70,17 +68,13 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
 
     // bashing attributes
     private bool _isBashing = false;
-    private bool _hasBashBeenReleased = true;
-    private float _bashStartTime;
     bool _hasPistol = false;
 
     bool _isFacingRight = true;
 
     // gun attributes
     private GameObject _bulletInstance;
-    private Vector2 _direction; //TODO: remove for unified direction vector
     private bool _isFlipped;
-    private bool _isInputPressed = false;
     private float _lastShotTime;
     private bool _isGunActive = false;
 
@@ -88,18 +82,13 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
     private GameObject _currentOneWayPlatform;
 
     // ladder attributes
-    private bool _canClimb;
-    private float _vertical;
-    private float _gravityScale;
     private bool _isInLadder = false;
     public bool IsInLadder { get { return _isInLadder; } set { _isInLadder = value; } }
 
     // death and respawning attributes
-    private bool _isDead = false;
     private Vector2 _respawnPosition;
     // jump attributes
-    private bool canDoubleJump = false;
-    private bool hasLearnedDoubleJump = false;
+    private bool _hasLearnedDoubleJump = false;
     private bool _isOnAir = false;
     public bool IsOnAir { get { return _isOnAir; } set { _isOnAir = value; } }
     private bool _hasDoubleJumped = false;
@@ -141,8 +130,6 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
         InputAction.Enable();
         _pistol = GameObject.Find("Pistol");
         _pistol.SetActive(false);
-        _canClimb = false;
-        _gravityScale = GetComponent<Rigidbody2D>().gravityScale;
         _collider = GetComponent<Collider2D>();
         _healthAmount = MaxHealthAmount;
         SetRespawnPosition(transform.position);
@@ -175,18 +162,12 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
     public void StartBash()
     {
         _isBashing = true;
-        //_bashStartTime = Time.time;
     }
 
     public void FinishBash()
     {
         _isBashing = false;
     }
-
-    // public bool IsBashing()
-    // {
-    //     return _isBashing && (Time.time - _bashStartTime) < BashingTime;
-    // }
 
     private void RecordInput()
     {
@@ -210,7 +191,7 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
 
     public void Shoot()
     {
-        if (_lastShotTime != null && CanShootAnotherBullet()) // TODO: remove first clause
+        if (_lastShotTime != null && CanShootAnotherBullet()) 
         {
             _lastShotTime = Time.time;
             // instantiate bullet and shoot
@@ -287,7 +268,6 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
         localScale.x *= -1f;
         transform.localScale = localScale;
         _isFlipped = !_isFlipped;
-        //gunController.Flip();
     }
 
     public void SetFacingRight()
@@ -336,17 +316,10 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
         _respawnPosition = position;
     }
 
-    // private void Jump()
-    // {
-    //     _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, RespawnJumpSpeed);
-    //     //rigidbody.velocity = new Vector2(0, respawnJumpSpeed);
-    // }
-
     public void Die()
     {
         _healthAmount = MaxHealthAmount;
         HealthBar.fillAmount = _healthAmount / 100f;
-        _isDead = true;
         _collider.enabled = false;
         Notify(new PlayerDeathEvent());
         StartCoroutine(Respawn());
@@ -378,7 +351,6 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
 
     public void TakeDamage(float damage)
     {
-        //Debug.Log("It should take damage: " + damage);
         _healthAmount -= damage;
         _healthAmount = Mathf.Max(_healthAmount, 0);
         HealthBar.fillAmount = _healthAmount / 100f;
@@ -400,7 +372,6 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
         yield return new WaitForSeconds(0.4f);
         transform.position = (Vector2)_respawnPosition;
         _collider.enabled = true;
-        _isDead = false;
         SetFacingRight();
         stateContext.ChangeState(OnSurfaceState);
 
@@ -430,12 +401,12 @@ public class Player : MonoBehaviour, IListener<EndOfLevelEvent>, IListener<Healt
 
     public void LearnDoubleJump()
     {
-        hasLearnedDoubleJump = true;
+        _hasLearnedDoubleJump = true;
     }
 
     public bool CanDoubleJump()
     {
-        return hasLearnedDoubleJump;
+        return _hasLearnedDoubleJump;
     }
 
     public void Jump(float power)

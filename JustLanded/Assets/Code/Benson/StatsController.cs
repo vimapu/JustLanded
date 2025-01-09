@@ -95,7 +95,6 @@ public class StatsController : MonoBehaviour, IListener<GearCollectedEvent>, ILi
 
     public void Notify(EndOfLevelEvent notification)
     {
-        Debug.Log("Stats controller has received end of level event.");
         TotalPointsText.text += (_gearPoints + _killPoints);
         GearCollectedText.text += _collectedGear + "/" + _gearCount;
         EnemiesKilledText.text += _killCount + "/" + _enemyCount;
