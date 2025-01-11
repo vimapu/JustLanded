@@ -47,3 +47,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Spit
+    uniqueID: 2823881179
+    locked: 0
+  - name: Player
+    uniqueID: 3797652749
+    locked: 0
+  - name: Gun
+    uniqueID: 727756039
+    locked: 0
